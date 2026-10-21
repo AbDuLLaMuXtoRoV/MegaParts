@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Supplier Admin · MegaParts</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/admin.css">
+    <link rel="stylesheet" href="/static/catalog.css">
+</head>
+<body class="admin-body">
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">M</span><span>MEGAPARTS</span></a>
+    <nav class="admin-nav" aria-label="Admin"><a href="/admin/catalog">My catalog</a><a href="/admin/search-analytics">Analytics</a><a href="/admin/suppliers" aria-current="page">Imports</a></nav>
+      <div class="topbar-actions"><button type="button" class="logout-button" data-logout>Log out</button></div>
+  </header>
+  <main class="admin-shell">
+    <a href="/admin/search-analytics">← Search analytics</a>
+    <h1>Supplier management</h1>
+    <p>Update contacts and upload XLSX offer lists. Unmatched rows remain in review.</p>
+    <section id="supplier-admin-list"></section>
+    <h2>Import history</h2>
+    <section id="supplier-import-list"></section>
+    <p id="supplier-admin-error" class="error" hidden></p>
+  </main>
+  <script src="/static/admin-session.js"></script>
+  <script src="/static/suppliers-admin.js"></script>
+</body>
+</html>

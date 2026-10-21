@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="MegaParts — avtomobil ehtiyot qismlari katalogi">
+    <title>MegaParts — ehtiyot qismlar</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e2222a'/%3E%3Ctext x='16' y='23' font-family='Arial' font-weight='900' font-style='italic' font-size='20' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#content" data-i18n="skipToContent">Asosiy qismga o‘tish</a>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="MegaParts">
+        <span class="brand-mark">M</span>
+        <span>MEGAPARTS</span>
+      </a>
+      <div class="topbar-tools">
+        <div class="lang-switch" role="group" data-i18n-aria="language">
+          <button type="button" data-lang="uz" lang="uz">O‘zbekcha</button>
+          <button type="button" data-lang="ru" lang="ru">Русский</button>
+          <button type="button" data-lang="en" lang="en">English</button>
+        </div>
+        <button type="button" id="text-size" class="text-size" aria-pressed="false">
+          <span class="text-size-mark" aria-hidden="true">A<span>A</span></span>
+          <span data-i18n="largerText">Katta harf</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <h1 id="page-title" data-i18n="title">Mashinangiz uchun kerakli detalni toping</h1>
+        <p class="hero-lead" data-i18n="subtitle"></p>
+
+        <div class="finder">
+          <section class="finder-step" aria-labelledby="step-car-title">
+            <h2 class="step-title"><span class="step-number" aria-hidden="true">1</span><span id="step-car-title" data-i18n="stepCar"></span></h2>
+            <div class="car-fields">
+              <label class="field">
+                <span class="field-label" data-i18n="make"></span>
+                <select id="car-make"></select>
+              </label>
+              <label class="field">
+                <span class="field-label" data-i18n="model"></span>
+                <select id="car-model" disabled></select>
+              </label>
+              <label class="field" id="generation-field" hidden>
+                <span class="field-label" data-i18n="generation"></span>
+                <select id="car-generation"></select>
+              </label>
+              <button type="button" id="car-clear" class="secondary-button" hidden data-i18n="clearCar"></button>
+            </div>
+            <div id="car-hint" class="car-hint"></div>
+          </section>
+
+          <section class="finder-step">
+            <h2 class="step-title"><span class="step-number" aria-hidden="true">2</span><label for="search-input" data-i18n="stepPart"></label></h2>
+            <form id="search-form" class="search-form" role="search">
+              <div class="search-box">
+                <input id="search-input" type="search" name="q" autocomplete="off" enterkeyhint="search" data-i18n-placeholder="searchPlaceholder"
+                  role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions">
+                <div id="suggestions" class="suggestions" role="listbox" data-i18n-aria="suggestions" hidden></div>
+              </div>
+              <button type="submit" class="primary-button">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+                <span data-i18n="searchButton"></span>
+              </button>
+            </form>
+            <div class="examples">
+              <span data-i18n="examples"></span>
+              <span id="example-list" class="example-list"></span>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="content" class="content" tabindex="-1">
+        <section id="browse-view" aria-labelledby="sections-title">
+          <h2 id="sections-title" class="sections-title" data-i18n="sectionsTitle"></h2>
+          <p class="sections-lead" data-i18n="sectionsLead"></p>
+          <div id="group-grid" class="group-grid"></div>
+        </section>
+
+        <div id="loading" class="loading" role="status" hidden><span class="dot"></span><span data-i18n="loading"></span></div>
+        <div id="error" class="error" role="alert" hidden></div>
+
+        <section id="results-view" aria-labelledby="results-title" hidden>
+          <nav id="breadcrumbs" class="breadcrumbs" data-i18n-aria="breadcrumbs"></nav>
+          <div class="results-heading">
+            <h2 id="results-title"></h2>
+            <span id="results-count" class="count" aria-live="polite"></span>
+          </div>
+          <div id="active-filters" class="active-filters"></div>
+          <div id="type-filter" class="type-filter"></div>
+          <p id="spelling-notice" class="spelling-notice" hidden></p>
+          <div id="results" class="results"></div>
+          <p id="results-more" class="results-more" hidden></p>
+          <div id="no-results" class="no-results" hidden></div>
+        </section>
+
+        <section id="detail-view" hidden></section>
+      </section>
+    </main>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+db_backups/
+
+*.egg-info/
+.ruff_cache/
+# Catalog workbooks hold private business data; keep them out of the public repository.
+*.xlsx

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>Admin login · MegaParts</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/admin.css">
+  </head>
+  <body class="admin-body">
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-mark">M</span><span>MEGAPARTS</span></a>
+      <span class="catalog-label">Admin</span>
+    </header>
+    <main class="login-main">
+      <form id="login-form" class="login-card" novalidate>
+        <p class="eyebrow">IRIZON admin</p>
+        <h1>Sign in</h1>
+        <p class="login-copy">Analytics, suppliers, and search vocabulary.</p>
+        <label for="login-username">Username</label>
+        <input id="login-username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <label for="login-password">Password</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        <p id="login-error" class="login-error" role="alert" hidden></p>
+        <button type="submit" id="login-submit">Sign in</button>
+      </form>
+    </main>
+    <script src="/static/login.js" defer></script>
+  </body>
+</html>

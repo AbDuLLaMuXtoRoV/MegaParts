@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>My catalog · IRIZON · MegaParts</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/admin.css">
+    <link rel="stylesheet" href="/static/catalog.css">
+  </head>
+  <body class="admin-body">
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-mark">M</span><span>MEGAPARTS</span></a>
+      <nav class="admin-nav" aria-label="Admin">
+        <a href="/admin/catalog" aria-current="page">My catalog</a>
+        <a href="/admin/search-analytics">Analytics</a>
+        <a href="/admin/suppliers">Imports</a>
+      </nav>
+      <div class="topbar-actions">
+        <span class="user-chip" id="user-chip"></span>
+        <button type="button" class="logout-button" data-logout>Log out</button>
+      </div>
+    </header>
+
+    <main class="catalog-main">
+      <section class="profile-card" aria-labelledby="profile-name">
+        <div class="profile-identity">
+          <div class="profile-avatar" id="profile-avatar" aria-hidden="true">I</div>
+          <div class="profile-heading">
+            <p class="eyebrow">Supplier profile</p>
+            <h1 id="profile-name">Loading…</h1>
+            <p id="profile-meta" class="profile-meta"></p>
+          </div>
+          <button type="button" class="secondary-button" id="edit-profile" aria-expanded="false" aria-controls="profile-form">Edit profile</button>
+        </div>
+        <form id="profile-form" class="profile-form" hidden novalidate></form>
+        <div id="profile-stats" class="profile-stats"></div>
+      </section>
+
+      <div id="catalog-error" class="error" role="alert" hidden></div>
+
+      <section class="catalog-workspace">
+        <aside class="catalog-list-pane" aria-label="Products">
+          <div class="list-tools">
+            <label class="sr-only" for="product-search">Search products</label>
+            <input type="search" id="product-search" placeholder="Name, article, reference, ID…" autocomplete="off">
+            <div class="list-filters">
+              <label class="sr-only" for="filter-category">Category</label>
+              <select id="filter-category"><option value="">All categories</option></select>
+              <label class="sr-only" for="filter-brand">Brand</label>
+              <select id="filter-brand"><option value="">All brands</option></select>
+              <label class="sr-only" for="filter-issue">Needs work</label>
+              <select id="filter-issue">
+                <option value="">All products</option>
+                <option value="conflict">Hidden: merge conflict</option>
+                <option value="review">Open review items</option>
+                <option value="no_price">Offer without price</option>
+                <option value="no_brand">No brand</option>
+              </select>
+            </div>
+            <button type="button" class="primary-button" id="new-product">+ New product</button>
+          </div>
+          <p id="list-count" class="list-count" aria-live="polite"></p>
+          <ul id="product-list" class="product-list"></ul>
+          <button type="button" class="secondary-button load-more" id="load-more" hidden>Load more</button>
+        </aside>
+
+        <section class="catalog-editor" aria-live="polite">
+          <div id="editor-empty" class="editor-empty">
+            <h2>Select a product</h2>
+            <p>Every field from the IRIZON master catalog is editable here. Saved changes go live in search immediately.</p>
+          </div>
+          <form id="product-form" class="product-form" hidden novalidate></form>
+        </section>
+      </section>
+    </main>
+
+    <script src="/static/admin-session.js"></script>
+    <script src="/static/catalog.js" defer></script>
+  </body>
+</html>

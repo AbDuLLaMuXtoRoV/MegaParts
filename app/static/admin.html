@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search Analytics · MegaParts</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/admin.css">
+    <link rel="stylesheet" href="/static/catalog.css">
+  </head>
+  <body class="admin-body">
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-mark">M</span><span>MEGAPARTS</span></a>
+      <nav class="admin-nav" aria-label="Admin"><a href="/admin/catalog">My catalog</a><a href="/admin/search-analytics" aria-current="page">Analytics</a><a href="/admin/suppliers">Imports</a></nav>
+      <div class="topbar-actions"><button type="button" class="logout-button" data-logout>Log out</button></div>
+    </header>
+    <main class="admin-main">
+      <div class="admin-heading">
+        <div><p class="eyebrow">Pilot mode</p><h1>Search quality</h1><p>Behavior and feedback signals for improving the catalog.</p></div>
+        <div class="filters">
+          <button data-period="today">Today</button>
+          <button data-period="7d" class="active">7 days</button>
+          <button data-period="30d">30 days</button>
+          <button data-period="custom">Custom</button>
+          <div id="custom-dates" hidden><input type="date" id="date-from"><input type="date" id="date-to"><button id="apply-custom">Apply</button></div>
+        </div>
+      </div>
+      <div id="admin-error" class="error" hidden></div>
+      <section id="metrics" class="metrics"></section>
+      <p><a href="/admin/suppliers">Manage suppliers and offer imports →</a></p>
+      <section class="admin-panel">
+        <div class="panel-heading"><div><p class="eyebrow">Priorities</p><h2>Needs Catalog Work</h2></div><span id="needs-count" class="count"></span></div>
+        <div id="needs-work" class="needs-work"></div>
+      </section>
+      <section id="vocabulary" class="admin-panel">
+        <div class="panel-heading"><div><p class="eyebrow">Search vocabulary</p><h2>Teach search a new word</h2></div><span id="alias-count" class="count"></span></div>
+        <p class="panel-copy">Map a spelling or nickname customers use to a part or car the catalog already has. It takes effect on the next search.</p>
+        <form id="alias-form" class="alias-form">
+          <label>When customers type<input id="alias-input" required maxlength="200" placeholder="e.g. amortizatr"></label>
+          <label>it means a<select id="alias-kind"><option value="product">Part</option><option value="vehicle">Car</option></select></label>
+          <label>called<input id="alias-canonical" list="alias-targets" required maxlength="200" placeholder="Choose or type a catalog name"></label>
+          <datalist id="alias-targets"></datalist>
+          <button type="submit">Save</button>
+        </form>
+        <p id="alias-status" class="alias-status" role="status"></p>
+        <div id="alias-list" class="compact-list"></div>
+      </section>
+      <section class="admin-grid">
+        <div class="admin-panel"><h2>Most searched</h2><div id="most-searched" class="compact-list"></div></div>
+        <div class="admin-panel"><h2>Top zero-result queries</h2><div id="zero-results" class="compact-list"></div></div>
+        <div class="admin-panel"><h2>Poor feedback</h2><div id="poor-feedback" class="compact-list"></div></div>
+      </section>
+      <section class="admin-grid">
+        <div class="admin-panel"><h2>Most selected suppliers</h2><div id="selected-suppliers" class="compact-list"></div></div>
+        <div class="admin-panel"><h2>Demand without supply</h2><div id="demand-without-supply" class="compact-list"></div></div>
+      </section>
+      <section class="admin-panel table-panel">
+        <div class="panel-heading"><div><p class="eyebrow">All query groups</p><h2>Search performance</h2></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Query</th><th>Search count</th><th>Result count</th><th>Success %</th><th>Top-3 %</th><th>Clicks</th><th>Contacts</th><th>Avg response</th></tr></thead><tbody id="query-table"></tbody></table></div>
+      </section>
+    </main>
+    <script src="/static/admin-session.js"></script>
+    <script src="/static/admin.js" defer></script>
+  </body>
+</html>
