@@ -1,4 +1,7 @@
 .admin-body { background: #eef0f2; }
+/* Admin pages keep the simple one-row header (the shop header has an inner wrapper). */
+.admin-body .topbar { position: static; min-height: 4.25rem; padding: .5rem max(1rem, calc((100vw - 1180px) / 2)); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; }
+.admin-body .brand { font-weight: 850; letter-spacing: .08em; }
 .topbar-actions { display: flex; align-items: center; gap: 16px; }
 .logout-button { padding: 6px 12px; color: #d7dbe1; background: transparent; border: 1px solid #3a424f; border-radius: 3px; font-size: 13px; }
 .logout-button:hover { color: white; border-color: #77808d; }

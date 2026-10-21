@@ -12,6 +12,33 @@ const STRINGS = {
   uz: {
     skipToContent: "Asosiy qismga o‘tish",
     pageTitle: "MegaParts — avtomobil ehtiyot qismlari",
+    tagline: "Ehtiyot qismlar katalogi",
+    heroEyebrow: "Chevrolet, Daewoo va boshqa mashinalar uchun",
+    heroParts: (n) => `${n} ta detal`,
+    heroModels: (n) => `${n} ta mashina modeli`,
+    heroSections: (n) => `${n} ta bo‘lim`,
+    value1Title: "Mosligini tekshiramiz",
+    value1Text: "Har bir detalda mashinangizga mos kelishi yozilgan",
+    value2Title: "Narxlarni solishtiring",
+    value2Text: "Bir detal uchun turli sotuvchilar takliflari",
+    value3Title: "Oldindan to‘lovsiz",
+    value3Text: "Band qiling, to‘lovni olib ketayotganda qiling",
+    value4Title: "Sotuvchidan so‘rang",
+    value4Text: "Ishonchingiz komil bo‘lmasa, Telegram’da yozing",
+    popularCarsTitle: "Mashina bo‘yicha tanlash",
+    popularCarsLead: "Mashinangizni bosing — faqat unga mos detallar qoladi.",
+    howTitle: "Qanday ishlaydi",
+    how1Title: "Mashinangizni tanlang",
+    how1Text: "Marka va modelni tanlang, xohlasangiz VIN raqamini ham kiriting.",
+    how2Title: "Detalni toping",
+    how2Text: "Nomini yozing yoki bo‘limdan tanlang — mos kelishini darhol ko‘rasiz.",
+    how3Title: "Band qiling va olib keting",
+    how3Text: "Sotuvchi tasdiqlaydi, siz detalni olib ketasiz. Oldindan to‘lov yo‘q.",
+    footerAbout: "Sotuvchilarning avtomobil ehtiyot qismlari bitta katalogda: mos kelishini tekshiring, narxlarni solishtiring va band qiling.",
+    footerCatalog: "Katalog",
+    footerChooseCar: "Mashinani tanlash",
+    footerForSellers: "Sotuvchilar uchun",
+    footerStaffLogin: "Xodimlar kabineti",
     language: "Til",
     largerText: "Katta harf",
     title: "Mashinangiz uchun kerakli detalni toping",
@@ -194,6 +221,33 @@ const STRINGS = {
   ru: {
     skipToContent: "Перейти к содержанию",
     pageTitle: "MegaParts — автозапчасти",
+    tagline: "Каталог автозапчастей",
+    heroEyebrow: "Для Chevrolet, Daewoo и других машин",
+    heroParts: (n) => `${n} ${ruPlural(n, "деталь", "детали", "деталей")}`,
+    heroModels: (n) => `${n} ${ruPlural(n, "модель", "модели", "моделей")} машин`,
+    heroSections: (n) => `${n} ${ruPlural(n, "раздел", "раздела", "разделов")}`,
+    value1Title: "Проверяем совместимость",
+    value1Text: "У каждой детали указано, подходит ли она к вашей машине",
+    value2Title: "Сравнивайте цены",
+    value2Text: "Предложения разных продавцов на одну деталь",
+    value3Title: "Без предоплаты",
+    value3Text: "Бронируйте сейчас, платите при получении",
+    value4Title: "Спросите продавца",
+    value4Text: "Не уверены — напишите в Telegram",
+    popularCarsTitle: "Выбор по машине",
+    popularCarsLead: "Нажмите на свою машину — останутся только подходящие детали.",
+    howTitle: "Как это работает",
+    how1Title: "Выберите машину",
+    how1Text: "Укажите марку и модель, при желании — VIN-номер.",
+    how2Title: "Найдите деталь",
+    how2Text: "Напишите название или выберите раздел — сразу видно, подходит ли она.",
+    how3Title: "Забронируйте и заберите",
+    how3Text: "Продавец подтверждает, вы забираете деталь. Без предоплаты.",
+    footerAbout: "Автозапчасти от продавцов в одном каталоге: проверьте совместимость, сравните цены и забронируйте.",
+    footerCatalog: "Каталог",
+    footerChooseCar: "Выбрать машину",
+    footerForSellers: "Для продавцов",
+    footerStaffLogin: "Вход для сотрудников",
     language: "Язык",
     largerText: "Крупный шрифт",
     title: "Найдите нужную запчасть для вашей машины",
@@ -376,6 +430,33 @@ const STRINGS = {
   en: {
     skipToContent: "Skip to main content",
     pageTitle: "MegaParts — car parts",
+    tagline: "Car parts catalog",
+    heroEyebrow: "For Chevrolet, Daewoo and other cars",
+    heroParts: (n) => `${n} ${n === 1 ? "part" : "parts"}`,
+    heroModels: (n) => `${n} car ${n === 1 ? "model" : "models"}`,
+    heroSections: (n) => `${n} ${n === 1 ? "section" : "sections"}`,
+    value1Title: "Fit checked",
+    value1Text: "Every part says whether it fits your car",
+    value2Title: "Compare prices",
+    value2Text: "Offers from different sellers for one part",
+    value3Title: "No prepayment",
+    value3Text: "Reserve now, pay when you pick it up",
+    value4Title: "Ask the seller",
+    value4Text: "Not sure? Message them on Telegram",
+    popularCarsTitle: "Shop by car",
+    popularCarsLead: "Tap your car — only the parts that fit it will remain.",
+    howTitle: "How it works",
+    how1Title: "Choose your car",
+    how1Text: "Pick the make and model, and add the VIN if you like.",
+    how2Title: "Find the part",
+    how2Text: "Type its name or pick a section — you see right away if it fits.",
+    how3Title: "Reserve and pick up",
+    how3Text: "The seller confirms and you collect the part. No prepayment.",
+    footerAbout: "Car parts from sellers in one catalog: check the fit, compare prices and reserve.",
+    footerCatalog: "Catalog",
+    footerChooseCar: "Choose your car",
+    footerForSellers: "For sellers",
+    footerStaffLogin: "Staff sign-in",
     language: "Language",
     largerText: "Larger text",
     title: "Find the right part for your car",
@@ -780,6 +861,56 @@ function renderGroups() {
     tile.querySelector(".group-count").textContent = count ? t("parts", count) : totals.get(group.id) ? t("noneForCar") : t("comingSoon");
     return tile;
   }));
+  renderHeroStats();
+  renderPopularCars();
+}
+
+// The catalog's real size, counted from what is loaded.
+function renderHeroStats() {
+  const parts = groupsAll.reduce((sum, group) => sum + group.part_count, 0);
+  const models = new Set(vehicles.map((vehicle) => `${vehicle.make}|${vehicle.model}`)).size;
+  const sections = groupsAll.filter((group) => group.part_count).length;
+  const stats = [[parts, "heroParts"], [models, "heroModels"], [sections, "heroSections"]].filter(([count]) => count);
+  $("#hero-stats").replaceChildren(...stats.map(([count, key]) => el("li", {}, [
+    el("strong", { text: formatNumber(count) }),
+    ` ${t(key, count).replace(/^\S+\s/, "")}`,
+  ])));
+}
+
+const CAR_ICON = '<svg viewBox="0 0 48 24" aria-hidden="true"><path d="M3 17.5v-4.2l5-1.3 5.5-5.5h15.5l7 5.5 7.5 1.4 1.5 4.1"/><circle cx="13" cy="18" r="3.2"/><circle cx="36" cy="18" r="3.2"/><path d="M16.5 18h16M13 12h23"/></svg>';
+
+// "Shop by car": the most common models, one tap to choose.
+function renderPopularCars() {
+  const holder = $("#popular-cars");
+  const totals = new Map();
+  vehicles.forEach((vehicle) => {
+    const key = `${vehicle.make}|${vehicle.model}`;
+    totals.set(key, (totals.get(key) || 0) + vehicle.part_count);
+  });
+  const top = [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+  holder.closest(".home-section").hidden = !top.length;
+  holder.replaceChildren(...top.map(([key]) => {
+    const [make, model] = key.split("|");
+    const active = car.make === make && car.model === model;
+    const choose = async () => {
+      await setCar({ make, model });
+      $("#sections-title").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    };
+    const tile = el("button", { type: "button", class: `car-card${active ? " is-active" : ""}`, "aria-pressed": String(active), onclick: choose });
+    tile.innerHTML = '<span class="car-card-icon"></span><span class="car-card-make"></span><span class="car-card-model"></span>';
+    tile.querySelector(".car-card-icon").innerHTML = CAR_ICON;
+    tile.querySelector(".car-card-make").textContent = make;
+    tile.querySelector(".car-card-model").textContent = vehicleLabel(model);
+    return tile;
+  }));
+}
+
+// The part type's icon stands in for a photo until the catalog has pictures.
+function partThumb(category, large = false) {
+  const groupId = categoryIndex.get(category?.id)?.group.id || category?.id;
+  const node = el("div", { class: `part-thumb${large ? " is-large" : ""}`, "aria-hidden": "true" });
+  node.innerHTML = icon(groupId);
+  return node;
 }
 
 // ---------- Car ----------
@@ -932,6 +1063,8 @@ carClear.addEventListener("click", () => setCar({}));
 
 const showOnly = (element) => {
   if (element !== detailView) document.title = t("pageTitle");
+  // The full welcome area is for the home page; other views get a compact top.
+  document.body.classList.toggle("view-home", element === browseView);
   [browseView, loading, errorBox, resultsView, detailView, reservationsView].forEach((node) => { node.hidden = node !== element; });
 };
 
@@ -1213,12 +1346,17 @@ function resultCard(item) {
     openProduct(item.id);
   };
   const card = el("article", { class: "result-card", onclick: open }, [
-    el("div", { class: "result-topline" }, [
-      el("p", { class: "result-type", text: localName(item.category) }),
-      item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
+    el("div", { class: "result-head" }, [
+      partThumb(item.category),
+      el("div", { class: "result-head-text" }, [
+        el("div", { class: "result-topline" }, [
+          el("p", { class: "result-type", text: localName(item.category) }),
+          item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
+        ]),
+        el("h3", { class: "result-name", text: productName(item) }),
+        el("p", { class: "result-brand" }, [`${t("brand")}: `, el("strong", { text: brandLabel(item.brand) })]),
+      ]),
     ]),
-    el("h3", { class: "result-name", text: productName(item) }),
-    el("p", { class: "result-brand" }, [`${t("brand")}: `, el("strong", { text: brandLabel(item.brand) })]),
     place ? el("p", { class: "result-place", text: place }) : null,
     verdictNode(fitVerdict(item), true),
     el("div", { class: "result-bottom" }, [
@@ -1547,11 +1685,16 @@ function renderDetail() {
 
   const offerItems = item.offers || item.supplier_offers;
   const main = el("article", { class: "detail-main" }, [
-    el("div", { class: "detail-topline" }, [
-      el("div", { class: "detail-brand", text: brandLabel(item.brand) }),
-      item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
+    el("div", { class: "detail-head" }, [
+      partThumb(item.category, true),
+      el("div", {}, [
+        el("div", { class: "detail-topline" }, [
+          el("div", { class: "detail-brand", text: brandLabel(item.brand) }),
+          item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
+        ]),
+        el("h2", { text: productName(item) }),
+      ]),
     ]),
-    el("h2", { text: productName(item) }),
     verdictNode(fitVerdict(item)),
     askSellerBox(item, offerItems),
     facts.length ? el("div", { class: "facts" }, facts) : null,
@@ -1628,6 +1771,7 @@ function renderReservations() {
 }
 
 $("#my-reservations").addEventListener("click", () => showReservations());
+$("#footer-year").textContent = `© ${new Date().getFullYear()}`;
 
 // ---------- Part requests ----------
 
