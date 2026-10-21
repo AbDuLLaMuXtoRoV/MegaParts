@@ -229,6 +229,25 @@ Existing catalog prices and stock are labeled `DEMO`; imported supplier availabi
 labeled `LIVE`. Reservations are lightweight contact requests only—there is no checkout,
 payment, or delivery workflow.
 
+## Public demo (Render + Neon)
+
+The demo runs on Render's free web service with a free Neon Postgres database (Render's own
+free database is deleted after 30 days; Neon's does not expire).
+
+1. Create a Neon project in AWS Europe (Frankfurt) and copy its connection string.
+2. Load the catalog into it from a machine that has the workbook:
+
+   ```bash
+   DATABASE_URL='<neon connection string>' alembic upgrade head
+   DATABASE_URL='<neon connection string>' catalog-import 'IRIZON_Master_Catalog_v2.0 (1).xlsx'
+   ```
+
+3. In Render, choose New > Blueprint, pick this repository, and enter `DATABASE_URL` and
+   `ADMIN_PASSWORD` when asked. `render.yaml` sets up the rest.
+
+Free Render services sleep after 15 idle minutes, so the first visit after a pause takes
+about a minute. `postgresql://` connection strings are accepted as-is.
+
 ## Test
 
 ```bash

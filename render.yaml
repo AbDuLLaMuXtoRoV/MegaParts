@@ -1,0 +1,28 @@
+# Render Blueprint for the public demo site (Render dashboard: New > Blueprint).
+# The database is a free Neon Postgres, which does not expire; paste its connection string
+# as DATABASE_URL when Render asks. Load the catalog into it with catalog-import (README).
+services:
+  - type: web
+    name: megaparts
+    runtime: python
+    plan: free
+    region: frankfurt
+    branch: main
+    buildCommand: pip install .
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SECURE_COOKIES
+        value: "true"
+      - key: PILOT_MODE
+        value: "true"
+      # Render's proxy is the only way in, so trust its X-Forwarded-For; the admin login
+      # lockout then counts each visitor separately instead of everyone as one address.
+      - key: FORWARDED_ALLOW_IPS
+        value: "*"

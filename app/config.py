@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -20,6 +21,15 @@ class Settings(BaseSettings):
     secure_cookies: bool = False
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    @field_validator("database_url")
+    @classmethod
+    def name_the_driver(cls, value: str) -> str:
+        """Hosts such as Neon hand out postgresql:// URLs; SQLAlchemy needs psycopg named."""
+        for scheme in ("postgres://", "postgresql://"):
+            if value.startswith(scheme):
+                return "postgresql+psycopg://" + value.removeprefix(scheme)
+        return value
 
 
 @lru_cache
