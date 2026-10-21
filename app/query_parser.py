@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import asdict, dataclass, field
 
-from app.normalization import normalize_code, normalize_text, sanitize_query
+from app.normalization import normalize_code, normalize_text, sanitize_query, uzbek_latin
 from app.search_vocabulary import (
     POSITION_SYNONYMS,
     PRODUCT_SYNONYMS,
@@ -132,7 +132,8 @@ def parse_query(
         # ("масляный фильтр" finds "Фильтр масляный").
         for term in dict.fromkeys(unknown_terms):
             product_terms.append(term)
-            product_expansions[term] = (term,)
+            # Uzbek typed in Cyrillic also matches the Latin-script catalog names.
+            product_expansions[term] = tuple(dict.fromkeys((term, uzbek_latin(term))))
 
     reference = sanitized if looks_like_reference else None
     return ParsedQuery(

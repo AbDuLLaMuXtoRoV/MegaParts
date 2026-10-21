@@ -35,6 +35,20 @@ def normalize_text(value: object | None) -> str:
     return " ".join(TOKEN_ALIASES.get(token, token) for token in tokenize(value))
 
 
+# Uzbek Cyrillic to the Latin alphabet the catalog is written in ("колодкалари" -> "kolodkalari").
+_UZBEK_LATIN = str.maketrans({
+    "а": "a", "б": "b", "в": "v", "г": "g", "д": "d", "е": "e", "ж": "j", "з": "z", "и": "i",
+    "й": "y", "к": "k", "л": "l", "м": "m", "н": "n", "о": "o", "п": "p", "р": "r", "с": "s",
+    "т": "t", "у": "u", "ф": "f", "х": "x", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "sh",
+    "ъ": "", "ы": "i", "ь": "", "э": "e", "ю": "yu", "я": "ya", "ў": "o", "қ": "q", "ғ": "g",
+    "ҳ": "h",
+})
+
+
+def uzbek_latin(text: str) -> str:
+    return text.translate(_UZBEK_LATIN)
+
+
 def normalize_code(value: object | None) -> str:
     return _NON_ALNUM.sub("", _base(value))
 

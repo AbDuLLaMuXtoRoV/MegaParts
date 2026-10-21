@@ -229,6 +229,49 @@ Existing catalog prices and stock are labeled `DEMO`; imported supplier availabi
 labeled `LIVE`. Reservations are lightweight contact requests only—there is no checkout,
 payment, or delivery workflow.
 
+Optional offer-label columns (English, Uzbek or Russian headers and values):
+
+- `origin` / `turi`: genuine, OE, analog or budget.
+- `condition` / `holati`: new, used or remanufactured.
+- `warranty` / `kafolat`: months.
+- `returns` / `qaytarish`: days.
+- `lead time` / `muddat`: days; 0 means in stock now.
+
+Unknown values are left blank rather than rejected. Price lists are shown as possibly
+outdated after `OFFER_OUTDATED_DAYS` (7) and hidden after `OFFER_HIDDEN_DAYS` (14).
+
+## Fit confidence and seller trust
+
+These features were adopted from leading parts sites (RockAuto, eBay, Emex, ZZap, Exzap):
+
+- **Fit verdict:** every result and part page says "fits your car", "check this condition",
+  "only some generations" or "not for your car". It explains why, using the listed
+  generation, position and fitment condition notes.
+- **Ask the seller:** a Telegram message prefilled with the part, its numbers, the car and
+  the VIN.
+- **Garage:** up to five saved cars with an optional VIN. Uzbek-built `XWB` VINs are
+  recognized. The most common models are offered as one-tap tiles.
+- **Reservations:** they carry the car, VIN and a note. Buyers follow the status under
+  *My reservations* (`GET /api/v1/reservations?session_id=`). Staff move each reservation
+  through REQUESTED → CONFIRMED → READY → COMPLETED/CANCELLED at `/admin/requests`.
+- **Supplier reliability:** the share of finished reservations a supplier honoured over 90
+  days. A buyer's no-show does not count. It is shown to buyers after 5 outcomes.
+- **Verified sellers:** staff enter the legal name, INN, licence, address/market row, hours
+  and a map link at `/admin/suppliers`. Ticking "verified" requires the legal name and INN.
+- **Alternatives:** the same part number from another brand, other options of the same
+  part type for the car, and parts usually replaced together (`COMPLETE_THE_JOB` in
+  `app/part_types.py`).
+- **Part requests:** a search that finds nothing offers a request form
+  (`POST /api/v1/part-requests`).
+- **Fit reports:** buyers answer "did it fit?" (`POST /api/v1/products/{id}/fit-reports`).
+  Repeated "did not fit" reports warn buyers and are listed for staff at `/admin/requests`.
+- **Popularity:** parts reserved 3 or more times in 90 days are marked "often reserved".
+- **Part pages:** every part has its own address, `/part/{id}`, with a title, description,
+  schema.org `Product` data (`mpn`, `isAccessoryOrSparePartFor`, offers) and a plain-HTML
+  summary. Search engines find them through `/sitemap.xml` and `/robots.txt`.
+- **Search names:** Uzbek typed in Cyrillic matches the Latin-script catalog, and Ravon
+  names (R4, R2, Nexia R3) find the matching Chevrolets.
+
 ## Public demo (Render + Neon)
 
 The demo runs on Render's free web service with a free Neon Postgres database (Render's own

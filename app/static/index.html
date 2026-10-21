@@ -21,6 +21,10 @@
           <button type="button" data-lang="ru" lang="ru">Русский</button>
           <button type="button" data-lang="en" lang="en">English</button>
         </div>
+        <button type="button" id="my-reservations" class="topbar-button">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16l-6-3-6 3z"/></svg>
+          <span data-i18n="myReservations">Buyurtmalarim</span>
+        </button>
         <button type="button" id="text-size" class="text-size" aria-pressed="false">
           <span class="text-size-mark" aria-hidden="true">A<span>A</span></span>
           <span data-i18n="largerText">Katta harf</span>
@@ -36,6 +40,8 @@
         <div class="finder">
           <section class="finder-step" aria-labelledby="step-car-title">
             <h2 class="step-title"><span class="step-number" aria-hidden="true">1</span><span id="step-car-title" data-i18n="stepCar"></span></h2>
+            <div id="garage-list" class="car-chips" hidden></div>
+            <div id="quick-cars" class="car-chips" hidden></div>
             <div class="car-fields">
               <label class="field">
                 <span class="field-label" data-i18n="make"></span>
@@ -52,6 +58,13 @@
               <button type="button" id="car-clear" class="secondary-button" hidden data-i18n="clearCar"></button>
             </div>
             <div id="car-hint" class="car-hint"></div>
+            <div id="vin-row" class="vin-row" hidden>
+              <label class="field">
+                <span class="field-label" data-i18n="vinLabel"></span>
+                <input id="car-vin" maxlength="17" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="vin-status">
+              </label>
+              <p id="vin-status" class="vin-status" role="status"></p>
+            </div>
           </section>
 
           <section class="finder-step">
@@ -96,13 +109,16 @@
           <p id="spelling-notice" class="spelling-notice" hidden></p>
           <div id="results" class="results"></div>
           <p id="results-more" class="results-more" hidden></p>
+          <div id="results-request" class="results-request"></div>
           <div id="no-results" class="no-results" hidden></div>
         </section>
 
         <section id="detail-view" hidden></section>
+        <section id="reservations-view" hidden></section>
       </section>
     </main>
 
+    <script src="/static/catalog-text.js" defer></script>
     <script src="/static/app.js" defer></script>
   </body>
 </html>

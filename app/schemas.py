@@ -17,6 +17,8 @@ class VehicleOut(BaseModel):
     make: str | None
     model: str
     generation: str | None
+    year_from: int | None = None
+    year_to: int | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -24,6 +26,11 @@ class VehicleOut(BaseModel):
 class FitmentOut(BaseModel):
     vehicle: VehicleOut
     source_vehicle_text: str | None
+    position: str | None = None
+    side: str | None = None
+    qty_per_vehicle: int | None = None
+    # Conditions for the fit, e.g. "KPP: AT" or "check the model year".
+    condition_note: str | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -31,8 +38,18 @@ class FitmentOut(BaseModel):
 class SupplierSummary(BaseModel):
     id: int
     name: str
+    supplier_type: str | None = None
     phone: str | None = None
     telegram: str | None = None
+    address: str | None = None
+    city: str | None = None
+    work_hours: str | None = None
+    map_url: str | None = None
+    verified: bool = False
+    member_since: datetime | None = None
+    # Shown only once enough reservations have an outcome to mean something.
+    reliability_score: Decimal | None = None
+    reliability_sample: int = 0
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -48,8 +65,14 @@ class OfferOut(BaseModel):
     stock_qty: int | None
     warehouse: str | None
     updated_at: datetime | None
-    freshness_status: Literal["FRESH", "RECENT", "STALE", "UNKNOWN"]
+    freshness_status: Literal["FRESH", "RECENT", "STALE", "OUTDATED", "UNKNOWN"]
     data_status: str
+    part_origin: str | None = None
+    condition: str | None = None
+    warranty_months: int | None = None
+    return_days: int | None = None
+    # 0 means in stock now; more means "to order, arrives in N days".
+    lead_time_days: int | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -81,6 +104,8 @@ class PartGroupOut(PartTypeOut):
 class ProductSearchResult(BaseModel):
     id: str
     name: str
+    name_ru: str | None = None
+    name_en: str | None = None
     brand: BrandOut | None
     category: CategoryOut | None = None
     universal: bool = False
@@ -95,6 +120,8 @@ class ProductSearchResult(BaseModel):
     offers: list[OfferOut]
     relevance_score: float
     result_group: Literal["EXACT", "COMPATIBLE", "RELATED"] = "RELATED"
+    # Reservations in the last 90 days, for the "often reserved" badge.
+    reservation_count: int = 0
 
 
 class VehicleFilterOut(BaseModel):
@@ -118,9 +145,35 @@ class SearchResponse(BaseModel):
     result_group_distribution_internal: dict[str, int] = Field(default_factory=dict, exclude=True)
 
 
+class RelatedProductOut(BaseModel):
+    id: str
+    name: str
+    name_ru: str | None = None
+    name_en: str | None = None
+    brand: BrandOut | None
+    category: CategoryOut | None = None
+    # SAME_NUMBER: another brand of the same part number (analog);
+    # SAME_TYPE: another option of the same part type for the same car;
+    # COMPLETE_THE_JOB: a part usually replaced together with this one.
+    relation: Literal["SAME_NUMBER", "SAME_TYPE", "COMPLETE_THE_JOB"]
+    shared_number: str | None = None
+    lowest_price: Decimal | None = None
+    currency: str | None = None
+    offer_count: int = 0
+
+
+class FitReportSummary(BaseModel):
+    vehicle_id: str | None
+    vehicle_label: str | None
+    fits: int
+    does_not_fit: int
+
+
 class SuggestedProductOut(BaseModel):
     id: str
     name: str
+    name_ru: str | None = None
+    name_en: str | None = None
     brand: BrandOut | None
     category: CategoryOut | None = None
 
@@ -135,6 +188,8 @@ class SuggestResponse(BaseModel):
 class ProductDetail(BaseModel):
     id: str
     name: str
+    name_ru: str | None = None
+    name_en: str | None = None
     brand: BrandOut | None
     category: CategoryOut | None = None
     universal: bool = False
@@ -147,6 +202,10 @@ class ProductDetail(BaseModel):
     vehicle_fitments: list[FitmentOut]
     supplier_offers: list[OfferOut]
     offers: list[OfferOut]
+    reservation_count: int = 0
+    alternatives: list[RelatedProductOut] = Field(default_factory=list)
+    complete_the_job: list[RelatedProductOut] = Field(default_factory=list)
+    fit_reports: list[FitReportSummary] = Field(default_factory=list)
 
 
 class SearchEventCreate(BaseModel):
@@ -204,14 +263,21 @@ class SearchActionCreate(BaseModel):
     supplier_offer_id: int | None = None
 
 
+VIN_PATTERN = r"^[A-HJ-NPR-Z0-9]{17}$"  # 17 characters; I, O and Q are never used
+
+
 class ReservationCreate(BaseModel):
-    session_id: str
+    session_id: str = Field(max_length=100)
     user_id: str | None = None
     search_event_id: int | None = None
     product_id: str
     supplier_offer_id: int
-    quantity: int = Field(default=1, ge=1)
-    phone: str | None = None
+    quantity: int = Field(default=1, ge=1, le=1000)
+    phone: str | None = Field(default=None, max_length=50)
+    vehicle_id: str | None = Field(default=None, max_length=64)
+    vehicle_label: str | None = Field(default=None, max_length=300)
+    vin: str | None = Field(default=None, pattern=VIN_PATTERN)
+    note: str | None = Field(default=None, max_length=1000)
 
 
 class ReservationOut(BaseModel):
@@ -223,9 +289,99 @@ class ReservationOut(BaseModel):
     quantity: int
     phone: str | None
     status: str
+    vehicle_label: str | None = None
+    vin: str | None = None
+    note: str | None = None
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class MyReservationOut(BaseModel):
+    id: int
+    status: str
+    quantity: int
+    vehicle_label: str | None
+    vin: str | None
+    note: str | None
+    created_at: datetime
+    updated_at: datetime | None
+    product_id: str
+    product_name: str
+    product_name_ru: str | None = None
+    product_name_en: str | None = None
+    reference_numbers: list[str]
+    supplier: SupplierSummary
+    price: Decimal | None
+    currency: str
+
+
+class PartRequestCreate(BaseModel):
+    session_id: str = Field(max_length=100)
+    query: str = Field(min_length=1, max_length=300)
+    contact: str = Field(min_length=3, max_length=200)
+    vehicle_id: str | None = Field(default=None, max_length=64)
+    vehicle_label: str | None = Field(default=None, max_length=300)
+    vin: str | None = Field(default=None, pattern=VIN_PATTERN)
+    note: str | None = Field(default=None, max_length=1000)
+
+
+class PartRequestOut(BaseModel):
+    id: int
+    query: str
+    contact: str
+    vehicle_label: str | None
+    vin: str | None
+    note: str | None
+    status: str
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class PartRequestUpdate(BaseModel):
+    status: Literal["OPEN", "ANSWERED", "CLOSED"]
+
+
+class FitReportCreate(BaseModel):
+    session_id: str = Field(max_length=100)
+    fits: bool
+    vehicle_id: str | None = Field(default=None, max_length=64)
+    vehicle_label: str | None = Field(default=None, max_length=300)
+
+
+class AdminReservationOut(BaseModel):
+    id: int
+    created_at: datetime
+    updated_at: datetime | None
+    status: str
+    outcome: str | None
+    quantity: int
+    phone: str | None
+    vehicle_label: str | None
+    vin: str | None
+    note: str | None
+    product_id: str
+    product_name: str
+    supplier_id: int
+    supplier_name: str
+    supplier_sku: str | None
+
+
+class ReservationUpdate(BaseModel):
+    status: Literal["REQUESTED", "CONFIRMED", "READY", "COMPLETED", "CANCELLED"] | None = None
+    outcome: (
+        Literal["HONOURED", "WRONG_FIT", "OUT_OF_STOCK", "PRICE_CHANGED", "NO_SHOW"] | None
+    ) = None
+
+
+class AdminFitReportOut(BaseModel):
+    product_id: str
+    product_name: str
+    vehicle_label: str | None
+    fits: int
+    does_not_fit: int
+    last_report: datetime
 
 
 class SupplierUpdate(BaseModel):
@@ -233,6 +389,14 @@ class SupplierUpdate(BaseModel):
     telegram: str | None = None
     address: str | None = None
     is_active: bool | None = None
+    city: str | None = Field(default=None, max_length=200)
+    legal_name: str | None = Field(default=None, max_length=300)
+    inn: str | None = Field(default=None, pattern=r"^\d{9}$|^\d{14}$")
+    licence_number: str | None = Field(default=None, max_length=100)
+    work_hours: str | None = Field(default=None, max_length=200)
+    map_url: str | None = Field(default=None, max_length=500, pattern=r"^https?://")
+    # Ticking "verified" records when the team checked the documents.
+    verified: bool | None = None
 
 
 class SupplierAdminOut(BaseModel):
@@ -245,11 +409,22 @@ class SupplierAdminOut(BaseModel):
     created_at: datetime
     active_offers_count: int
     latest_data_update: datetime | None
+    city: str | None = None
+    legal_name: str | None = None
+    inn: str | None = None
+    licence_number: str | None = None
+    work_hours: str | None = None
+    map_url: str | None = None
+    verified_at: datetime | None = None
+    reliability_score: Decimal | None = None
+    reliability_sample: int = 0
 
 
 class SupplierProductOut(BaseModel):
     id: str
     name: str
+    name_ru: str | None = None
+    name_en: str | None = None
     brand: str | None
     supplier_sku: str | None
     price: Decimal | None
@@ -267,6 +442,7 @@ class SupplierDetailOut(BaseModel):
     phone: str | None
     telegram: str | None
     address: str | None
+    trust: SupplierSummary | None = None
     brands: list[str]
     active_offers_count: int
     last_data_update: datetime | None

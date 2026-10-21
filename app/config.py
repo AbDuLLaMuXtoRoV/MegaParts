@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     search_debug: bool = False
     offer_fresh_hours: float = 2
     offer_recent_hours: float = 24
+    # Price lists go grey ("may be outdated") after a week and disappear after two.
+    offer_outdated_days: float = 7
+    offer_hidden_days: float = 14
     preferred_supplier_ids: str = ""
     # Admin pages and /api/admin stay locked until ADMIN_PASSWORD is set.
     admin_username: str = "irizon"

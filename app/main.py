@@ -1,5 +1,5 @@
 from collections import Counter
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 from time import perf_counter
 from typing import Annotated
@@ -17,7 +17,7 @@ from fastapi import (
     Response,
     UploadFile,
 )
-from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import func, select, text
 from sqlalchemy.orm import Session, selectinload
@@ -38,7 +38,9 @@ from app.models import (
     Brand,
     Category,
     Fitment,
+    FitReport,
     OfferImportReview,
+    PartRequest,
     PilotFeedback,
     Product,
     ReservationRequest,
@@ -51,18 +53,29 @@ from app.models import (
     Vehicle,
 )
 from app.normalization import normalize_text, sanitize_query
-from app.offers import active_sorted_offers, freshness_status
+from app.offers import active_sorted_offers, freshness_status, supplier_summary
 from app.part_types import category_with_descendants, part_groups
+from app.product_context import fit_report_summary
 from app.query_parser import parse_query
+from app.reservations import admin_reservation_out, my_reservation_out, recompute_reliability
 from app.schemas import (
+    AdminFitReportOut,
     AdminLogin,
+    AdminReservationOut,
+    FitReportCreate,
+    FitReportSummary,
+    MyReservationOut,
     PartGroupOut,
+    PartRequestCreate,
+    PartRequestOut,
+    PartRequestUpdate,
     PartTypeOut,
     PilotFeedbackCreate,
     PilotFeedbackOut,
     ProductDetail,
     ReservationCreate,
     ReservationOut,
+    ReservationUpdate,
     SearchActionCreate,
     SearchAliasCreate,
     SearchAliasOut,
@@ -82,6 +95,7 @@ from app.schemas import (
 )
 from app.search import get_product_detail, search_products
 from app.search_vocabulary import PRODUCT_SYNONYMS, VEHICLE_ALIASES
+from app.seo import part_page, robots, sitemap
 from app.supplier_import import import_supplier_workbook
 
 settings = get_settings()
@@ -332,7 +346,14 @@ def suggest(
             for category_id, count in type_counts.most_common(SUGGESTED_PART_TYPES)
         ],
         products=[
-            SuggestedProductOut(id=item.id, name=item.name, brand=item.brand, category=item.category)
+            SuggestedProductOut(
+                id=item.id,
+                name=item.name,
+                name_ru=item.name_ru,
+                name_en=item.name_en,
+                brand=item.brand,
+                category=item.category,
+            )
             for item in products[:SUGGESTED_PRODUCTS]
         ],
     )
@@ -380,11 +401,61 @@ def vehicles(session: Annotated[Session, Depends(get_session)]) -> list[VehicleO
 def product_detail(
     product_id: str,
     session: Annotated[Session, Depends(get_session)],
+    make: Annotated[str | None, Query(max_length=150)] = None,
+    model: Annotated[str | None, Query(max_length=300)] = None,
+    vehicle_id: Annotated[str | None, Query(max_length=64)] = None,
 ) -> ProductDetail:
-    product = get_product_detail(session, product_id)
+    """The part; alternatives and job parts are chosen for the buyer's car when given."""
+    vehicle_ids, _ = resolve_vehicle_filter(session, make, model, vehicle_id)
+    product = get_product_detail(session, product_id, vehicle_ids)
     if product is None:
         raise HTTPException(status_code=404, detail="Product not found")
     return product
+
+
+@app.post(
+    f"{settings.api_prefix}/products/{{product_id}}/fit-reports",
+    status_code=201,
+    response_model=list[FitReportSummary],
+)
+def report_fit(
+    product_id: str,
+    payload: FitReportCreate,
+    session: Annotated[Session, Depends(get_session)],
+) -> list[FitReportSummary]:
+    """A buyer says whether the part fitted their car; repeated 'no' flags bad fitment data."""
+    if session.get(Product, product_id) is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    vehicle_id = payload.vehicle_id if session.get(Vehicle, payload.vehicle_id or "") else None
+    session.add(
+        FitReport(
+            session_id=payload.session_id,
+            product_id=product_id,
+            vehicle_id=vehicle_id,
+            vehicle_label=payload.vehicle_label,
+            fits=payload.fits,
+        )
+    )
+    session.commit()
+    return fit_report_summary(session, product_id)
+
+
+@app.post(
+    f"{settings.api_prefix}/part-requests", response_model=PartRequestOut, status_code=201
+)
+def create_part_request(
+    payload: PartRequestCreate,
+    session: Annotated[Session, Depends(get_session)],
+) -> PartRequest:
+    """A part the buyer could not find, handed to staff and suppliers instead of a dead end."""
+    data = payload.model_dump()
+    if not session.get(Vehicle, data["vehicle_id"] or ""):
+        data["vehicle_id"] = None
+    request = PartRequest(**data)
+    session.add(request)
+    session.commit()
+    session.refresh(request)
+    return request
 
 
 @app.get("/api/pilot-config")
@@ -549,7 +620,10 @@ def create_reservation(
         raise HTTPException(status_code=404, detail="Active offer not found for this product")
     if payload.search_event_id is not None:
         find_event(session, payload.search_event_id)
-    reservation = ReservationRequest(**payload.model_dump())
+    data = payload.model_dump()
+    if not session.get(Vehicle, data["vehicle_id"] or ""):
+        data["vehicle_id"] = None
+    reservation = ReservationRequest(**data, updated_at=datetime.now(UTC))
     session.add(reservation)
     session.flush()
     if settings.pilot_mode and payload.search_event_id is not None:
@@ -565,6 +639,25 @@ def create_reservation(
     session.commit()
     session.refresh(reservation)
     return reservation
+
+
+@app.get(f"{settings.api_prefix}/reservations", response_model=list[MyReservationOut])
+def my_reservations(
+    session: Annotated[Session, Depends(get_session)],
+    session_id: Annotated[str, Query(min_length=8, max_length=100)],
+) -> list[MyReservationOut]:
+    """This browser's reservations with their current status, newest first."""
+    reservations = session.scalars(
+        select(ReservationRequest)
+        .where(ReservationRequest.session_id == session_id)
+        .options(
+            selectinload(ReservationRequest.product).selectinload(Product.reference_numbers),
+            selectinload(ReservationRequest.supplier_offer).selectinload(SupplierOffer.supplier),
+        )
+        .order_by(ReservationRequest.created_at.desc(), ReservationRequest.id.desc())
+        .limit(50)
+    ).all()
+    return [my_reservation_out(reservation) for reservation in reservations]
 
 
 @app.get(f"{settings.api_prefix}/suppliers/{{supplier_id}}", response_model=SupplierDetailOut)
@@ -590,6 +683,7 @@ def supplier_detail(
         phone=supplier.phone,
         telegram=supplier.telegram,
         address=supplier.address,
+        trust=supplier_summary(supplier),
         brands=sorted({offer.product.brand.name for offer in offers if offer.product.brand}),
         active_offers_count=len(offers),
         last_data_update=max(
@@ -599,6 +693,8 @@ def supplier_detail(
             SupplierProductOut(
                 id=offer.product.id,
                 name=offer.product.name,
+                name_ru=offer.product.name_ru,
+                name_en=offer.product.name_en,
                 brand=offer.product.brand.name if offer.product.brand else None,
                 supplier_sku=offer.supplier_sku,
                 price=offer.price,
@@ -614,51 +710,7 @@ def supplier_detail(
     )
 
 
-@app.get("/api/admin/suppliers", response_model=list[SupplierAdminOut])
-def admin_suppliers(
-    session: Annotated[Session, Depends(get_session)],
-) -> list[SupplierAdminOut]:
-    suppliers = session.scalars(
-        select(Supplier).options(selectinload(Supplier.offers)).order_by(Supplier.name)
-    ).all()
-    return [
-        SupplierAdminOut(
-            id=supplier.id,
-            name=supplier.name,
-            phone=supplier.phone,
-            telegram=supplier.telegram,
-            address=supplier.address,
-            is_active=supplier.is_active,
-            created_at=supplier.created_at,
-            active_offers_count=sum(offer.is_active for offer in supplier.offers),
-            latest_data_update=max(
-                (
-                    offer.updated_at
-                    for offer in supplier.offers
-                    if offer.is_active and offer.updated_at
-                ),
-                default=None,
-            ),
-        )
-        for supplier in suppliers
-    ]
-
-
-@app.patch("/api/admin/suppliers/{supplier_id}", response_model=SupplierAdminOut)
-def update_supplier(
-    supplier_id: int,
-    payload: SupplierUpdate,
-    session: Annotated[Session, Depends(get_session)],
-) -> SupplierAdminOut:
-    supplier = session.scalar(
-        select(Supplier).where(Supplier.id == supplier_id).options(selectinload(Supplier.offers))
-    )
-    if supplier is None:
-        raise HTTPException(status_code=404, detail="Supplier not found")
-    for key, value in payload.model_dump(exclude_unset=True).items():
-        setattr(supplier, key, value)
-    session.commit()
-    session.refresh(supplier)
+def supplier_admin_out(supplier: Supplier) -> SupplierAdminOut:
     return SupplierAdminOut(
         id=supplier.id,
         name=supplier.name,
@@ -672,7 +724,58 @@ def update_supplier(
             (offer.updated_at for offer in supplier.offers if offer.is_active and offer.updated_at),
             default=None,
         ),
+        city=supplier.city,
+        legal_name=supplier.legal_name,
+        inn=supplier.inn,
+        licence_number=supplier.licence_number,
+        work_hours=supplier.work_hours,
+        map_url=supplier.map_url,
+        verified_at=supplier.verified_at,
+        reliability_score=supplier.reliability_score,
+        reliability_sample=supplier.reliability_sample or 0,
     )
+
+
+@app.get("/api/admin/suppliers", response_model=list[SupplierAdminOut])
+def admin_suppliers(
+    session: Annotated[Session, Depends(get_session)],
+) -> list[SupplierAdminOut]:
+    suppliers = session.scalars(
+        select(Supplier).options(selectinload(Supplier.offers)).order_by(Supplier.name)
+    ).all()
+    return [supplier_admin_out(supplier) for supplier in suppliers]
+
+
+@app.patch("/api/admin/suppliers/{supplier_id}", response_model=SupplierAdminOut)
+def update_supplier(
+    supplier_id: int,
+    payload: SupplierUpdate,
+    session: Annotated[Session, Depends(get_session)],
+) -> SupplierAdminOut:
+    supplier = session.scalar(
+        select(Supplier).where(Supplier.id == supplier_id).options(selectinload(Supplier.offers))
+    )
+    if supplier is None:
+        raise HTTPException(status_code=404, detail="Supplier not found")
+    changes = payload.model_dump(exclude_unset=True)
+    verified = changes.pop("verified", None)
+    for key, value in changes.items():
+        setattr(supplier, key, value)
+    if verified is not None:
+        # Keep the original check date when the box is simply saved again.
+        if not verified:
+            supplier.verified_at = None
+        elif supplier.verified_at is None:
+            if not (supplier.legal_name and supplier.inn):
+                session.rollback()
+                raise HTTPException(
+                    status_code=422,
+                    detail="Enter the legal name and INN before marking a supplier verified",
+                )
+            supplier.verified_at = datetime.now(UTC)
+    session.commit()
+    session.refresh(supplier)
+    return supplier_admin_out(supplier)
 
 
 @app.post("/api/admin/suppliers/{supplier_id}/offers/import", response_model=SupplierImportOut)
@@ -859,3 +962,137 @@ def delete_search_alias(alias_id: int, session: Annotated[Session, Depends(get_s
         raise HTTPException(status_code=404, detail="Alias not found")
     session.delete(record)
     session.commit()
+
+
+@app.get("/admin/requests", include_in_schema=False)
+def admin_requests_page() -> FileResponse:
+    return FileResponse(static_dir / "requests-admin.html")
+
+
+@app.get("/api/admin/reservations", response_model=list[AdminReservationOut])
+def admin_reservations(
+    session: Annotated[Session, Depends(get_session)],
+    status: Annotated[str | None, Query(max_length=30)] = None,
+) -> list[AdminReservationOut]:
+    stmt = (
+        select(ReservationRequest)
+        .options(
+            selectinload(ReservationRequest.product),
+            selectinload(ReservationRequest.supplier_offer).selectinload(SupplierOffer.supplier),
+        )
+        .order_by(ReservationRequest.created_at.desc(), ReservationRequest.id.desc())
+        .limit(200)
+    )
+    if status:
+        stmt = stmt.where(ReservationRequest.status == status)
+    return [admin_reservation_out(reservation) for reservation in session.scalars(stmt)]
+
+
+@app.patch("/api/admin/reservations/{reservation_id}", response_model=AdminReservationOut)
+def update_reservation(
+    reservation_id: int,
+    payload: ReservationUpdate,
+    session: Annotated[Session, Depends(get_session)],
+) -> AdminReservationOut:
+    """Move a reservation along; its outcome feeds the supplier's reliability score."""
+    reservation = session.get(ReservationRequest, reservation_id)
+    if reservation is None:
+        raise HTTPException(status_code=404, detail="Reservation not found")
+    changes = payload.model_dump(exclude_unset=True)
+    for key, value in changes.items():
+        setattr(reservation, key, value)
+    reservation.updated_at = datetime.now(UTC)
+    session.flush()
+    if "outcome" in changes:
+        recompute_reliability(session, reservation.supplier_offer.supplier_id)
+    session.commit()
+    session.refresh(reservation)
+    return admin_reservation_out(reservation)
+
+
+@app.get("/api/admin/part-requests", response_model=list[PartRequestOut])
+def admin_part_requests(session: Annotated[Session, Depends(get_session)]) -> list[PartRequest]:
+    return list(
+        session.scalars(
+            select(PartRequest)
+            .order_by(PartRequest.status != "OPEN", PartRequest.created_at.desc())
+            .limit(200)
+        )
+    )
+
+
+@app.patch("/api/admin/part-requests/{request_id}", response_model=PartRequestOut)
+def update_part_request(
+    request_id: int,
+    payload: PartRequestUpdate,
+    session: Annotated[Session, Depends(get_session)],
+) -> PartRequest:
+    request = session.get(PartRequest, request_id)
+    if request is None:
+        raise HTTPException(status_code=404, detail="Part request not found")
+    request.status = payload.status
+    session.commit()
+    session.refresh(request)
+    return request
+
+
+@app.get("/api/admin/fit-reports", response_model=list[AdminFitReportOut])
+def admin_fit_reports(session: Annotated[Session, Depends(get_session)]) -> list[AdminFitReportOut]:
+    """Fit reports per part and car, the parts most often reported as not fitting first."""
+    does_not_fit = func.count(FitReport.id).filter(FitReport.fits.is_(False))
+    rows = session.execute(
+        select(
+            FitReport.product_id,
+            Product.name,
+            FitReport.vehicle_label,
+            func.count(FitReport.id).filter(FitReport.fits.is_(True)),
+            does_not_fit,
+            func.max(FitReport.created_at),
+        )
+        .join(Product, Product.id == FitReport.product_id)
+        .group_by(FitReport.product_id, Product.name, FitReport.vehicle_label)
+        .order_by(does_not_fit.desc(), func.max(FitReport.created_at).desc())
+        .limit(200)
+    ).all()
+    return [
+        AdminFitReportOut(
+            product_id=product_id,
+            product_name=name,
+            vehicle_label=label,
+            fits=fits,
+            does_not_fit=not_fit,
+            last_report=last,
+        )
+        for product_id, name, label, fits, not_fit, last in rows
+    ]
+
+
+@app.get("/part/{product_id}", include_in_schema=False, response_class=HTMLResponse)
+def part_page_html(
+    product_id: str, request: Request, session: Annotated[Session, Depends(get_session)]
+) -> HTMLResponse:
+    """A part's own address: the catalog page, titled and described for search engines."""
+    template = (static_dir / "index.html").read_text(encoding="utf-8")
+    product = get_product_detail(session, product_id)
+    if product is None:
+        return HTMLResponse(template, status_code=404)
+    return HTMLResponse(part_page(template, product, str(request.base_url)))
+
+
+@app.get("/sitemap.xml", include_in_schema=False)
+def sitemap_xml(request: Request, session: Annotated[Session, Depends(get_session)]) -> Response:
+    rows = session.execute(
+        select(Product.id, Product.updated_at)
+        .where(Product.is_searchable.is_(True))
+        .order_by(Product.id)
+    ).all()
+    entries = [
+        (product_id, updated.date().isoformat() if updated else None)
+        for product_id, updated in rows
+    ]
+    return Response(sitemap(str(request.base_url), entries), media_type="application/xml")
+
+
+@app.get("/robots.txt", include_in_schema=False)
+def robots_txt(request: Request) -> Response:
+    return Response(robots(str(request.base_url)), media_type="text/plain")

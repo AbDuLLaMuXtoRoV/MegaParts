@@ -67,15 +67,23 @@ STOP_WORDS: frozenset[str] = frozenset({
     "of", "and", "with", "please", "new",
 })
 
+# Ravon is the 2016–2020 export badge for the same Uzbek-built cars.
 VEHICLE_ALIASES: dict[str, tuple[str, ...]] = {
-    "Chevrolet Cobalt": ("cobalt", "chevrolet cobalt", "kobalt"),
-    "Chevrolet Nexia 3": ("nexia3", "nexia 3", "nexia-3", "ravon r3"),
+    "Chevrolet Cobalt": ("cobalt", "chevrolet cobalt", "kobalt", "ravon r4"),
+    "Chevrolet Nexia 3": (
+        "nexia3",
+        "nexia 3",
+        "nexia-3",
+        "ravon r3",
+        "ravon nexia",
+        "ravon nexia r3",
+    ),
     "Chevrolet Tracker 2": ("tracker2", "tracker 2", "tracker ii", "chevrolet tracker 2"),
-    "Chevrolet Spark": ("chevrolet spark", "spark"),
+    "Chevrolet Spark": ("chevrolet spark", "spark", "ravon r2"),
     "Chevrolet Damas": ("chevrolet damas", "damas"),
-    "Chevrolet Matiz": ("chevrolet matiz", "matiz"),
+    "Chevrolet Matiz": ("chevrolet matiz", "matiz", "ravon matiz"),
     "Chevrolet Lacetti": ("chevrolet lacetti", "lacetti", "lasetti"),
-    "Chevrolet Gentra": ("chevrolet gentra", "gentra"),
+    "Chevrolet Gentra": ("chevrolet gentra", "gentra", "ravon gentra"),
     "Chevrolet Malibu": ("chevrolet malibu", "malibu"),
     "Chevrolet Orlando": ("chevrolet orlando", "orlando"),
     "Chevrolet Captiva": ("chevrolet captiva", "captiva"),

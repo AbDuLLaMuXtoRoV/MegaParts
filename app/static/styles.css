@@ -33,6 +33,10 @@ button { cursor: pointer; }
 .skip-link { position: absolute; left: 1rem; top: -4rem; z-index: 10; padding: .75rem 1rem; background: var(--white); color: var(--ink); border-radius: 8px; font-weight: 700; }
 .skip-link:focus { top: 1rem; }
 .muted { color: var(--muted); margin: 0; }
+/* Long single words ("Электрооборудование") wrap inside their box instead of overflowing it. */
+.hero h1, .sections-title, .group-name, .results-heading h2, .crumb, .filter-chip, .type-pill,
+.result-type, .result-name, .suggestion-label, .detail-main h2, .fact strong, .offer-supplier,
+.not-yet { overflow-wrap: anywhere; hyphens: auto; }
 
 /* ---------- Buttons ---------- */
 .primary-button, .secondary-button {
@@ -114,7 +118,7 @@ button:disabled { cursor: default; opacity: .6; }
 .group-tile:hover { border-color: var(--red-dark); box-shadow: var(--shadow); transform: translateY(-2px); }
 .group-icon { flex: none; display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 12px; background: var(--red-soft); color: var(--red-dark); }
 .group-icon svg { width: 1.9rem; height: 1.9rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.group-text { flex: 1; display: grid; gap: .1rem; }
+.group-text { flex: 1; min-width: 0; display: grid; gap: .1rem; }
 .group-name { font-size: 1.15rem; font-weight: 750; line-height: 1.25; }
 .group-count { color: var(--green); font-size: 1rem; font-weight: 650; }
 .group-arrow { color: var(--muted); font-size: 1.8rem; line-height: 1; }
@@ -163,7 +167,7 @@ button:disabled { cursor: default; opacity: .6; }
 .result-place { font-weight: 650; }
 .result-fit.is-match { color: var(--green); font-weight: 700; }
 .result-bottom { margin-top: auto; padding-top: 1rem; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: .75rem; }
-.result-card .result-fit { margin-bottom: 1rem; }
+.result-card .fit-verdict { margin: .35rem 0 1rem; }
 .result-card .result-bottom { border-top: 1px solid var(--line-soft); }
 .result-price { font-size: 1.3rem; font-weight: 850; }
 .result-price.is-unknown { font-size: 1.05rem; color: var(--ink-soft); }
@@ -186,7 +190,6 @@ button:disabled { cursor: default; opacity: .6; }
 .detail-main { padding: 2rem; }
 .detail-brand { color: var(--red-dark); font-size: 1rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
 .detail-main h2 { margin: .4rem 0 1.25rem; font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.1; letter-spacing: -.03em; }
-.fit-banner { margin: 0 0 1.25rem; padding: .8rem 1rem; border-radius: 10px; background: var(--green-soft); color: var(--green); font-weight: 700; }
 .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .fact { padding: .9rem 1rem; background: var(--white); }
 .fact span { display: block; color: var(--muted); font-size: .95rem; }
@@ -196,7 +199,8 @@ button:disabled { cursor: default; opacity: .6; }
 .reference-list { display: flex; flex-wrap: wrap; gap: .5rem; }
 .reference { padding: .45rem .7rem; border: 1px solid var(--line); border-radius: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1rem; }
 .fitment-list { display: grid; gap: .5rem; }
-.fitment { padding: .7rem .9rem; background: var(--paper); border-radius: 8px; }
+.fitment { padding: .7rem .9rem; display: grid; gap: .15rem; background: var(--paper); border-radius: 8px; }
+.fitment-note { color: var(--ink-soft); font-size: .95rem; }
 .fitment.is-match { background: var(--green-soft); color: var(--green); font-weight: 700; }
 .offers-panel { padding: 1.5rem; }
 .offer { padding: 1.1rem 0; border-top: 1px solid var(--line); }
@@ -207,7 +211,8 @@ button:disabled { cursor: default; opacity: .6; }
 .price { font-size: 1.35rem; font-weight: 850; }
 .offer-freshness { margin-top: .4rem; color: var(--muted); font-size: .95rem; }
 .offer-demo { margin-top: .5rem; display: inline-block; padding: .2rem .6rem; border-radius: 999px; background: var(--amber-soft); color: var(--amber); font-size: .9rem; font-weight: 750; }
-.offer-actions { margin-top: .9rem; display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+/* Two buttons per row while they fit; stacked when a long label ("Забронировать") would not. */
+.offer-actions { margin-top: .9rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: .5rem; }
 .offer-actions > button:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .reserve-form { margin-top: .9rem; padding: 1rem; display: grid; gap: .75rem; border-radius: 10px; background: var(--paper); }
 .reserve-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
@@ -224,6 +229,86 @@ button:disabled { cursor: default; opacity: .6; }
 .feedback-actions button:hover { border-color: var(--red-dark); color: var(--red-dark); }
 .feedback-actions .rating { min-width: 3rem; }
 .feedback-thanks { margin: 0; color: var(--green); font-weight: 750; }
+
+/* ---------- Garage: saved cars, quick picks, VIN ---------- */
+.topbar-button { min-height: 2.75rem; padding: 0 .9rem; display: inline-flex; align-items: center; gap: .45rem; border: 1px solid #4a5260; border-radius: 10px; background: transparent; color: #d7dbe1; font-size: 1rem; font-weight: 650; }
+.topbar-button:hover { color: var(--white); background: #1f2734; }
+.topbar-button svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+.car-chips { margin-bottom: .85rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.chips-label { color: var(--muted); font-size: 1rem; font-weight: 650; }
+.car-chip { display: inline-flex; align-items: center; gap: .15rem; padding: .15rem .25rem .15rem .15rem; border: 2px solid var(--line); border-radius: 999px; background: var(--white); }
+.car-chip.is-active { border-color: var(--green); background: var(--green-soft); }
+.car-chip-pick { min-height: 2.5rem; padding: 0 .75rem; border: 0; background: none; color: var(--ink); font-size: 1rem; font-weight: 700; }
+.car-tile { min-height: 2.9rem; padding: 0 1.1rem; border: 2px solid var(--line); border-radius: 10px; background: var(--white); color: var(--ink); font-size: 1.05rem; font-weight: 750; }
+.car-tile:hover { border-color: var(--ink); }
+.vin-row { margin-top: .9rem; display: grid; grid-template-columns: minmax(0, 22rem) 1fr; align-items: end; gap: .3rem 1rem; }
+.vin-row input { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; }
+.vin-status { margin: 0 0 .7rem; color: var(--muted); font-size: .95rem; }
+.vin-status.is-ok { color: var(--green); font-weight: 650; }
+.vin-status.is-error { color: var(--red-dark); font-weight: 650; }
+
+/* ---------- Fit verdict ---------- */
+.fit-verdict { margin: 0 0 1.1rem; padding: .85rem 1rem; display: flex; gap: .75rem; align-items: flex-start; border: 2px solid transparent; border-radius: 10px; }
+.fit-icon { flex: none; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; color: var(--white); font-weight: 900; font-size: 1rem; }
+.fit-text { display: grid; gap: .2rem; }
+.fit-text strong { font-size: 1.05rem; line-height: 1.35; }
+.fit-detail { color: var(--ink-soft); font-size: .95rem; }
+.fit-verdict.is-yes { background: var(--green-soft); border-color: #b9dccb; }
+.fit-verdict.is-yes .fit-icon { background: var(--green); }
+.fit-verdict.is-yes strong { color: var(--green); }
+.fit-verdict.is-check { background: var(--amber-soft); border-color: #ecd38a; }
+.fit-verdict.is-check .fit-icon { background: #b07a00; }
+.fit-verdict.is-no { background: var(--red-soft); border-color: #f2c2c4; }
+.fit-verdict.is-no .fit-icon { background: var(--red-dark); }
+.fit-verdict.is-no strong { color: var(--red-darker); }
+.fit-verdict.is-neutral { background: var(--paper); border-color: var(--line-soft); }
+.fit-verdict.is-neutral .fit-icon { background: var(--muted); }
+.fit-verdict.is-compact { padding: .5rem .7rem; }
+.fit-verdict.is-compact .fit-icon { width: 1.5rem; height: 1.5rem; font-size: .85rem; }
+.fit-verdict.is-compact strong { font-size: .98rem; font-weight: 700; }
+.result-topline, .detail-topline { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem .75rem; }
+.popular-badge { padding: .15rem .6rem; border-radius: 999px; background: #fff1e0; color: #8a4b00; font-size: .85rem; font-weight: 800; }
+.ask-seller { margin: 0 0 1.25rem; padding: 1rem 1.1rem; display: grid; gap: .35rem; border: 2px dashed var(--line); border-radius: 10px; }
+.ask-seller strong { font-size: 1.05rem; }
+.ask-actions { margin-top: .35rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+
+/* ---------- Alternatives, job parts, fit feedback ---------- */
+.related-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .6rem; }
+.related-item { padding: .8rem .95rem; display: grid; gap: .2rem; border: 2px solid var(--line); border-radius: 10px; background: var(--white); color: var(--ink); text-align: left; }
+.related-item:hover { border-color: var(--ink); }
+.related-type { color: var(--red-dark); font-size: .88rem; font-weight: 750; }
+.related-name { font-size: 1.02rem; line-height: 1.3; }
+.related-meta { color: var(--muted); font-size: .92rem; }
+.fit-feedback { margin-top: 1.9rem; padding: 1.1rem 1.25rem; border-radius: 10px; background: var(--paper); }
+.fit-feedback h3 { margin: 0 0 .75rem; font-size: 1.1rem; }
+
+/* ---------- Seller trust and offer labels ---------- */
+.seller-trust { margin: .35rem 0 .5rem; display: grid; gap: .15rem; font-size: .93rem; color: var(--ink-soft); }
+.trust-badge { justify-self: start; margin-bottom: .2rem; padding: .15rem .6rem; border-radius: 999px; font-size: .85rem; font-weight: 800; }
+.trust-badge.is-verified { background: var(--green-soft); color: var(--green); }
+.trust-badge.is-unverified { background: var(--paper); color: var(--muted); }
+.trust-link { color: var(--red-dark); font-weight: 700; }
+.offer-labels { margin-top: .55rem; display: flex; flex-wrap: wrap; gap: .35rem; }
+.offer-label { padding: .15rem .55rem; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); font-size: .88rem; font-weight: 650; }
+.offer.is-outdated .price, .offer.is-outdated .stock { color: var(--muted); }
+.offer.is-outdated .offer-freshness { color: var(--amber); font-weight: 700; }
+.reserve-car { margin: 0; font-size: 1rem; }
+
+/* ---------- My reservations and part requests ---------- */
+.page-title { margin: 0 0 1.1rem; font-size: clamp(1.5rem, 3.2vw, 2rem); }
+.reservation-list { display: grid; gap: .9rem; }
+.reservation-card { padding: 1.1rem 1.3rem; display: grid; gap: .35rem; border: 2px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.reservation-card h3 { margin: 0; font-size: 1.2rem; }
+.reservation-card p { margin: 0; }
+.reservation-status { justify-self: start; padding: .2rem .7rem; border-radius: 999px; font-size: .9rem; font-weight: 800; background: var(--amber-soft); color: var(--amber); }
+.reservation-status.is-confirmed, .reservation-status.is-ready { background: var(--green-soft); color: var(--green); }
+.reservation-status.is-completed { background: var(--paper); color: var(--ink-soft); }
+.reservation-status.is-cancelled { background: var(--red-soft); color: var(--red-dark); }
+.request-form { max-width: 36rem; margin: 1.5rem auto 0; padding: 1.25rem; display: grid; gap: .75rem; border-radius: 12px; background: var(--paper); text-align: left; }
+.request-form h3 { margin: 0; font-size: 1.2rem; }
+.request-form > p { margin: 0; }
+.results-request { margin-top: 1.25rem; }
+.results-request .request-form { margin: 0; max-width: none; }
 
 /* ---------- Supplier page ---------- */
 .eyebrow { margin: 0 0 .5rem; color: var(--red-dark); font-size: .8rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
@@ -245,6 +330,8 @@ button:disabled { cursor: default; opacity: .6; }
   .offers-panel { padding: 1.1rem; }
   .result-bottom { flex-direction: column; align-items: stretch; }
   .details-button { width: 100%; }
+  .vin-row { grid-template-columns: 1fr; }
+  .related-list { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

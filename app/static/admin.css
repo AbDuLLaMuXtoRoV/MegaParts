@@ -63,6 +63,8 @@ table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th { padding: 10px; border-bottom: 2px solid var(--ink); text-align: right; white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; }
 td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: right; }
+/* Tables of words (requests, reports) read better left-aligned. */
+.text-table th, .text-table td { text-align: left; vertical-align: top; }
 @media (max-width: 900px) { .metrics, .admin-grid, .needs-work { grid-template-columns: 1fr 1fr; } .admin-heading { align-items: start; flex-direction: column; } }
 @media (max-width: 760px) { .alias-form { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .admin-main { width: calc(100% - 24px); padding-top: 28px; } .metrics, .admin-grid, .needs-work { grid-template-columns: 1fr; } .filters { justify-content: flex-start; } }

@@ -11,6 +11,12 @@ from app.models import Brand, Category, Fitment, Product, SupplierOffer, Vehicle
 from app.normalization import normalize_code, normalize_text
 from app.offers import active_sorted_offers, offer_out
 from app.part_types import fits_vehicles
+from app.product_context import (
+    alternatives,
+    complete_the_job,
+    fit_report_summary,
+    reservation_counts,
+)
 from app.query_parser import ParsedQuery, parse_query
 from app.schemas import (
     CategoryOut,
@@ -380,7 +386,8 @@ def search_products(
         group: sum(item.result_group == group for item in ranked)
         for group in ("EXACT", "COMPATIBLE", "RELATED")
     }
-    items = [_product_search_out(item) for item in page]
+    popularity = reservation_counts(session, [item.product.id for item in page])
+    items = [_product_search_out(item, popularity.get(item.product.id, 0)) for item in page]
     debug = None
     if include_debug:
 
@@ -447,7 +454,10 @@ def search_products(
     )
 
 
-def get_product_detail(session: Session, product_id: str) -> ProductDetail | None:
+def get_product_detail(
+    session: Session, product_id: str, vehicle_ids: set[str] | None = None
+) -> ProductDetail | None:
+    """The part with its offers, plus alternatives and job parts for the buyer's car."""
     stmt = (
         select(Product)
         .where(Product.id == product_id, Product.is_searchable.is_(True))
@@ -458,6 +468,12 @@ def get_product_detail(session: Session, product_id: str) -> ProductDetail | Non
         return None
     offers = [offer_out(offer) for offer in active_sorted_offers(product.supplier_offers)]
     return ProductDetail(
+        name_ru=product.name_ru,
+        name_en=product.name_en,
+        reservation_count=reservation_counts(session, [product.id]).get(product.id, 0),
+        alternatives=alternatives(session, product, vehicle_ids),
+        complete_the_job=complete_the_job(session, product, vehicle_ids),
+        fit_reports=fit_report_summary(session, product.id),
         id=product.id,
         name=product.name,
         brand=product.brand,
@@ -475,11 +491,13 @@ def get_product_detail(session: Session, product_id: str) -> ProductDetail | Non
     )
 
 
-def _product_search_out(item: ScoredProduct) -> ProductSearchResult:
+def _product_search_out(item: ScoredProduct, reservation_count: int = 0) -> ProductSearchResult:
     offers = [offer_out(offer) for offer in active_sorted_offers(item.product.supplier_offers)]
     return ProductSearchResult(
         id=item.product.id,
         name=item.product.name,
+        name_ru=item.product.name_ru,
+        name_en=item.product.name_en,
         brand=item.product.brand,
         category=item.product.category,
         universal=item.product.universal,
@@ -494,4 +512,5 @@ def _product_search_out(item: ScoredProduct) -> ProductSearchResult:
         offers=offers,
         relevance_score=item.score,
         result_group=item.result_group,
+        reservation_count=reservation_count,
     )

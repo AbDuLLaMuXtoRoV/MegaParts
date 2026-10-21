@@ -11,6 +11,7 @@ const ruPlural = (n, one, few, many) => {
 const STRINGS = {
   uz: {
     skipToContent: "Asosiy qismga o‘tish",
+    pageTitle: "MegaParts — avtomobil ehtiyot qismlari",
     language: "Til",
     largerText: "Katta harf",
     title: "Mashinangiz uchun kerakli detalni toping",
@@ -70,7 +71,6 @@ const STRINGS = {
     searchAllSections: "Barcha bo‘limlardan qidirish",
     searchWithoutCar: "Mashina tanlovisiz qidirish",
     browseSections: "Bo‘limlarni ko‘rish",
-    fitsYourCar: "Mashinangizga mos",
     fitsAll: "Barcha mashinalarga mos",
     fitsUnknown: "Mashina ko‘rsatilmagan",
     fits: "Mos keladi:",
@@ -90,7 +90,6 @@ const STRINGS = {
     side: "Tomoni",
     origin: "Ishlab chiqarilgan",
     FRONT: "Old", REAR: "Orqa", LEFT: "Chap", RIGHT: "O‘ng", BOTH: "Ikkala tomon",
-    fitsCarBanner: (car) => `Bu detal mashinangizga mos: ${car}.`,
     referenceNumbers: "Detal raqamlari",
     noReferences: "Detal raqami ko‘rsatilmagan.",
     fitments: "Qaysi mashinalarga mos",
@@ -120,9 +119,81 @@ const STRINGS = {
     feedbackThanks: "Rahmat — javobingiz saqlandi.",
     yes: "Ha",
     no: "Yo‘q",
+    fitChooseCar: "Mashinangizni tanlang — mos kelishini tekshiramiz",
+    fitYes: (car) => `Mashinangizga mos: ${car}`,
+    fitCheck: "Mos keladi, lekin shartni tekshiring",
+    fitSomeVersions: (versions) => `Faqat ba’zi versiyalarga mos: ${versions}. Avlodni tanlang.`,
+    fitOtherVersions: (versions) => `Sizning versiyangiz uchun emas. Mos keladi: ${versions}`,
+    fitNo: (cars) => `Mashinangiz uchun ko‘rsatilmagan. Mos keladi: ${cars}`,
+    fitNoData: "Mashina ma’lumoti yo‘q — sotuvchidan so‘rang",
+    whyFits: (text) => `Ro‘yxatda: ${text}`,
+    fitCondition: "Shart",
+    fitWarning: (car, n) => `Xaridorlar xabari: to‘g‘ri kelmadi — ${car} (${n} marta)`,
+    askSeller: "Ishonchingiz komil emasmi? Sotuvchidan so‘rang",
+    askSellerTelegram: "Telegram’da so‘rash",
+    askSellerHint: "Mashinangiz va VIN xabarga qo‘shiladi. Eski detal rasmini ham yuboring.",
+    tgMessage: (part, numbers, carText, vin) => `Assalomu alaykum! MegaParts orqali yozyapman.\nDetal: ${part}\nRaqam: ${numbers}\nMashina: ${carText}\nVIN: ${vin}\nShu detal mashinamga to‘g‘ri keladimi? Eski detal rasmini yuboraman.`,
+    tgReservation: (id) => `Buyurtma №${id}`,
+    notGiven: "ko‘rsatilmagan",
+    myCars: "Mening mashinalarim:",
+    quickCars: "Tez tanlash:",
+    vinLabel: "VIN raqami (ixtiyoriy)",
+    vinHint: "17 ta belgi, texpasportda yozilgan",
+    vinInvalid: "VIN 17 ta belgidan iborat (I, O, Q harflarisiz)",
+    vinUzbek: "O‘zbekistonda ishlab chiqarilgan (UzAuto Motors)",
+    vinKorea: "Janubiy Koreyada ishlab chiqarilgan (GM Korea / Daewoo)",
+    vinOther: "VIN saqlandi",
+    originGENUINE: "Original (GM)",
+    originOE: "Zavod yetkazuvchisi brendi",
+    originAFTERMARKET: "Analog",
+    originBUDGET: "Arzon variant",
+    conditionNEW: "Yangi",
+    conditionUSED: "Ishlatilgan",
+    conditionREMANUFACTURED: "Qayta tiklangan",
+    warranty: (n) => `${n} oy kafolat`,
+    returns: (n) => `${n} kun ichida qaytarish`,
+    inStockNow: "Hozir bor",
+    toOrder: (n) => `Buyurtma: ${n} kunda`,
+    outdated: (d) => `Narx eskirgan bo‘lishi mumkin (${d} kun oldin yangilangan)`,
+    verifiedSeller: "Tekshirilgan sotuvchi",
+    unverifiedSeller: "Hujjatlari hali tekshirilmagan",
+    reliability: (p, n) => `Ishonchlilik: ${p}% (${n} ta buyurtma)`,
+    newSeller: "Yangi sotuvchi",
+    memberSince: (year) => `${year} yildan MegaParts’da`,
+    hours: "Ish vaqti",
+    showMap: "Xaritada ko‘rish",
+    reserveCar: "Mashina",
+    reserveNote: "Izoh (ixtiyoriy)",
+    reserveNoteHint: "Masalan: old chap tomoni kerak",
+    reserveSentNumber: (id) => `So‘rov №${id} yuborildi. Holatini “Buyurtmalarim” bo‘limida kuzating.`,
+    messageSeller: "Sotuvchiga Telegram’da yozish",
+    myReservations: "Buyurtmalarim",
+    noReservations: "Hali buyurtma yo‘q. Detal sahifasida “Band qilish” tugmasini bosing.",
+    statusREQUESTED: "Yuborildi — sotuvchi javobini kuting",
+    statusCONFIRMED: "Sotuvchi tasdiqladi",
+    statusREADY: "Olib ketishga tayyor",
+    statusCOMPLETED: "Yakunlandi",
+    statusCANCELLED: "Bekor qilindi",
+    quantityShort: (n) => `${n} dona`,
+    alternativesTitle: "Muqobil variantlar",
+    sameNumber: (number) => `Xuddi shu raqam (${number}), boshqa brend`,
+    sameType: "Shu mashina uchun boshqa variant",
+    completeJobTitle: "Odatda birga almashtiriladi",
+    offerCount: (n) => `${n} ta taklif`,
+    oftenReserved: "Ko‘p band qilinadi",
+    fitQuestion: (car) => `Bu detal mashinangizga (${car}) to‘g‘ri keldimi?`,
+    fitThanks: "Rahmat! Bu boshqa xaridorlarga yordam beradi.",
+    requestTitle: "Topa olmadingizmi? Sotuvchilardan so‘rang",
+    requestText: "Nima kerakligini yozing — sotuvchilar topib, siz bilan bog‘lanishadi.",
+    requestWhat: "Qanday detal kerak?",
+    requestContact: "Telefon yoki Telegram",
+    requestSend: "So‘rov yuborish",
+    requestSent: "So‘rov yuborildi. Tez orada bog‘lanamiz.",
+    requestOpen: "Kerakli detal yo‘qmi? So‘rov qoldiring",
   },
   ru: {
     skipToContent: "Перейти к содержанию",
+    pageTitle: "MegaParts — автозапчасти",
     language: "Язык",
     largerText: "Крупный шрифт",
     title: "Найдите нужную запчасть для вашей машины",
@@ -182,7 +253,6 @@ const STRINGS = {
     searchAllSections: "Искать во всех разделах",
     searchWithoutCar: "Искать без выбора машины",
     browseSections: "Смотреть разделы",
-    fitsYourCar: "Подходит для вашей машины",
     fitsAll: "Подходит для всех машин",
     fitsUnknown: "Машина не указана",
     fits: "Подходит:",
@@ -202,7 +272,6 @@ const STRINGS = {
     side: "Сторона",
     origin: "Происхождение",
     FRONT: "Передний", REAR: "Задний", LEFT: "Левый", RIGHT: "Правый", BOTH: "Обе стороны",
-    fitsCarBanner: (car) => `Эта деталь подходит для вашей машины ${car}.`,
     referenceNumbers: "Номера деталей",
     noReferences: "Номер детали не указан.",
     fitments: "Подходит для машин",
@@ -232,9 +301,81 @@ const STRINGS = {
     feedbackThanks: "Спасибо — ответ сохранён.",
     yes: "Да",
     no: "Нет",
+    fitChooseCar: "Выберите машину — проверим, подходит ли деталь",
+    fitYes: (car) => `Подходит для вашей машины: ${car}`,
+    fitCheck: "Подходит, но проверьте условие",
+    fitSomeVersions: (versions) => `Подходит только некоторым версиям: ${versions}. Выберите поколение.`,
+    fitOtherVersions: (versions) => `Не для вашей версии. Подходит: ${versions}`,
+    fitNo: (cars) => `Не указана для вашей машины. Подходит: ${cars}`,
+    fitNoData: "Нет данных о машинах — уточните у продавца",
+    whyFits: (text) => `В списке: ${text}`,
+    fitCondition: "Условие",
+    fitWarning: (car, n) => `Покупатели сообщили, что не подошло к ${car} (${n} раз)`,
+    askSeller: "Не уверены? Спросите продавца",
+    askSellerTelegram: "Спросить в Telegram",
+    askSellerHint: "Машина и VIN добавятся в сообщение. Пришлите и фото старой детали.",
+    tgMessage: (part, numbers, carText, vin) => `Здравствуйте! Пишу через MegaParts.\nДеталь: ${part}\nНомер: ${numbers}\nМашина: ${carText}\nVIN: ${vin}\nПодойдёт ли эта деталь к моей машине? Пришлю фото старой детали.`,
+    tgReservation: (id) => `Заявка №${id}`,
+    notGiven: "не указан",
+    myCars: "Мои машины:",
+    quickCars: "Быстрый выбор:",
+    vinLabel: "VIN-номер (необязательно)",
+    vinHint: "17 символов, указан в техпаспорте",
+    vinInvalid: "VIN — 17 символов, без букв I, O и Q",
+    vinUzbek: "Собрана в Узбекистане (UzAuto Motors)",
+    vinKorea: "Собрана в Южной Корее (GM Korea / Daewoo)",
+    vinOther: "VIN сохранён",
+    originGENUINE: "Оригинал (GM)",
+    originOE: "Бренд заводского поставщика",
+    originAFTERMARKET: "Аналог",
+    originBUDGET: "Бюджетный",
+    conditionNEW: "Новая",
+    conditionUSED: "Б/у",
+    conditionREMANUFACTURED: "Восстановленная",
+    warranty: (n) => `Гарантия ${n} мес.`,
+    returns: (n) => `Возврат ${n} дн.`,
+    inStockNow: "В наличии сейчас",
+    toOrder: (n) => `Под заказ: ${n} дн.`,
+    outdated: (d) => `Цена могла устареть (обновлено ${d} дн. назад)`,
+    verifiedSeller: "Проверенный продавец",
+    unverifiedSeller: "Документы ещё не проверены",
+    reliability: (p, n) => `Надёжность: ${p}% (${n} ${ruPlural(n, "заказ", "заказа", "заказов")})`,
+    newSeller: "Новый продавец",
+    memberSince: (year) => `На MegaParts с ${year} г.`,
+    hours: "Часы работы",
+    showMap: "На карте",
+    reserveCar: "Машина",
+    reserveNote: "Комментарий (необязательно)",
+    reserveNoteHint: "Например: нужна передняя левая",
+    reserveSentNumber: (id) => `Заявка №${id} отправлена. Статус — в разделе «Мои заказы».`,
+    messageSeller: "Написать продавцу в Telegram",
+    myReservations: "Мои заказы",
+    noReservations: "Заказов пока нет. Нажмите «Забронировать» на странице детали.",
+    statusREQUESTED: "Отправлена — ждём ответа продавца",
+    statusCONFIRMED: "Продавец подтвердил",
+    statusREADY: "Готов к выдаче",
+    statusCOMPLETED: "Выполнен",
+    statusCANCELLED: "Отменён",
+    quantityShort: (n) => `${n} шт.`,
+    alternativesTitle: "Альтернативы",
+    sameNumber: (number) => `Тот же номер (${number}), другой бренд`,
+    sameType: "Другой вариант для этой машины",
+    completeJobTitle: "Обычно меняют вместе",
+    offerCount: (n) => `${n} ${ruPlural(n, "предложение", "предложения", "предложений")}`,
+    oftenReserved: "Часто бронируют",
+    fitQuestion: (car) => `Подошла ли эта деталь к вашей машине (${car})?`,
+    fitThanks: "Спасибо! Это поможет другим покупателям.",
+    requestTitle: "Не нашли? Спросите продавцов",
+    requestText: "Напишите, что нужно — продавцы найдут деталь и свяжутся с вами.",
+    requestWhat: "Какая деталь нужна?",
+    requestContact: "Телефон или Telegram",
+    requestSend: "Отправить запрос",
+    requestSent: "Запрос отправлен. Скоро свяжемся.",
+    requestOpen: "Нет нужной детали? Оставьте запрос",
   },
   en: {
     skipToContent: "Skip to main content",
+    pageTitle: "MegaParts — car parts",
     language: "Language",
     largerText: "Larger text",
     title: "Find the right part for your car",
@@ -294,7 +435,6 @@ const STRINGS = {
     searchAllSections: "Search all sections",
     searchWithoutCar: "Search without the car filter",
     browseSections: "Browse sections",
-    fitsYourCar: "Fits your car",
     fitsAll: "Fits all cars",
     fitsUnknown: "Car not specified",
     fits: "Fits:",
@@ -314,7 +454,6 @@ const STRINGS = {
     side: "Side",
     origin: "Origin",
     FRONT: "Front", REAR: "Rear", LEFT: "Left", RIGHT: "Right", BOTH: "Both sides",
-    fitsCarBanner: (car) => `This part fits your ${car}.`,
     referenceNumbers: "Part numbers",
     noReferences: "No part number given.",
     fitments: "Fits these cars",
@@ -344,6 +483,77 @@ const STRINGS = {
     feedbackThanks: "Thank you — your answer was saved.",
     yes: "Yes",
     no: "No",
+    fitChooseCar: "Choose your car to check the fit",
+    fitYes: (car) => `Fits your ${car}`,
+    fitCheck: "Fits — check this condition",
+    fitSomeVersions: (versions) => `Fits only some versions: ${versions}. Choose your generation.`,
+    fitOtherVersions: (versions) => `Not for your version. Fits: ${versions}`,
+    fitNo: (cars) => `Not listed for your car. Fits: ${cars}`,
+    fitNoData: "No car data — ask the seller",
+    whyFits: (text) => `Listed for: ${text}`,
+    fitCondition: "Condition",
+    fitWarning: (car, n) => `Buyers reported it did not fit a ${car} (${n} times)`,
+    askSeller: "Not sure? Ask the seller",
+    askSellerTelegram: "Ask on Telegram",
+    askSellerHint: "Your car and VIN are added to the message. Send a photo of the old part too.",
+    tgMessage: (part, numbers, carText, vin) => `Hello! Writing via MegaParts.\nPart: ${part}\nNumber: ${numbers}\nCar: ${carText}\nVIN: ${vin}\nWill this part fit my car? I can send a photo of the old part.`,
+    tgReservation: (id) => `Reservation #${id}`,
+    notGiven: "not given",
+    myCars: "My cars:",
+    quickCars: "Quick pick:",
+    vinLabel: "VIN (optional)",
+    vinHint: "17 characters, on your registration card",
+    vinInvalid: "A VIN has 17 characters, without the letters I, O and Q",
+    vinUzbek: "Built in Uzbekistan (UzAuto Motors)",
+    vinKorea: "Built in South Korea (GM Korea / Daewoo)",
+    vinOther: "VIN saved",
+    originGENUINE: "Genuine (GM)",
+    originOE: "OE supplier brand",
+    originAFTERMARKET: "Aftermarket",
+    originBUDGET: "Budget",
+    conditionNEW: "New",
+    conditionUSED: "Used",
+    conditionREMANUFACTURED: "Remanufactured",
+    warranty: (n) => `${n}-month warranty`,
+    returns: (n) => `${n}-day returns`,
+    inStockNow: "In stock now",
+    toOrder: (n) => `To order: ${n} days`,
+    outdated: (d) => `Price may be outdated (updated ${d} days ago)`,
+    verifiedSeller: "Verified seller",
+    unverifiedSeller: "Documents not checked yet",
+    reliability: (p, n) => `Reliability: ${p}% (${n} ${n === 1 ? "order" : "orders"})`,
+    newSeller: "New seller",
+    memberSince: (year) => `On MegaParts since ${year}`,
+    hours: "Hours",
+    showMap: "Show on map",
+    reserveCar: "Car",
+    reserveNote: "Note (optional)",
+    reserveNoteHint: "For example: front left side",
+    reserveSentNumber: (id) => `Request #${id} sent. Follow its status under “My reservations”.`,
+    messageSeller: "Message the seller on Telegram",
+    myReservations: "My reservations",
+    noReservations: "No reservations yet. Press “Reserve” on a part page.",
+    statusREQUESTED: "Sent — waiting for the seller",
+    statusCONFIRMED: "Confirmed by the seller",
+    statusREADY: "Ready for pickup",
+    statusCOMPLETED: "Completed",
+    statusCANCELLED: "Cancelled",
+    quantityShort: (n) => `Qty ${n}`,
+    alternativesTitle: "Alternatives",
+    sameNumber: (number) => `Same number (${number}), other brand`,
+    sameType: "Another option for this car",
+    completeJobTitle: "Usually replaced together",
+    offerCount: (n) => `${n} ${n === 1 ? "offer" : "offers"}`,
+    oftenReserved: "Often reserved",
+    fitQuestion: (car) => `Did this part fit your ${car}?`,
+    fitThanks: "Thank you! This helps other buyers.",
+    requestTitle: "Can’t find it? Ask the sellers",
+    requestText: "Tell us what you need — sellers will find it and contact you.",
+    requestWhat: "What part do you need?",
+    requestContact: "Phone or Telegram",
+    requestSend: "Send request",
+    requestSent: "Request sent. We will contact you soon.",
+    requestOpen: "Part not listed? Send a request",
   },
 };
 
@@ -366,6 +576,21 @@ const t = (key, ...args) => {
   return typeof value === "function" ? value(...args) : value;
 };
 const localName = (category) => (category ? category[`name_${lang}`] || category.name_uz : "");
+// Catalog data (names, notes, car labels) in the chosen language; see catalog-text.js.
+const productName = (item) => CatalogText.productName(item, lang);
+const brandLabel = (brand) => CatalogText.brandName(brand) || t("noBrand");
+const supplierLabel = (supplier) => CatalogText.supplierName(supplier, lang);
+const noteLabel = (note) => CatalogText.noteText(note, lang);
+const vehicleLabel = (text) => CatalogText.vehicleText(text, lang);
+
+// Soft hyphens after a vowel let long words ("Электрооборудование") break at a syllable with
+// a visible hyphen; browsers without a hyphenation dictionary would split them anywhere.
+const SOFT_HYPHEN = String.fromCharCode(173);
+const VOWEL = /[aeiouаеёиоуыэюя]/i;
+const NO_BREAK_BEFORE = /[aeiouаеёиоуыэюяьъй]/i;
+const hyphenate = (text) => text.replace(/\p{L}{12,}/gu, (word) => [...word].map((char, index) => (
+  index >= 2 && word.length - index > 3 && VOWEL.test(char) && !NO_BREAK_BEFORE.test(word[index + 1]) ? `${char}${SOFT_HYPHEN}` : char
+)).join(""));
 
 // ---------- Elements and state ----------
 
@@ -392,8 +617,16 @@ const generationField = $("#generation-field");
 const carClear = $("#car-clear");
 const carHint = $("#car-hint");
 const content = $("#content");
+const reservationsView = $("#reservations-view");
+const garageList = $("#garage-list");
+const quickCars = $("#quick-cars");
+const vinRow = $("#vin-row");
+const vinInput = $("#car-vin");
+const vinStatus = $("#vin-status");
 
 const PAGE_SIZE = 100;
+// Reservations in 90 days before a part is marked "often reserved".
+const POPULAR_AFTER = 3;
 const state = { query: "", category: "", all: false, spellcheck: true };
 let lastResponse = null;
 let lastResponseUrl = "";
@@ -416,18 +649,27 @@ if (!pilotSessionId) {
   storage.set("megaparts_pilot_session", pilotSessionId);
 }
 
-const readStoredCar = () => {
-  try { return JSON.parse(storage.get("megaparts_car")) || {}; } catch { return {}; }
+const readStored = (key, fallback) => {
+  try { return JSON.parse(storage.get(key)) || fallback; } catch { return fallback; }
 };
-let car = readStoredCar();
+let car = readStored("megaparts_car", {});
+// Cars the buyer has chosen before, so switching between family cars is one tap.
+const MAX_GARAGE = 5;
+let garage = readStored("megaparts_garage", []);
+if (car.make && !garage.length) garage = [car];
+const sameCar = (a, b) => a.make === b.make && (a.model || "") === (b.model || "") && (a.vehicle_id || "") === (b.vehicle_id || "");
 const hasCar = () => Boolean(car.make);
-const carLabel = () => {
-  if (car.vehicle_id) {
-    const vehicle = vehicles.find((entry) => entry.id === car.vehicle_id);
-    if (vehicle) return [vehicle.make, vehicle.model, vehicle.generation].filter(Boolean).join(" ");
+const carLabelOf = (entry) => {
+  if (entry.vehicle_id) {
+    const vehicle = vehicles.find((candidate) => candidate.id === entry.vehicle_id);
+    if (vehicle) return vehicleLabel([vehicle.make, vehicle.model, vehicle.generation].filter(Boolean).join(" "));
   }
-  return [car.make, car.model].filter(Boolean).join(" ");
+  return [entry.make, entry.model].filter(Boolean).join(" ");
 };
+const carLabel = () => carLabelOf(car);
+const VIN_PATTERN = /^[A-HJ-NPR-Z0-9]{17}$/;
+// The first three characters name the factory; Uzbek-built GM cars start with XWB.
+const vinMaker = (vin) => (vin.startsWith("XWB") ? t("vinUzbek") : vin.startsWith("KL") ? t("vinKorea") : t("vinOther"));
 const carParams = (params) => {
   if (car.vehicle_id) params.set("vehicle_id", car.vehicle_id);
   else if (car.make) {
@@ -534,7 +776,7 @@ function renderGroups() {
     const count = counts.get(group.id) || 0;
     const tile = el("button", { type: "button", class: `group-tile${count ? "" : " is-empty"}`, onclick: () => navigate({ query: "", category: group.id }) });
     tile.innerHTML = `<span class="group-icon">${icon(group.id)}</span><span class="group-text"><span class="group-name"></span><span class="group-count"></span></span><span class="group-arrow" aria-hidden="true">›</span>`;
-    tile.querySelector(".group-name").textContent = localName(group);
+    tile.querySelector(".group-name").textContent = hyphenate(localName(group));
     tile.querySelector(".group-count").textContent = count ? t("parts", count) : totals.get(group.id) ? t("noneForCar") : t("comingSoon");
     return tile;
   }));
@@ -558,9 +800,94 @@ function renderGarage() {
   carModel.disabled = !models.length;
   const generations = ofMake.filter((vehicle) => vehicle.model === carModel.value);
   generationField.hidden = generations.length < 2;
-  fillSelect(carGeneration, t("allGenerations"), generations.map((vehicle) => [vehicle.id, vehicle.generation || "—"]), car.vehicle_id);
+  fillSelect(carGeneration, t("allGenerations"), generations.map((vehicle) => [vehicle.id, vehicleLabel(vehicle.generation) || "—"]), car.vehicle_id);
   carClear.hidden = !hasCar();
   renderCarHint();
+  renderGarageChips();
+  renderQuickCars();
+  renderVin();
+}
+
+function renderGarageChips() {
+  garageList.hidden = !garage.length;
+  garageList.replaceChildren(
+    el("span", { class: "chips-label", text: t("myCars") }),
+    ...garage.map((entry) => {
+      const active = sameCar(entry, car);
+      return el("span", { class: `car-chip${active ? " is-active" : ""}` }, [
+        el("button", { type: "button", class: "car-chip-pick", "aria-pressed": String(active), text: carLabelOf(entry), onclick: () => setCar(entry) }),
+        el("button", { type: "button", class: "chip-remove", "aria-label": t("remove", carLabelOf(entry)), title: t("remove", carLabelOf(entry)), text: "✕", onclick: () => forgetCar(entry) }),
+      ]);
+    }),
+  );
+}
+
+// One-tap tiles for the most common models, so nobody has to work through dropdowns.
+function renderQuickCars() {
+  quickCars.hidden = hasCar() || !vehicles.length;
+  if (quickCars.hidden) return;
+  const totals = new Map();
+  vehicles.forEach((vehicle) => {
+    const key = `${vehicle.make}|${vehicle.model}`;
+    totals.set(key, (totals.get(key) || 0) + vehicle.part_count);
+  });
+  const top = [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
+  quickCars.replaceChildren(
+    el("span", { class: "chips-label", text: t("quickCars") }),
+    ...top.map(([key]) => {
+      const [make, model] = key.split("|");
+      return el("button", { type: "button", class: "car-tile", title: `${make} ${model}`, text: model, onclick: () => setCar({ make, model }) });
+    }),
+  );
+}
+
+function renderVin() {
+  vinRow.hidden = !hasCar();
+  if (vinRow.hidden) return;
+  if (document.activeElement !== vinInput) vinInput.value = car.vin || "";
+  renderVinStatus();
+}
+
+function renderVinStatus() {
+  const value = vinInput.value.trim().toUpperCase();
+  vinStatus.className = "vin-status";
+  if (!value) {
+    vinStatus.textContent = t("vinHint");
+  } else if (!VIN_PATTERN.test(value)) {
+    vinStatus.textContent = t("vinInvalid");
+    vinStatus.classList.add("is-error");
+  } else {
+    vinStatus.textContent = `✓ ${vinMaker(value)}`;
+    vinStatus.classList.add("is-ok");
+  }
+}
+
+vinInput.addEventListener("input", renderVinStatus);
+vinInput.addEventListener("change", () => {
+  const value = vinInput.value.trim().toUpperCase();
+  vinInput.value = value;
+  if (value && !VIN_PATTERN.test(value)) return;
+  const previous = car;
+  car = { ...car, vin: value || undefined };
+  rememberCar(car, previous);
+  renderVinStatus();
+});
+
+// Refining the same car (adding a model or generation) updates its entry; another car is added.
+function rememberCar(next, previous) {
+  const refines = previous && previous.make === next.make
+    && (!previous.model || !next.model || previous.model === next.model);
+  garage = garage.filter((entry) => !sameCar(entry, next) && !(refines && sameCar(entry, previous)));
+  garage = [next, ...garage].slice(0, MAX_GARAGE);
+  storage.set("megaparts_garage", JSON.stringify(garage));
+  storage.set("megaparts_car", JSON.stringify(next));
+}
+
+function forgetCar(entry) {
+  garage = garage.filter((saved) => !sameCar(saved, entry));
+  storage.set("megaparts_garage", JSON.stringify(garage));
+  if (sameCar(entry, car)) setCar({});
+  else renderGarageChips();
 }
 
 function renderCarHint() {
@@ -577,9 +904,13 @@ function renderCarHint() {
   }
 }
 
-async function setCar(next) {
-  car = next;
-  storage.set("megaparts_car", JSON.stringify(car));
+async function setCar(next, { refining = false } = {}) {
+  const previous = car;
+  // A car chosen again brings back the VIN saved with it.
+  const saved = next.make ? garage.find((entry) => sameCar(entry, next)) : null;
+  car = saved ? { ...saved } : { ...next };
+  if (car.make) rememberCar(car, refining ? previous : null);
+  else storage.set("megaparts_car", "{}");
   lastResponseUrl = ""; // cached results were for the previous car
   renderGarage();
   await loadCarGroups();
@@ -589,25 +920,30 @@ async function setCar(next) {
   else if (!resultsView.hidden || !loading.hidden) navigate({ ...state, push: false });
 }
 
-carMake.addEventListener("change", () => setCar(carMake.value ? { make: carMake.value } : {}));
-carModel.addEventListener("change", () => setCar(carModel.value ? { make: car.make, model: carModel.value } : { make: car.make }));
-carGeneration.addEventListener("change", () => setCar(carGeneration.value ? { ...car, vehicle_id: carGeneration.value } : { make: car.make, model: car.model }));
+carMake.addEventListener("change", () => setCar(carMake.value ? { make: carMake.value } : {}, { refining: true }));
+carModel.addEventListener("change", () => setCar(carModel.value ? { make: car.make, model: carModel.value } : { make: car.make }, { refining: true }));
+carGeneration.addEventListener("change", () => setCar(
+  carGeneration.value ? { make: car.make, model: car.model, vehicle_id: carGeneration.value, vin: car.vin } : { make: car.make, model: car.model, vin: car.vin },
+  { refining: true },
+));
 carClear.addEventListener("click", () => setCar({}));
 
 // ---------- Views ----------
 
 const showOnly = (element) => {
-  [browseView, loading, errorBox, resultsView, detailView].forEach((node) => { node.hidden = node !== element; });
+  if (element !== detailView) document.title = t("pageTitle");
+  [browseView, loading, errorBox, resultsView, detailView, reservationsView].forEach((node) => { node.hidden = node !== element; });
 };
 
+// A part lives at /part/{id}, the address search engines index; the search stays in ?q=.
 const urlFor = (product) => {
   const params = new URLSearchParams();
   if (state.query) params.set("q", state.query);
   if (state.category) params.set("cat", state.category);
   if (state.all && !state.query && !state.category) params.set("all", "1");
-  if (product) params.set("product", product);
   const search = params.toString();
-  return search ? `/?${search}` : "/";
+  const path = product ? `/part/${encodeURIComponent(product)}` : "/";
+  return search ? `${path}?${search}` : path;
 };
 
 function showHome(push = true) {
@@ -686,7 +1022,7 @@ function renderActiveFilters() {
 
 function typePill(label, count, active, onClick) {
   return el("button", { type: "button", class: `type-pill${active ? " is-active" : ""}`, "aria-pressed": String(active), onclick: onClick }, [
-    el("span", { text: label }),
+    el("span", { text: hyphenate(label) }),
     count === null ? null : el("span", { class: "pill-count", text: String(count) }),
   ]);
 }
@@ -753,7 +1089,17 @@ function renderNoResults() {
     el("h3", { text: browsing ? t("emptySectionTitle") : t("noResultsTitle") }),
     el("p", { text: browsing ? t("emptySectionText") : t("noResultsText") }),
     el("div", { class: "no-results-actions" }, actions),
+    requestPanel(state.query || localName(lookupCategory(state.category))),
   );
+}
+
+function renderRequestPrompt(data) {
+  const slot = $("#results-request");
+  slot.replaceChildren();
+  if (!data.total) return;
+  const open = el("button", { type: "button", class: "link-button", text: t("requestOpen") });
+  open.addEventListener("click", () => slot.replaceChildren(requestPanel(state.query)));
+  slot.append(open);
 }
 
 function renderResults() {
@@ -775,12 +1121,13 @@ function renderResults() {
       results.append(el("h3", { class: "related-heading", text: t("related") }));
       relatedShown = true;
     }
-    results.append(resultCard(item, Boolean(data.vehicle_filter)));
+    results.append(resultCard(item));
   });
   noResults.hidden = data.total > 0;
   if (!data.total) renderNoResults();
   resultsMore.hidden = data.total <= data.items.length;
   resultsMore.textContent = resultsMore.hidden ? "" : t("moreThanShown", data.items.length, data.total);
+  renderRequestPrompt(data);
   showOnly(resultsView);
 }
 
@@ -801,14 +1148,59 @@ function stockSummary(offers) {
   return quantity > 0 ? { text: t("inStock", quantity), tone: "in" } : { text: t("outOfStock"), tone: "out" };
 }
 
-function fitSummary(item) {
-  if (item.universal) return t("fitsAll");
-  const cars = [...new Set(item.vehicle_fitments.map((fitment) => [fitment.vehicle.make, fitment.vehicle.model].filter(Boolean).join(" ")))];
-  if (!cars.length) return t("fitsUnknown");
-  return `${t("fits")} ${cars.slice(0, 2).join(", ")}${cars.length > 2 ? `, ${t("more", cars.length - 2)}` : ""}`;
+const meaningful = (value) => value && !["N/A", "NA", "NONE", "UNKNOWN"].includes(String(value).toUpperCase());
+const vehicleName = (vehicle) => vehicleLabel([vehicle.make, vehicle.model, vehicle.generation].filter(Boolean).join(" "));
+const modelNames = (fitments) => [...new Set(fitments.map(({ vehicle }) => vehicleLabel([vehicle.make, vehicle.model].filter(Boolean).join(" "))))];
+const shortList = (names) => `${names.slice(0, 3).join(", ")}${names.length > 3 ? `, ${t("more", names.length - 3)}` : ""}`;
+
+// The answer leading parts sites put on every part: does it fit the buyer's car, and why.
+function fitVerdict(item) {
+  const fitments = item.vehicle_fitments || [];
+  if (item.universal) return { tone: "yes", title: t("fitsAll"), details: [] };
+  if (!hasCar()) {
+    return { tone: "neutral", title: fitments.length ? `${t("fits")} ${shortList(modelNames(fitments))}` : t("fitNoData"), details: [] };
+  }
+  if (!fitments.length) return { tone: "check", title: t("fitNoData"), details: [] };
+  const sameModel = fitments.filter(({ vehicle }) => vehicle.make === car.make && (!car.model || vehicle.model === car.model));
+  const matched = car.vehicle_id ? sameModel.filter(({ vehicle }) => vehicle.id === car.vehicle_id) : sameModel;
+  if (!matched.length) {
+    if (car.vehicle_id && sameModel.length) {
+      return { tone: "no", title: t("fitOtherVersions", shortList([...new Set(sameModel.map(({ vehicle }) => vehicleName(vehicle)))])), details: [] };
+    }
+    return { tone: "no", title: t("fitNo", shortList(modelNames(fitments))), details: [] };
+  }
+  const listed = [...new Set(matched.map(({ vehicle }) => vehicleName(vehicle)))];
+  const place = [...new Set(matched.flatMap((fitment) => [fitment.position, fitment.side]).filter(meaningful).map((value) => t(value) || value))];
+  const details = [t("whyFits", [shortList(listed), ...place].join(" · "))];
+  const notes = [...new Set(matched.map((fitment) => fitment.condition_note).filter(Boolean))];
+  notes.forEach((note) => details.push(`${t("fitCondition")}: ${noteLabel(note)}`));
+  const report = (item.fit_reports || []).find((entry) => (car.vehicle_id ? entry.vehicle_id === car.vehicle_id : entry.vehicle_label === carLabel()));
+  const reportedMisfit = report && report.does_not_fit >= 2;
+  if (reportedMisfit) details.push(`⚠ ${t("fitWarning", carLabel(), report.does_not_fit)}`);
+  // Only some generations of the buyer's model are listed: the generation decides.
+  if (!car.vehicle_id && car.model) {
+    const generations = vehicles.filter((vehicle) => vehicle.make === car.make && vehicle.model === car.model);
+    const covered = new Set(matched.map(({ vehicle }) => vehicle.id));
+    if (generations.length > 1 && generations.some((vehicle) => !covered.has(vehicle.id))) {
+      return { tone: "check", title: t("fitSomeVersions", shortList(listed)), details };
+    }
+  }
+  if (notes.length || reportedMisfit) return { tone: "check", title: t("fitCheck"), details };
+  return { tone: "yes", title: t("fitYes", carLabel()), details };
 }
 
-function resultCard(item, fitsCar) {
+const VERDICT_ICON = { yes: "✓", check: "!", no: "✕", neutral: "i" };
+function verdictNode(verdict, compact = false) {
+  return el("div", { class: `fit-verdict is-${verdict.tone}${compact ? " is-compact" : ""}` }, [
+    el("span", { class: "fit-icon", "aria-hidden": "true", text: VERDICT_ICON[verdict.tone] }),
+    el("div", { class: "fit-text" }, [
+      el("strong", { text: verdict.title }),
+      ...(compact ? [] : verdict.details.map((line) => el("span", { class: "fit-detail", text: line }))),
+    ]),
+  ]);
+}
+
+function resultCard(item) {
   const offers = item.offers || item.supplier_offers;
   const price = priceSummary(offers);
   const stock = stockSummary(offers);
@@ -821,13 +1213,14 @@ function resultCard(item, fitsCar) {
     openProduct(item.id);
   };
   const card = el("article", { class: "result-card", onclick: open }, [
-    el("p", { class: "result-type", text: localName(item.category) }),
-    el("h3", { class: "result-name", text: item.name }),
-    el("p", { class: "result-brand" }, [`${t("brand")}: `, el("strong", { text: item.brand?.name || t("noBrand") })]),
+    el("div", { class: "result-topline" }, [
+      el("p", { class: "result-type", text: localName(item.category) }),
+      item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
+    ]),
+    el("h3", { class: "result-name", text: productName(item) }),
+    el("p", { class: "result-brand" }, [`${t("brand")}: `, el("strong", { text: brandLabel(item.brand) })]),
     place ? el("p", { class: "result-place", text: place }) : null,
-    fitsCar && !item.universal
-      ? el("p", { class: "result-fit is-match" }, [el("span", { "aria-hidden": "true", text: "✓ " }), t("fitsYourCar")])
-      : el("p", { class: `result-fit${item.universal ? " is-match" : ""}`, text: fitSummary(item) }),
+    verdictNode(fitVerdict(item), true),
     el("div", { class: "result-bottom" }, [
       el("div", {}, [
         el("div", { class: `result-price${price.known ? "" : " is-unknown"}`, text: price.text }),
@@ -846,7 +1239,8 @@ async function openProduct(id, push = true) {
   scrollToContent();
   if (push) history.pushState(null, "", urlFor(id));
   try {
-    const response = await fetch(`/api/v1/products/${encodeURIComponent(id)}`);
+    // With the car, alternatives and job parts are the ones that fit it.
+    const response = await fetch(`/api/v1/products/${encodeURIComponent(id)}?${carParams(new URLSearchParams())}`);
     if (!response.ok) throw new Error(response.status === 404 ? t("productNotFound") : t("detailError"));
     lastDetail = await response.json();
     renderDetail();
@@ -874,9 +1268,109 @@ const recordAction = (action, offer) => {
   }).catch(() => {});
 };
 
-const fitsChosenCar = (item) => hasCar() && (item.universal || item.vehicle_fitments.some(({ vehicle }) => (car.vehicle_id
-  ? vehicle.id === car.vehicle_id
-  : vehicle.make === car.make && (!car.model || vehicle.model === car.model))));
+const telegramLink = (handle, text) => {
+  const base = handle.startsWith("http") ? handle : `https://t.me/${handle.replace(/^@/, "")}`;
+  return text ? `${base}${base.includes("?") ? "&" : "?"}text=${encodeURIComponent(text)}` : base;
+};
+
+// A ready message with the part, its numbers, the car and VIN, so the seller can check fit.
+const sellerMessage = (item) => t(
+  "tgMessage",
+  productName(item),
+  item.reference_numbers.map((ref) => ref.number).join(", ") || "—",
+  hasCar() ? carLabel() : t("notGiven"),
+  car.vin || t("notGiven"),
+);
+
+const field = (label, control) => el("label", { class: "field" }, [el("span", { class: "field-label", text: label }), control]);
+
+function askSellerBox(item, offerItems) {
+  const contact = offerItems.find((offer) => offer.supplier.telegram) || offerItems.find((offer) => offer.supplier.phone);
+  if (!contact) return null;
+  const { supplier } = contact;
+  return el("div", { class: "ask-seller" }, [
+    el("strong", { text: t("askSeller") }),
+    el("p", { class: "muted", text: t("askSellerHint") }),
+    el("div", { class: "ask-actions" }, [
+      supplier.telegram ? el("a", { class: "primary-button", href: telegramLink(supplier.telegram, sellerMessage(item)), target: "_blank", rel: "noopener", text: t("askSellerTelegram"), onclick: () => recordAction("telegram_click", contact) }) : null,
+      supplier.phone ? el("a", { class: "secondary-button", href: `tel:${supplier.phone}`, text: t("call"), onclick: () => recordAction("phone_click", contact) }) : null,
+    ]),
+  ]);
+}
+
+function relatedSection(title, items) {
+  if (!items?.length) return null;
+  const relationLabel = (related) => {
+    if (related.relation === "SAME_NUMBER") return t("sameNumber", related.shared_number);
+    if (related.relation === "SAME_TYPE") return t("sameType");
+    return localName(related.category);
+  };
+  return el("section", { class: "detail-section" }, [
+    el("h3", { text: title }),
+    el("div", { class: "related-list" }, items.map((related) => el("button", { type: "button", class: "related-item", onclick: () => openProduct(related.id) }, [
+      el("span", { class: "related-type", text: relationLabel(related) }),
+      el("strong", { class: "related-name", text: productName(related) }),
+      el("span", {
+        class: "related-meta",
+        text: [
+          related.brand ? brandLabel(related.brand) : null,
+          related.lowest_price != null ? formatPrice(related.lowest_price, related.currency) : related.offer_count ? t("offerCount", related.offer_count) : null,
+        ].filter(Boolean).join(" · "),
+      }),
+    ]))),
+  ]);
+}
+
+// "Did it fit?" from buyers catches wrong fitment data, the main cause of wrong parts.
+function fitFeedback(item) {
+  if (!hasCar() || item.universal) return null;
+  const panel = el("section", { class: "fit-feedback" });
+  const answer = async (fits) => {
+    try {
+      const response = await postJson(`/api/v1/products/${encodeURIComponent(item.id)}/fit-reports`, {
+        session_id: pilotSessionId, fits, vehicle_id: car.vehicle_id || null, vehicle_label: carLabel(),
+      });
+      if (response.ok) item.fit_reports = await response.json();
+    } catch { /* thanks either way */ }
+    panel.replaceChildren(el("p", { class: "feedback-thanks", text: t("fitThanks") }));
+  };
+  panel.append(
+    el("h3", { text: t("fitQuestion", carLabel()) }),
+    el("div", { class: "feedback-actions" }, [
+      el("button", { type: "button", text: t("yes"), onclick: () => answer(true) }),
+      el("button", { type: "button", text: t("no"), onclick: () => answer(false) }),
+    ]),
+  );
+  return panel;
+}
+
+function sellerTrust(supplier) {
+  const year = supplier.member_since ? new Date(supplier.member_since).getFullYear() : null;
+  const place = [...new Set([supplier.address, supplier.city].filter(Boolean).map((text) => CatalogText.placeName(text, lang)))].join(", ");
+  return el("div", { class: "seller-trust" }, [
+    el("span", { class: `trust-badge ${supplier.verified ? "is-verified" : "is-unverified"}`, text: supplier.verified ? `✓ ${t("verifiedSeller")}` : t("unverifiedSeller") }),
+    el("span", {
+      class: "trust-line",
+      text: supplier.reliability_score != null ? t("reliability", Math.round(Number(supplier.reliability_score)), supplier.reliability_sample) : t("newSeller"),
+    }),
+    year ? el("span", { class: "trust-line", text: t("memberSince", year) }) : null,
+    place ? el("span", { class: "trust-line", text: place }) : null,
+    supplier.work_hours ? el("span", { class: "trust-line", text: `${t("hours")}: ${supplier.work_hours}` }) : null,
+    supplier.map_url ? el("a", { class: "trust-link", href: supplier.map_url, target: "_blank", rel: "noopener", text: t("showMap") }) : null,
+  ]);
+}
+
+const offerLabels = (offer) => [
+  offer.part_origin && t(`origin${offer.part_origin}`),
+  offer.condition && t(`condition${offer.condition}`),
+  offer.warranty_months ? t("warranty", offer.warranty_months) : null,
+  offer.return_days ? t("returns", offer.return_days) : null,
+].filter(Boolean);
+
+const leadTimeLabel = (offer) => {
+  if (offer.lead_time_days === 0) return t("inStockNow");
+  return offer.lead_time_days > 0 ? t("toOrder", offer.lead_time_days) : null;
+};
 
 function feedbackPanel() {
   const panel = el("section", { class: "pilot-feedback" });
@@ -913,40 +1407,80 @@ function feedbackPanel() {
   return panel;
 }
 
-function reserveForm(offer, toggle) {
+function reserveForm(offer, toggle, item) {
   const quantity = el("input", { type: "number", min: "1", step: "1", value: "1", required: true, inputmode: "numeric" });
   const phone = el("input", { type: "tel", autocomplete: "tel" });
+  // The car and VIN travel with the request so the seller can confirm the fit first.
+  const vin = el("input", { maxlength: "17", autocomplete: "off", autocapitalize: "characters", spellcheck: "false", value: car.vin || "" });
+  const note = el("input", { maxlength: "1000", placeholder: t("reserveNoteHint") });
   const status = el("p", { class: "reserve-status", role: "status" });
+  const followUp = el("div", { class: "reserve-actions" });
   const formNode = el("form", { class: "reserve-form", hidden: true }, [
-    el("label", { class: "field" }, [el("span", { class: "field-label", text: t("reserveQty") }), quantity]),
-    el("label", { class: "field" }, [el("span", { class: "field-label", text: t("reservePhone") }), phone]),
+    field(t("reserveQty"), quantity),
+    field(t("reservePhone"), phone),
+    hasCar() ? el("p", { class: "reserve-car" }, [`${t("reserveCar")}: `, el("strong", { text: carLabel() })]) : null,
+    field(t("vinLabel"), vin),
+    field(t("reserveNote"), note),
     el("div", { class: "reserve-actions" }, [
       el("button", { type: "submit", class: "primary-button", text: t("send") }),
       el("button", { type: "button", class: "secondary-button", text: t("cancel"), onclick: () => { formNode.hidden = true; toggle.hidden = false; } }),
     ]),
     status,
+    followUp,
   ]);
   formNode.addEventListener("submit", async (event) => {
     event.preventDefault();
     const amount = Number(quantity.value);
     if (!Number.isInteger(amount) || amount < 1) return;
-    let ok = false;
+    const vinValue = vin.value.trim().toUpperCase();
+    if (vinValue && !VIN_PATTERN.test(vinValue)) {
+      status.textContent = t("vinInvalid");
+      status.className = "reserve-status is-error";
+      return;
+    }
+    if (vinValue && hasCar() && vinValue !== car.vin) {
+      const previous = car;
+      car = { ...car, vin: vinValue };
+      rememberCar(car, previous);
+    }
+    let reservation = null;
     try {
-      const response = await postJson("/api/v1/reservations", { session_id: pilotSessionId, search_event_id: currentEventId, product_id: currentProductId, supplier_offer_id: offer.id, quantity: amount, phone: phone.value.trim() || null });
-      ok = response.ok;
+      const response = await postJson("/api/v1/reservations", {
+        session_id: pilotSessionId,
+        search_event_id: currentEventId,
+        product_id: currentProductId,
+        supplier_offer_id: offer.id,
+        quantity: amount,
+        phone: phone.value.trim() || null,
+        vehicle_id: car.vehicle_id || null,
+        vehicle_label: hasCar() ? carLabel() : null,
+        vin: vinValue || null,
+        note: note.value.trim() || null,
+      });
+      if (response.ok) reservation = await response.json();
     } catch { /* reported below */ }
-    status.textContent = ok ? t("reserveSent") : t("reserveError");
-    status.className = `reserve-status ${ok ? "is-ok" : "is-error"}`;
-    if (ok) formNode.querySelectorAll("input, button").forEach((node) => { node.disabled = true; });
+    status.textContent = reservation ? t("reserveSentNumber", reservation.id) : t("reserveError");
+    status.className = `reserve-status ${reservation ? "is-ok" : "is-error"}`;
+    if (!reservation) return;
+    formNode.querySelectorAll("input, button[type=submit]").forEach((node) => { node.disabled = true; });
+    const message = `${t("tgReservation", reservation.id)}\n${sellerMessage(item)}`;
+    followUp.replaceChildren(
+      offer.supplier.telegram ? el("a", { class: "primary-button", href: telegramLink(offer.supplier.telegram, message), target: "_blank", rel: "noopener", text: t("messageSeller") }) : null,
+      el("button", { type: "button", class: "secondary-button", text: t("myReservations"), onclick: () => showReservations() }),
+    );
   });
   return formNode;
 }
 
-function offerNode(offer) {
+function offerNode(offer, item) {
   const price = offer.price === null || offer.price === undefined ? t("priceOnRequest") : formatPrice(offer.price, offer.currency);
   const stock = stockSummary([offer]);
+  const leadTime = leadTimeLabel(offer);
+  const labels = offerLabels(offer);
+  const outdated = offer.freshness_status === "OUTDATED";
+  const ageDays = offer.updated_at ? Math.round((Date.now() - new Date(offer.updated_at).getTime()) / 86400000) : 0;
   const reserveButton = el("button", { type: "button", class: "primary-button", text: t("reserve") });
-  const formNode = reserveForm(offer, reserveButton);
+  const formNode = reserveForm(offer, reserveButton, item);
   reserveButton.addEventListener("click", () => { reserveButton.hidden = true; formNode.hidden = false; formNode.querySelector("input").focus(); });
   const actions = [
     el("button", { type: "button", class: "secondary-button", text: t("viewSeller"), onclick: async () => { await recordAction("supplier_click", offer); location.href = `/suppliers/${offer.supplier.id}`; } }),
@@ -963,11 +1497,16 @@ function offerNode(offer) {
   }
   actions.push(reserveButton);
   recordAction("supplier_offer_view", offer);
-  return el("div", { class: "offer" }, [
-    el("div", { class: "offer-supplier", text: offer.supplier.name }),
+  return el("div", { class: `offer${outdated ? " is-outdated" : ""}` }, [
+    el("div", { class: "offer-supplier", text: supplierLabel(offer.supplier) }),
+    sellerTrust(offer.supplier),
     el("div", { class: "offer-code", text: offer.supplier_sku || t("noSellerCode") }),
-    el("div", { class: "offer-row" }, [el("span", { class: "price", text: price }), el("span", { class: `stock stock-${stock.tone}`, text: stock.text })]),
-    el("div", { class: "offer-freshness", text: freshnessLabel(offer) }),
+    labels.length ? el("div", { class: "offer-labels" }, labels.map((label) => el("span", { class: "offer-label", text: label }))) : null,
+    el("div", { class: "offer-row" }, [
+      el("span", { class: "price", text: price }),
+      el("span", { class: `stock stock-${stock.tone}`, text: leadTime && stock.tone !== "in" ? leadTime : stock.text }),
+    ]),
+    el("div", { class: "offer-freshness", text: outdated ? t("outdated", ageDays) : freshnessLabel(offer) }),
     pilotMode && offer.data_status === "DEMO" ? el("div", { class: "offer-demo", text: t("testData") }) : null,
     el("div", { class: "offer-actions" }, actions),
     formNode,
@@ -984,7 +1523,7 @@ function renderDetail() {
     onclick: () => (lastResponse ? history.back() : showHome()),
   });
 
-  const facts = [[t("partType"), localName(item.category)], [t("position"), item.position && (t(item.position) || item.position)], [t("side"), item.side && (t(item.side) || item.side)], [t("origin"), item.origin]]
+  const facts = [[t("partType"), localName(item.category)], [t("position"), item.position && (t(item.position) || item.position)], [t("side"), item.side && (t(item.side) || item.side)], [t("origin"), CatalogText.originLabel(item.origin, lang)]]
     .filter(([, value]) => value)
     .map(([label, value]) => el("div", { class: "fact" }, [el("span", { text: label }), el("strong", { text: value })]));
 
@@ -992,31 +1531,142 @@ function renderDetail() {
     ? item.reference_numbers.map((ref) => el("span", { class: "reference", text: ref.number }))
     : [el("p", { class: "muted", text: t("noReferences") })];
 
+  const fitmentLine = (fitment) => {
+    const place = [fitment.position, fitment.side].filter(meaningful).map((value) => t(value) || value).join(" · ");
+    return el("div", { class: "fitment" }, [
+      el("span", { text: vehicleLabel([fitment.vehicle.make, fitment.vehicle.model, fitment.vehicle.generation].filter(Boolean).join(" · ")) }),
+      place ? el("span", { class: "fitment-note", text: place }) : null,
+      fitment.condition_note ? el("span", { class: "fitment-note", text: `${t("fitCondition")}: ${noteLabel(fitment.condition_note)}` }) : null,
+    ]);
+  };
   const cars = item.universal
     ? [el("div", { class: "fitment is-match", text: t("fitsAll") })]
     : item.vehicle_fitments.length
-      ? item.vehicle_fitments.map((fitment) => el("div", { class: "fitment", text: [fitment.vehicle.make, fitment.vehicle.model, fitment.vehicle.generation].filter(Boolean).join(" · ") }))
+      ? item.vehicle_fitments.map(fitmentLine)
       : [el("p", { class: "muted", text: t("fitsUnknown") })];
 
+  const offerItems = item.offers || item.supplier_offers;
   const main = el("article", { class: "detail-main" }, [
-    el("div", { class: "detail-brand", text: item.brand?.name || t("noBrand") }),
-    el("h2", { text: item.name }),
-    fitsChosenCar(item) ? el("p", { class: "fit-banner" }, [el("span", { "aria-hidden": "true", text: "✓ " }), t("fitsCarBanner", carLabel())]) : null,
+    el("div", { class: "detail-topline" }, [
+      el("div", { class: "detail-brand", text: brandLabel(item.brand) }),
+      item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
+    ]),
+    el("h2", { text: productName(item) }),
+    verdictNode(fitVerdict(item)),
+    askSellerBox(item, offerItems),
     facts.length ? el("div", { class: "facts" }, facts) : null,
     el("section", { class: "detail-section" }, [el("h3", { text: t("referenceNumbers") }), el("div", { class: "reference-list" }, references)]),
     el("section", { class: "detail-section" }, [el("h3", { text: t("fitments") }), el("div", { class: "fitment-list" }, cars)]),
+    fitFeedback(item),
+    relatedSection(t("alternativesTitle"), item.alternatives),
+    relatedSection(t("completeJobTitle"), item.complete_the_job),
     currentEventId && pilotMode ? feedbackPanel() : null,
   ]);
 
-  const offerItems = item.offers || item.supplier_offers;
   const offers = el("aside", { class: "offers-panel" }, [
     el("h3", { text: t("sellers", offerItems.length) }),
-    ...offerItems.map(offerNode),
+    ...offerItems.map((offer) => offerNode(offer, item)),
     offerItems.length ? null : el("p", { class: "muted", text: t("noOffers") }),
   ]);
 
   detailView.replaceChildren(back, el("div", { class: "detail-shell" }, [main, offers]));
+  document.title = `${productName(item)} — MegaParts`;
   showOnly(detailView);
+}
+
+// ---------- My reservations ----------
+
+let myReservations = [];
+
+async function showReservations(push = true) {
+  if (push) history.pushState(null, "", "/?view=reservations");
+  showOnly(loading);
+  scrollToContent();
+  try {
+    const response = await fetch(`/api/v1/reservations?session_id=${encodeURIComponent(pilotSessionId)}`);
+    if (!response.ok) throw new Error(t("searchUnavailable"));
+    myReservations = await response.json();
+    renderReservations();
+  } catch (error) {
+    errorBox.textContent = error.message;
+    showOnly(errorBox);
+  }
+}
+
+function reservationCard(reservation) {
+  const { supplier } = reservation;
+  const reservedProduct = { name: reservation.product_name, name_ru: reservation.product_name_ru, name_en: reservation.product_name_en };
+  const message = `${t("tgReservation", reservation.id)}\n${t(
+    "tgMessage",
+    productName(reservedProduct),
+    reservation.reference_numbers.join(", ") || "—",
+    reservation.vehicle_label || t("notGiven"),
+    reservation.vin || t("notGiven"),
+  )}`;
+  const created = new Date(reservation.created_at).toLocaleDateString(lang === "en" ? "en-GB" : `${lang}-UZ`);
+  return el("article", { class: "reservation-card" }, [
+    el("span", { class: `reservation-status is-${reservation.status.toLowerCase()}`, text: t(`status${reservation.status}`) || reservation.status }),
+    el("h3", {}, [el("button", { type: "button", class: "link-button", text: productName(reservedProduct), onclick: () => openProduct(reservation.product_id) })]),
+    el("p", { class: "muted", text: [`№${reservation.id}`, created, t("quantityShort", reservation.quantity), reservation.vehicle_label, reservation.vin].filter(Boolean).join(" · ") }),
+    el("p", {}, [el("strong", { text: supplierLabel(supplier) }), reservation.price != null ? ` · ${formatPrice(reservation.price, reservation.currency)}` : ""]),
+    el("div", { class: "reserve-actions" }, [
+      supplier.telegram ? el("a", { class: "primary-button", href: telegramLink(supplier.telegram, message), target: "_blank", rel: "noopener", text: t("messageSeller") }) : null,
+      supplier.phone ? el("a", { class: "secondary-button", href: `tel:${supplier.phone}`, text: t("call") }) : null,
+    ]),
+  ]);
+}
+
+function renderReservations() {
+  reservationsView.replaceChildren(
+    el("button", { type: "button", class: "back secondary-button", text: t("back"), onclick: () => showHome() }),
+    el("h2", { class: "page-title", text: t("myReservations") }),
+    myReservations.length
+      ? el("div", { class: "reservation-list" }, myReservations.map(reservationCard))
+      : el("p", { class: "muted", text: t("noReservations") }),
+  );
+  showOnly(reservationsView);
+}
+
+$("#my-reservations").addEventListener("click", () => showReservations());
+
+// ---------- Part requests ----------
+
+// A search that finds nothing ends in a request to sellers, not a dead end.
+function requestPanel(query) {
+  const what = el("input", { required: true, maxlength: "300", value: query || "" });
+  const contact = el("input", { required: true, minlength: "3", maxlength: "200", autocomplete: "tel", inputmode: "tel" });
+  const note = el("input", { maxlength: "1000" });
+  const status = el("p", { class: "reserve-status", role: "status" });
+  const formNode = el("form", { class: "request-form" }, [
+    el("h3", { text: t("requestTitle") }),
+    el("p", { class: "muted", text: t("requestText") }),
+    field(t("requestWhat"), what),
+    field(t("requestContact"), contact),
+    field(t("reserveNote"), note),
+    hasCar() ? el("p", { class: "reserve-car" }, [`${t("reserveCar")}: `, el("strong", { text: [carLabel(), car.vin].filter(Boolean).join(" · ") })]) : null,
+    el("button", { type: "submit", class: "primary-button", text: t("requestSend") }),
+    status,
+  ]);
+  formNode.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    let ok = false;
+    try {
+      const response = await postJson("/api/v1/part-requests", {
+        session_id: pilotSessionId,
+        query: what.value.trim(),
+        contact: contact.value.trim(),
+        note: note.value.trim() || null,
+        vehicle_id: car.vehicle_id || null,
+        vehicle_label: hasCar() ? carLabel() : null,
+        vin: car.vin || null,
+      });
+      ok = response.ok;
+    } catch { /* reported below */ }
+    status.textContent = ok ? t("requestSent") : t("reserveError");
+    status.className = `reserve-status ${ok ? "is-ok" : "is-error"}`;
+    if (ok) formNode.querySelectorAll("input, button").forEach((node) => { node.disabled = true; });
+  });
+  return formNode;
 }
 
 // ---------- Suggestions while typing ----------
@@ -1061,7 +1711,7 @@ function renderSuggestions(data) {
     groups.push([t("suggestTypes"), data.part_types.map((type) => ({ kind: "type", label: localName(type), meta: t("parts", type.part_count), run: () => navigate({ query: "", category: type.id }) }))]);
   }
   if (data.products?.length) {
-    groups.push([t("suggestParts"), data.products.map((item) => ({ kind: "product", label: item.name, meta: item.brand?.name, run: () => openProduct(item.id) }))]);
+    groups.push([t("suggestParts"), data.products.map((item) => ({ kind: "product", label: productName(item), meta: item.brand ? brandLabel(item.brand) : null, run: () => openProduct(item.id) }))]);
   }
   if (!groups.length) {
     closeSuggestions();
@@ -1142,6 +1792,7 @@ function renderExamples() {
 
 function applyLanguage() {
   document.documentElement.lang = lang;
+  document.title = t("pageTitle");
   document.querySelectorAll("[data-i18n]").forEach((node) => { node.textContent = t(node.dataset.i18n); });
   document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => { node.placeholder = t(node.dataset.i18nPlaceholder); });
   document.querySelectorAll("[data-i18n-aria]").forEach((node) => { node.setAttribute("aria-label", t(node.dataset.i18nAria)); });
@@ -1151,6 +1802,7 @@ function applyLanguage() {
   renderGroups();
   if (!resultsView.hidden && lastResponse) renderResults();
   if (!detailView.hidden && lastDetail) renderDetail();
+  if (!reservationsView.hidden) renderReservations();
 }
 
 document.querySelectorAll("[data-lang]").forEach((button) => button.addEventListener("click", () => {
@@ -1186,8 +1838,11 @@ function applyUrl() {
   state.all = params.has("all");
   state.spellcheck = true;
   input.value = state.query;
-  const product = params.get("product");
+  // /part/{id}; ?product= links from before part pages had their own address still work.
+  const partPath = location.pathname.match(/^\/part\/([^/]+)$/);
+  const product = partPath ? decodeURIComponent(partPath[1]) : params.get("product");
   if (product) openProduct(product, false);
+  else if (params.get("view") === "reservations") showReservations(false);
   else if (lastResponse && lastResponseUrl === urlFor()) renderResults();
   else if (state.query || state.category || (state.all && hasCar())) runSearch({ push: false });
   else showHome(false);
@@ -1200,8 +1855,13 @@ Promise.all([
   fetch("/api/v1/vehicles").then((response) => response.json()).then((data) => { vehicles = data; }).catch(() => {}),
   loadGroups(),
 ]).then(async () => {
-  // Forget a remembered car that is no longer in the catalog.
-  if (car.make && !vehicles.some((vehicle) => vehicle.make === car.make)) {
+  // Forget remembered cars that are no longer in the catalog (only when the list loaded).
+  const known = (entry) => vehicles.some((vehicle) => vehicle.make === entry.make);
+  if (vehicles.length) {
+    garage = garage.filter(known);
+    storage.set("megaparts_garage", JSON.stringify(garage));
+  }
+  if (vehicles.length && car.make && !known(car)) {
     car = {};
     storage.set("megaparts_car", "{}");
     groupsForCar = null;

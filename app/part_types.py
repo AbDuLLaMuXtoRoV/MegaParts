@@ -157,6 +157,42 @@ PART_GROUPS: tuple[PartGroup, ...] = (
               "Accessories & tools"),
 )
 
+# Parts usually replaced in the same job ("Complete the job"), by part type.
+COMPLETE_THE_JOB: dict[str, tuple[str, ...]] = {
+    "CAT-IGN-PLUG": ("CAT-IGN-WIRE", "CAT-IGN-BOOT", "CAT-IGN-COIL"),
+    "CAT-IGN-COIL": ("CAT-IGN-BOOT", "CAT-IGN-PLUG"),
+    "CAT-IGN-BOOT": ("CAT-IGN-COIL", "CAT-IGN-PLUG"),
+    "CAT-IGN-WIRE": ("CAT-IGN-PLUG",),
+    "CAT-IGN-MOD": ("CAT-IGN-COIL", "CAT-IGN-PLUG"),
+    "CAT-BRK-PAD": ("CAT-BRK-DISC", "CAT-OIL-BRK", "CAT-CHEM-BRK"),
+    "CAT-BRK-DISC": ("CAT-BRK-PAD", "CAT-CHEM-BRK"),
+    "CAT-BRK-SHOE": ("CAT-BRK-DRUM", "CAT-BRK-WCYL"),
+    "CAT-FLT-OIL": ("CAT-OIL-ENG", "CAT-FLT-AIR", "CAT-FLT-CAB"),
+    "CAT-OIL-ENG": ("CAT-FLT-OIL",),
+    "CAT-FLT-AIR": ("CAT-FLT-OIL", "CAT-FLT-CAB"),
+    "CAT-FLT-FUEL": ("CAT-FUEL-STR", "CAT-FUEL-PUMP"),
+    "CAT-FUEL-PUMP": ("CAT-FUEL-STR", "CAT-FLT-FUEL", "CAT-FUEL-CON"),
+    "CAT-FUEL-MOD": ("CAT-FUEL-STR", "CAT-FLT-FUEL"),
+    "CAT-FUEL-STR": ("CAT-FUEL-PUMP", "CAT-FLT-FUEL"),
+    "CAT-FUEL-INJ": ("CAT-FLT-FUEL", "CAT-CHEM-FUEL"),
+    "CAT-FUEL-IAC": ("CAT-CHEM-CARB", "CAT-FUEL-THR"),
+    "CAT-COOL-THERM": ("CAT-OIL-COOL", "CAT-COOL-HOSE"),
+    "CAT-COOL-HEAT": ("CAT-OIL-COOL",),
+    "CAT-COOL-RAD": ("CAT-OIL-COOL", "CAT-COOL-HOSE", "CAT-COOL-THERM"),
+    "CAT-COOL-PUMP": ("CAT-ENG-TBELT", "CAT-OIL-COOL", "CAT-COOL-THERM"),
+    "CAT-ENG-TBELT": ("CAT-ENG-TTEN", "CAT-COOL-PUMP", "CAT-ENG-CAM", "CAT-ENG-CRANK"),
+    "CAT-ENG-HEAD": ("CAT-ENG-HGSK", "CAT-ENG-VSEAL", "CAT-ENG-CAM"),
+    "CAT-ENG-VSEAL": ("CAT-ENG-VCGSK", "CAT-ENG-CAM"),
+    "CAT-ENG-CAM": ("CAT-ENG-CRANK", "CAT-ENG-TBELT"),
+    "CAT-ENG-CRANK": ("CAT-ENG-CAM", "CAT-ENG-TBELT"),
+    "CAT-DRV-CV": ("CAT-DRV-BOOT", "CAT-DRV-SEAL", "CAT-OIL-GEAR"),
+    "CAT-DRV-SEAL": ("CAT-DRV-CV", "CAT-OIL-GEAR"),
+    "CAT-SUS-SHOCK": ("CAT-SUS-MOUNT", "CAT-SUS-SPRING"),
+    "CAT-EL-BATT": ("CAT-EL-ALT",),
+    "CAT-EL-ALT": ("CAT-EL-BATT", "CAT-ENG-DBELT"),
+    "CAT-EL-BULB": ("CAT-BODY-HEAD",),
+}
+
 _ORDER = {
     category.id: index
     for index, category in enumerate(

@@ -23,6 +23,7 @@ from app.models import (
     Category,
     CategoryAttribute,
     Fitment,
+    FitReport,
     KitComponent,
     OfferImportReview,
     PilotFeedback,
@@ -95,6 +96,7 @@ def _v2_rows(worksheet: Any) -> Iterable[dict[str, Any]]:
 def _clear_catalog(session: Session) -> None:
     for model in (
         PilotFeedback,
+        FitReport,
         ReservationRequest,
         SearchEventAction,
         SearchEvent,

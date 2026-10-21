@@ -167,7 +167,16 @@ class Supplier(Base):
     integration: Mapped[str | None] = mapped_column(String(50))
     update_frequency_days: Mapped[int | None] = mapped_column(Integer)
     default_lead_time_days: Mapped[int | None] = mapped_column(Integer)
+    # Share of finished reservations the supplier honoured (0-100), over reliability_sample.
     reliability_score: Mapped[Decimal | None] = mapped_column(Numeric(5, 2))
+    reliability_sample: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    # Business identity checked by the MegaParts team; shown to buyers as "verified seller".
+    legal_name: Mapped[str | None] = mapped_column(String(300))
+    inn: Mapped[str | None] = mapped_column(String(20))
+    licence_number: Mapped[str | None] = mapped_column(String(100))
+    work_hours: Mapped[str | None] = mapped_column(String(200))
+    map_url: Mapped[str | None] = mapped_column(String(500))
+    verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     offers: Mapped[list[SupplierOffer]] = relationship(back_populates="supplier")
     raw_products: Mapped[list[RawSupplierProduct]] = relationship(back_populates="supplier")
@@ -316,6 +325,10 @@ class SupplierOffer(Base):
     min_order_qty: Mapped[int | None] = mapped_column(Integer)
     condition: Mapped[str | None] = mapped_column(String(30))
     source_data_status: Mapped[str | None] = mapped_column(String(30))
+    # GENUINE (carmaker part), OE (original-equipment maker's brand), AFTERMARKET or BUDGET.
+    part_origin: Mapped[str | None] = mapped_column(String(20))
+    warranty_months: Mapped[int | None] = mapped_column(Integer)
+    return_days: Mapped[int | None] = mapped_column(Integer)
 
     supplier: Mapped[Supplier] = relationship(back_populates="offers")
     product: Mapped[Product] = relationship(back_populates="supplier_offers")
@@ -500,14 +513,66 @@ class ReservationRequest(Base):
     )
     quantity: Mapped[int] = mapped_column(Integer)
     phone: Mapped[str | None] = mapped_column(String(50))
+    # REQUESTED -> CONFIRMED -> READY -> COMPLETED, or CANCELLED at any point.
     status: Mapped[str] = mapped_column(String(30), default="REQUESTED", index=True)
+    # How it ended, for supplier reliability: HONOURED, WRONG_FIT, OUT_OF_STOCK,
+    # PRICE_CHANGED or NO_SHOW (the buyer's doing, so it does not count against the supplier).
+    outcome: Mapped[str | None] = mapped_column(String(30), index=True)
+    # The buyer's car and VIN go to the supplier so fit can be checked before pickup.
+    vehicle_id: Mapped[str | None] = mapped_column(
+        ForeignKey("vehicles.id", ondelete="SET NULL"), index=True
+    )
+    vehicle_label: Mapped[str | None] = mapped_column(String(300))
+    vin: Mapped[str | None] = mapped_column(String(17))
+    note: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), index=True
     )
+    updated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     product: Mapped[Product] = relationship()
     supplier_offer: Mapped[SupplierOffer] = relationship()
     search_event: Mapped[SearchEvent | None] = relationship()
+
+
+class PartRequest(Base):
+    """A part the buyer could not find, passed to suppliers instead of a dead end."""
+
+    __tablename__ = "part_requests"
+
+    id: Mapped[int] = mapped_column(BIGINT_PK, primary_key=True, autoincrement=True)
+    session_id: Mapped[str] = mapped_column(String(100), index=True)
+    query: Mapped[str] = mapped_column(String(300))
+    vehicle_id: Mapped[str | None] = mapped_column(ForeignKey("vehicles.id", ondelete="SET NULL"))
+    vehicle_label: Mapped[str | None] = mapped_column(String(300))
+    vin: Mapped[str | None] = mapped_column(String(17))
+    contact: Mapped[str] = mapped_column(String(200))
+    note: Mapped[str | None] = mapped_column(Text)
+    # OPEN -> ANSWERED -> CLOSED
+    status: Mapped[str] = mapped_column(String(20), default="OPEN", index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), index=True
+    )
+
+
+class FitReport(Base):
+    """A buyer saying whether a part fitted their car, to catch wrong fitment data."""
+
+    __tablename__ = "fit_reports"
+
+    id: Mapped[int] = mapped_column(BIGINT_PK, primary_key=True, autoincrement=True)
+    session_id: Mapped[str] = mapped_column(String(100), index=True)
+    product_id: Mapped[str] = mapped_column(
+        ForeignKey("products.id", ondelete="CASCADE"), index=True
+    )
+    vehicle_id: Mapped[str | None] = mapped_column(
+        ForeignKey("vehicles.id", ondelete="SET NULL"), index=True
+    )
+    vehicle_label: Mapped[str | None] = mapped_column(String(300))
+    fits: Mapped[bool] = mapped_column(Boolean)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), index=True
+    )
 
 
 class SearchEventAction(Base):

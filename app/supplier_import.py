@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from datetime import UTC, datetime
 from decimal import Decimal, InvalidOperation
 from io import BytesIO
@@ -32,7 +33,34 @@ HEADER_ALIASES = {
     "stock_qty": {"stock", "stock qty", "quantity", "qty", "qoldiq"},
     "warehouse": {"warehouse", "ombor"},
     "updated_at": {"updated at", "updated", "date", "timestamp"},
+    "part_origin": {"origin", "part origin", "turi", "тип", "происхождение"},
+    "condition": {"condition", "holati", "состояние"},
+    "warranty_months": {"warranty", "warranty months", "kafolat", "гарантия"},
+    "return_days": {"returns", "return days", "qaytarish", "возврат"},
+    "lead_time_days": {
+        "lead time",
+        "lead days",
+        "delivery days",
+        "muddat",
+        "yetkazish muddati",
+        "срок",
+        "срок поставки",
+    },
 }
+
+# Offer labels as suppliers write them; anything else is left blank rather than rejected.
+ORIGIN_VALUES = {
+    "GENUINE": {"genuine", "original", "oem", "gm", "original gm", "asl", "оригинал"},
+    "OE": {"oe", "oe brand", "oes"},
+    "AFTERMARKET": {"aftermarket", "analog", "analogue", "replacement", "аналог"},
+    "BUDGET": {"budget", "economy", "arzon", "эконом"},
+}
+CONDITION_VALUES = {
+    "NEW": {"new", "yangi", "новый", "новая", "новое"},
+    "USED": {"used", "ishlatilgan", "бу", "б у"},
+    "REMANUFACTURED": {"reman", "remanufactured", "rebuilt", "восстановленный"},
+}
+COUNT_FIELDS = ("warranty_months", "return_days", "lead_time_days")
 
 
 def _header(value: Any) -> str:
@@ -74,6 +102,17 @@ def _integer(value: Any) -> int | None:
         return int(float(str(value).strip().replace(",", ".")))
     except ValueError as exc:
         raise ValueError(f"Invalid stock quantity: {value}") from exc
+
+
+def _choice(value: Any, choices: dict[str, set[str]]) -> str | None:
+    words = normalize_text(value)
+    return next((code for code, spellings in choices.items() if words in spellings), None)
+
+
+def _count(value: Any) -> int | None:
+    """Days or months written as "12", "12 oy" or "14 дней"."""
+    match = re.search(r"\d+", str(value or ""))
+    return int(match.group()) if match else None
 
 
 def _timestamp(value: Any) -> datetime:
@@ -129,8 +168,9 @@ def _match_product(
         products = (
             session.scalars(
                 select(Product)
-                .join(Brand)
-                .join(ReferenceNumber)
+                .join(Brand, Brand.id == Product.brand_id)
+                # Explicit: a bare join would follow the number's own brand, not the product.
+                .join(ReferenceNumber, ReferenceNumber.product_id == Product.id)
                 .where(
                     Brand.normalized_name == brand_name,
                     ReferenceNumber.normalized_number == reference,
@@ -248,6 +288,15 @@ def import_supplier_workbook(
             offer.source_reference = f"import:{batch.id}:row:{row_number}:{match_type}"
             offer.data_status = "LIVE"
             offer.is_active = True
+            # Optional columns only overwrite what the file actually carries.
+            present = set(fields.values())
+            if "part_origin" in present:
+                offer.part_origin = _choice(row.get("part_origin"), ORIGIN_VALUES)
+            if "condition" in present:
+                offer.condition = _choice(row.get("condition"), CONDITION_VALUES)
+            for field in COUNT_FIELDS:
+                if field in present:
+                    setattr(offer, field, _count(row.get(field)))
         except (ValueError, TypeError) as exc:
             batch.errors += 1
             session.add(

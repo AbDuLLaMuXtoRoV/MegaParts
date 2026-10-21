@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Requests · MegaParts</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/admin.css">
+  <link rel="stylesheet" href="/static/catalog.css">
+</head>
+<body class="admin-body">
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">M</span><span>MEGAPARTS</span></a>
+    <nav class="admin-nav" aria-label="Admin"><a href="/admin/catalog">My catalog</a><a href="/admin/search-analytics">Analytics</a><a href="/admin/suppliers">Imports</a><a href="/admin/requests" aria-current="page">Requests</a></nav>
+    <div class="topbar-actions"><button type="button" class="logout-button" data-logout>Log out</button></div>
+  </header>
+  <main class="admin-shell">
+    <h1>Buyer requests</h1>
+    <p id="requests-error" class="error" hidden></p>
+
+    <section class="admin-panel table-panel">
+      <div class="panel-heading"><div><p class="eyebrow">Reservations</p><h2>Reservations</h2></div><span id="reservation-count" class="count"></span></div>
+      <p>Move each reservation along as the supplier answers. The outcome builds the supplier's reliability score shown to buyers (a no-show does not count against the supplier).</p>
+      <div class="table-wrap"><table class="text-table">
+        <thead><tr><th>Date</th><th>Part</th><th>Supplier</th><th>Qty</th><th>Buyer phone</th><th>Car / VIN</th><th>Note</th><th>Status</th><th>Outcome</th><th></th></tr></thead>
+        <tbody id="reservation-rows"></tbody>
+      </table></div>
+    </section>
+
+    <section class="admin-panel table-panel">
+      <div class="panel-heading"><div><p class="eyebrow">Not found</p><h2>Part requests</h2></div><span id="request-count" class="count"></span></div>
+      <p>Parts buyers could not find. Pass them to suppliers and contact the buyer.</p>
+      <div class="table-wrap"><table class="text-table">
+        <thead><tr><th>Date</th><th>Wanted part</th><th>Contact</th><th>Car / VIN</th><th>Note</th><th>Status</th></tr></thead>
+        <tbody id="request-rows"></tbody>
+      </table></div>
+    </section>
+
+    <section class="admin-panel table-panel">
+      <div class="panel-heading"><div><p class="eyebrow">Fitment data</p><h2>Fit reports from buyers</h2></div></div>
+      <p>Parts buyers said did or did not fit their car. Repeated "did not fit" usually means the fitment data in the catalog is wrong.</p>
+      <div class="table-wrap"><table class="text-table">
+        <thead><tr><th>Part</th><th>Car</th><th>Fitted</th><th>Did not fit</th><th>Last report</th></tr></thead>
+        <tbody id="fit-rows"></tbody>
+      </table></div>
+    </section>
+  </main>
+  <script src="/static/admin-session.js"></script>
+  <script src="/static/requests-admin.js"></script>
+</body>
+</html>
