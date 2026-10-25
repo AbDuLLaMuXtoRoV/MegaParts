@@ -7,6 +7,7 @@ from datetime import UTC, datetime, timedelta
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
 
+from app.catalog import compatible_variants, product_variant
 from app.models import (
     FitReport,
     Product,
@@ -17,9 +18,10 @@ from app.models import (
 from app.offers import active_sorted_offers
 from app.part_types import COMPLETE_THE_JOB, fits_vehicles
 from app.schemas import FitReportSummary, RelatedProductOut
+from app.shop import quality_tier
 
 POPULARITY_DAYS = 90
-MAX_ALTERNATIVES = 6
+MAX_ALTERNATIVES = 8
 MAX_PER_JOB_TYPE = 2
 MAX_JOB_PARTS = 6
 
@@ -41,7 +43,9 @@ def reservation_counts(session: Session, product_ids: list[str]) -> dict[str, in
     return dict(rows)
 
 
-def _related(product: Product, relation: str, shared_number: str | None = None):
+def _related(
+    product: Product, relation: str, shared_number: str | None = None, same_variant: bool = True
+):
     offers = active_sorted_offers(product.supplier_offers)
     priced = [offer for offer in offers if offer.price is not None]
     cheapest = min(priced, key=lambda offer: offer.price) if priced else None
@@ -57,6 +61,8 @@ def _related(product: Product, relation: str, shared_number: str | None = None):
         lowest_price=cheapest.price if cheapest else None,
         currency=cheapest.currency if cheapest else None,
         offer_count=len(offers),
+        quality=quality_tier(product),
+        same_variant=same_variant,
     )
 
 
@@ -68,6 +74,7 @@ def _candidates(session: Session, *conditions):
             selectinload(Product.brand),
             selectinload(Product.category),
             selectinload(Product.reference_numbers),
+            selectinload(Product.attributes),
             selectinload(Product.supplier_offers).selectinload(SupplierOffer.supplier),
         )
         .order_by(Product.name, Product.id)
@@ -84,7 +91,13 @@ def alternatives(
     session: Session, product: Product, vehicle_ids: set[str] | None
 ) -> list[RelatedProductOut]:
     """Analogs sharing a part number first, then other parts of the same type for the car."""
-    numbers = {ref.normalized_number: ref.number for ref in product.reference_numbers}
+    # A seller's own code is not a part number, so it finds no analogs.
+    numbers = {
+        ref.normalized_number: ref.number
+        for ref in product.reference_numbers
+        if ref.type != "SUPPLIER_SKU"
+    }
+    variant = product_variant(product)
     result: list[RelatedProductOut] = []
     seen = {product.id}
     if numbers:
@@ -98,7 +111,9 @@ def alternatives(
                 for ref in candidate.reference_numbers
                 if ref.normalized_number in numbers
             )
-            result.append(_related(candidate, "SAME_NUMBER", shared))
+            # Same number in another size or side is a variant, not an analog to choose.
+            same_variant = compatible_variants(variant, product_variant(candidate))
+            result.append(_related(candidate, "SAME_NUMBER", shared, same_variant))
             seen.add(candidate.id)
     if product.category_id:
         for candidate in _candidates(
@@ -109,7 +124,9 @@ def alternatives(
         ):
             result.append(_related(candidate, "SAME_TYPE"))
     # Parts with offers first, so the buyer sees real choices.
-    result.sort(key=lambda item: (item.relation != "SAME_NUMBER", item.offer_count == 0))
+    result.sort(key=lambda item: (
+        item.relation != "SAME_NUMBER", not item.same_variant, item.offer_count == 0
+    ))
     return result[:MAX_ALTERNATIVES]
 
 

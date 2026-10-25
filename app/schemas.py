@@ -70,9 +70,14 @@ class OfferOut(BaseModel):
     part_origin: str | None = None
     condition: str | None = None
     warranty_months: int | None = None
+    warranty_km: int | None = None
     return_days: int | None = None
     # 0 means in stock now; more means "to order, arrives in N days".
     lead_time_days: int | None = None
+    # The seller's label from their price list, e.g. NEW_ARRIVAL or DISCOUNT (with percent).
+    promo: str | None = None
+    discount_percent: int | None = None
+    pack_qty: int | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -118,10 +123,19 @@ class ProductSearchResult(BaseModel):
     vehicle_fitments: list[FitmentOut]
     supplier_offers: list[OfferOut]
     offers: list[OfferOut]
+    # ORIGINAL (carmaker part), KOREA (Korean-made or OE supplier), CHINA, BUDGET or OTHER.
+    quality: str | None = None
+    country_of_origin: str | None = None
     relevance_score: float
     result_group: Literal["EXACT", "COMPATIBLE", "RELATED"] = "RELATED"
     # Reservations in the last 90 days, for the "often reserved" badge.
     reservation_count: int = 0
+
+
+class BrandFacetOut(BaseModel):
+    id: int
+    name: str
+    count: int
 
 
 class VehicleFilterOut(BaseModel):
@@ -138,11 +152,22 @@ class SearchResponse(BaseModel):
     total: int
     # Matches per part type across every page, for "narrow down by part type".
     category_counts: dict[str, int] = Field(default_factory=dict)
+    # Matches per brand and per quality grade, before those two filters apply.
+    brand_facets: list[BrandFacetOut] = Field(default_factory=list)
+    quality_counts: dict[str, int] = Field(default_factory=dict)
     items: list[ProductSearchResult]
     search_event_id: int | None = None
     search_debug: dict | None = None
     parsed_query_internal: dict = Field(default_factory=dict, exclude=True)
     result_group_distribution_internal: dict[str, int] = Field(default_factory=dict, exclude=True)
+
+
+class ProductAttributeOut(BaseModel):
+    attribute_code: str
+    value: str
+    unit: str | None = None
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class RelatedProductOut(BaseModel):
@@ -160,6 +185,9 @@ class RelatedProductOut(BaseModel):
     lowest_price: Decimal | None = None
     currency: str | None = None
     offer_count: int = 0
+    quality: str | None = None
+    # False for the same number in another size or side (STD and 0.25 pistons).
+    same_variant: bool = True
 
 
 class FitReportSummary(BaseModel):
@@ -202,6 +230,11 @@ class ProductDetail(BaseModel):
     vehicle_fitments: list[FitmentOut]
     supplier_offers: list[OfferOut]
     offers: list[OfferOut]
+    # ORIGINAL (carmaker part), KOREA (Korean-made or OE supplier), CHINA, BUDGET or OTHER.
+    quality: str | None = None
+    country_of_origin: str | None = None
+    # Category attributes such as repair_size, placement, transmission, engine_type.
+    attributes: list[ProductAttributeOut] = Field(default_factory=list)
     reservation_count: int = 0
     alternatives: list[RelatedProductOut] = Field(default_factory=list)
     complete_the_job: list[RelatedProductOut] = Field(default_factory=list)
@@ -292,9 +325,16 @@ class ReservationOut(BaseModel):
     vehicle_label: str | None = None
     vin: str | None = None
     note: str | None = None
+    basket_id: str | None = None
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class ReservationCancel(BaseModel):
+    """The browser's session id proves the reservation is the buyer's own."""
+
+    session_id: str = Field(min_length=8, max_length=100)
 
 
 class MyReservationOut(BaseModel):
@@ -314,6 +354,7 @@ class MyReservationOut(BaseModel):
     supplier: SupplierSummary
     price: Decimal | None
     currency: str
+    basket_id: str | None = None
 
 
 class PartRequestCreate(BaseModel):
@@ -385,6 +426,7 @@ class AdminFitReportOut(BaseModel):
 
 
 class SupplierUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=2, max_length=200)
     phone: str | None = None
     telegram: str | None = None
     address: str | None = None
@@ -515,3 +557,115 @@ class SearchAliasTargetsOut(BaseModel):
 class AdminLogin(BaseModel):
     username: str = Field(min_length=1, max_length=100)
     password: str = Field(min_length=1, max_length=200)
+
+
+class SupplierCreate(BaseModel):
+    name: str = Field(min_length=2, max_length=200)
+    phone: str | None = Field(default=None, max_length=50)
+    telegram: str | None = Field(default=None, max_length=100)
+    city: str | None = Field(default=None, max_length=200)
+
+
+class PriceListImportOut(BaseModel):
+    """What a seller's price list added: parts, offers, cars, and names to look at."""
+
+    import_id: int
+    supplier_id: int
+    rows: int
+    parts_created: int
+    parts_reused: int
+    offers_created: int
+    offers_updated: int
+    offers_closed: int
+    rows_without_car: int
+    cars_created: list[str]
+    unrecognised: list[str]
+
+
+class JobPartOut(BaseModel):
+    type_id: str
+    type_name_uz: str
+    type_name_ru: str | None = None
+    type_name_en: str | None = None
+    position: str | None = None
+    # The part to pick for the buyer's car, and how many other choices there are.
+    product: ProductSearchResult | None = None
+    options: int = 0
+
+
+class JobOut(BaseModel):
+    id: str
+    name_uz: str
+    name_ru: str
+    name_en: str
+    icon: str
+    parts: list[JobPartOut]
+    available: int = 0
+
+
+class BasketItemIn(BaseModel):
+    product_id: str = Field(max_length=64)
+    supplier_offer_id: int
+    quantity: int = Field(default=1, ge=1, le=1000)
+
+
+class BasketCreate(BaseModel):
+    """Several parts, possibly from several sellers, reserved in one go."""
+
+    session_id: str = Field(min_length=8, max_length=100)
+    items: list[BasketItemIn] = Field(min_length=1, max_length=30)
+    phone: str | None = Field(default=None, max_length=50)
+    vehicle_id: str | None = Field(default=None, max_length=64)
+    vehicle_label: str | None = Field(default=None, max_length=300)
+    vin: str | None = Field(default=None, pattern=VIN_PATTERN)
+    note: str | None = Field(default=None, max_length=1000)
+    search_event_id: int | None = None
+
+
+class BasketOut(BaseModel):
+    basket_id: str
+    reservations: list[ReservationOut]
+
+
+class BasketOfferOut(BaseModel):
+    """An offer as the basket shows it: the part, the seller and the current terms."""
+
+    offer: OfferOut
+    product_id: str
+    name: str
+    name_ru: str | None = None
+    name_en: str | None = None
+    brand: BrandOut | None = None
+    category: CategoryOut | None = None
+    reference_numbers: list[str] = Field(default_factory=list)
+
+
+class SellerCardOut(BaseModel):
+    supplier: SupplierSummary
+    active_offers_count: int
+    priced_offers_count: int
+    brands: list[str]
+    last_data_update: datetime | None
+
+
+class SellerApplicationCreate(BaseModel):
+    business_name: str = Field(min_length=2, max_length=200)
+    contact_name: str | None = Field(default=None, max_length=200)
+    phone: str = Field(min_length=7, max_length=50)
+    telegram: str | None = Field(default=None, max_length=100)
+    city: str | None = Field(default=None, max_length=200)
+    address: str | None = Field(default=None, max_length=500)
+    cars: str | None = Field(default=None, max_length=300)
+    note: str | None = Field(default=None, max_length=1000)
+
+
+class SellerApplicationOut(SellerApplicationCreate):
+    id: int
+    status: str
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class SellerApplicationUpdate(BaseModel):
+    status: Literal["NEW", "CONTACTED", "ONBOARDED", "DECLINED"]

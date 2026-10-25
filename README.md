@@ -211,8 +211,9 @@ is hidden, and pilot/admin endpoints return `404`.
 
 ## Supplier offers v1
 
-Product search and detail responses contain freshness-ranked `offers`. Ranking prefers
-available stock, then fresh data, configured preferred suppliers, and finally lower price.
+Product search and detail responses contain freshness-ranked `offers`. Ranking follows the
+product blueprint: available stock, then fresh data, configured preferred suppliers, lower
+price, and then the seller's reliability and the quickest hand-over.
 Configure freshness with `OFFER_FRESH_HOURS` / `OFFER_RECENT_HOURS` and preferred supplier
 IDs with `PREFERRED_SUPPLIER_IDS=1,2`.
 
@@ -271,6 +272,59 @@ These features were adopted from leading parts sites (RockAuto, eBay, Emex, ZZap
   summary. Search engines find them through `/sitemap.xml` and `/robots.txt`.
 - **Search names:** Uzbek typed in Cyrillic matches the Latin-script catalog, and Ravon
   names (R4, R2, Nexia R3) find the matching Chevrolets.
+
+## Sellers' price lists
+
+Sellers send their own Excel exports (`.xlsx` or `.xls`) in any layout. Staff add the seller
+and upload the list at `/admin/suppliers` ("Upload price list"), or from the command line:
+
+```bash
+python -m app.price_list_import --supplier "BOS-KOS" "BOS-KOS SECO_UZ.xlsx"
+```
+
+- `app/price_list_reader.py` finds the name, model, brand, unit, country, code and price
+  columns by their titles (`Наименование`, `Модел`, `BREND`, `NARXI`, …) or, where a column
+  has no title, by what it holds. Headings between rows give the warranty
+  (`GARANTIYA 10.000 KM 3 OY`), a status column gives the seller's label (`YANGI KELDI`,
+  `-20% AKSIYA`), and phone numbers above the table fill in the seller's contacts. A list
+  whose prices stay under 10,000 is read as US dollars.
+- `app/part_names.py` reads the seller's slang (`KALODKA OLDI`, `amartizator`, `GALOVKA`)
+  into a part type, position, side, repair size and part numbers, and writes the part's
+  name in Uzbek, Russian and English. The seller's wording stays searchable.
+- `app/price_list_import.py` adds each row as a catalog part fitted to the cars named
+  (`NEXIA(CIELO)`, `TICO/DAMAS`, `LACETTI 1,6`; missing cars are added), with the seller's
+  offer. A new list from a seller replaces their previous one. After improving the name
+  rules, `rename_price_list_parts()` rewrites existing names from the sellers' wording.
+- Matching follows the blueprint's rules. Sellers' parts are joined only on the same brand
+  and the same carmaker number (`OE`) or part maker's article (`AFTERMARKET`), and only when
+  the variant does not conflict: front/rear, left/right, repair size (STD, 0.25) and
+  inner/outer are part of a part's identity; a missing one is not a conflict. A seller's own
+  code is kept as `SUPPLIER_SKU` and never joins parts. Parts without a number are never
+  joined across sellers on a similar name: the catalog team gets a review item instead
+  (`/admin/catalog`, "Open review items"), as for article collisions and unrecognised names.
+  Parts several sellers offer get a cross-supplier audit (CONFIRMED or PROBABLE).
+- Position, side, repair size, placement, gearbox and engine type are stored as part
+  attributes and shown on the part page. Raw rows keep the import batch and match status.
+- Lists that name parts without price or stock never expire; priced lists follow
+  `OFFER_OUTDATED_DAYS` / `OFFER_HIDDEN_DAYS`.
+
+## Buying across sellers
+
+- **Offer order:** in stock first, then fresh lists, preferred suppliers, price, then the
+  seller's reliability and the quickest hand-over. Buyers can mark favourite sellers, which
+  come first for them.
+- **Quality grades:** every part is graded ORIGINAL (carmaker), KOREA (Korean-made or OE
+  supplier), CHINA, BUDGET or OTHER. Search filters by grade and brand and can sort by price
+  (`quality`, `brand`, `sort=price` on `/api/v1/search`). A part page offers the same part
+  number from other brands as best / value / budget choices.
+- **Basket:** parts from several sellers reserved at once
+  (`POST /api/v1/reservations/basket`); each seller gets their own reservations, sharing a
+  basket id, and a ready Telegram message. A basket can be shared as a link.
+- **Ready repair lists:** `GET /api/v1/jobs` (front brakes, oil change, timing, clutch, …,
+  `JOBS` in `app/part_types.py`) picks the part for each step for the buyer's car.
+- **Sellers directory** (`GET /api/v1/sellers`) and a **"Sell on MegaParts"** form
+  (`POST /api/v1/seller-applications`, listed for staff at `/admin/requests`).
+- The home page has a FAQ with schema.org `FAQPage`, `Organization` and `WebSite` data.
 
 ## Public demo (Render + Neon)
 

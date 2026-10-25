@@ -19,6 +19,17 @@
     <h1>Supplier management</h1>
     <p>Update contacts, verify sellers and upload XLSX offer lists. Unmatched rows remain in review.</p>
     <p>Price-list columns: <strong>supplier_sku</strong> (required), price, stock, warehouse, brand, reference, and the optional offer labels <strong>origin</strong> (original / OE / analog / budget), <strong>condition</strong> (new / used / rebuilt), <strong>warranty</strong> (months), <strong>returns</strong> (days) and <strong>lead time</strong> (days; 0 = in stock now). Uzbek and Russian headers work too (turi, holati, kafolat, qaytarish, muddat). Price lists older than 7 days are shown as possibly outdated and are hidden after 14 days.</p>
+    <section class="admin-panel">
+      <h2>Add a seller</h2>
+      <p>Then upload their price list on their card below. Any Excel layout works (.xlsx or .xls): the part names, part numbers, cars, brands, prices, warranty headings and "new arrival" / "sale" marks are read automatically, and new parts join the catalog.</p>
+      <form id="supplier-create" class="alias-form">
+        <label>Name<input name="name" required minlength="2" maxlength="200"></label>
+        <label>Phone<input name="phone" maxlength="50"></label>
+        <label>Telegram<input name="telegram" maxlength="100"></label>
+        <button>Add seller</button>
+      </form>
+      <p id="supplier-create-status" class="alias-status" role="status"></p>
+    </section>
     <section id="supplier-admin-list"></section>
     <h2>Import history</h2>
     <section id="supplier-import-list"></section>

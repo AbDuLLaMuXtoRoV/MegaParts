@@ -11,38 +11,38 @@ const ruPlural = (n, one, few, many) => {
 const STRINGS = {
   uz: {
     skipToContent: "Asosiy qismga o‘tish",
-    pageTitle: "MegaParts — avtomobil ehtiyot qismlari",
+    pageTitle: "MegaParts — zapchast qayerda bor: ehtiyot qismlar qidiruvi",
     tagline: "Ehtiyot qismlar katalogi",
-    heroEyebrow: "Chevrolet, Daewoo va boshqa mashinalar uchun",
+    heroEyebrow: "Do‘konlar, servislar va ustalar uchun",
     heroParts: (n) => `${n} ta detal`,
     heroModels: (n) => `${n} ta mashina modeli`,
     heroSections: (n) => `${n} ta bo‘lim`,
-    value1Title: "Mosligini tekshiramiz",
-    value1Text: "Har bir detalda mashinangizga mos kelishi yozilgan",
-    value2Title: "Narxlarni solishtiring",
-    value2Text: "Bir detal uchun turli sotuvchilar takliflari",
-    value3Title: "Oldindan to‘lovsiz",
-    value3Text: "Band qiling, to‘lovni olib ketayotganda qiling",
-    value4Title: "Sotuvchidan so‘rang",
-    value4Text: "Ishonchingiz komil bo‘lmasa, Telegram’da yozing",
+    value1Title: "Raqam bo‘yicha aniq",
+    value1Text: "Artikul, OEM yoki sotuvchi kodini yozing — PT43 va PT 43 bir xil",
+    value2Title: "Kimda bor — bir qidiruvda",
+    value2Text: "Bir nechta sotuvchining qoldig‘i, narxi va yangilangan vaqti",
+    value3Title: "Mosligi ko‘rsatilgan",
+    value3Text: "Mashina, oldi/orqa va chap/o‘ng aralashib ketmaydi",
+    value4Title: "Sotuvchi bilan to‘g‘ridan-to‘g‘ri",
+    value4Text: "Qo‘ng‘iroq, Telegram yoki band qilish — sizning shartlaringiz saqlanadi",
     popularCarsTitle: "Mashina bo‘yicha tanlash",
     popularCarsLead: "Mashinangizni bosing — faqat unga mos detallar qoladi.",
     howTitle: "Qanday ishlaydi",
-    how1Title: "Mashinangizni tanlang",
-    how1Text: "Marka va modelni tanlang, xohlasangiz VIN raqamini ham kiriting.",
-    how2Title: "Detalni toping",
-    how2Text: "Nomini yozing yoki bo‘limdan tanlang — mos kelishini darhol ko‘rasiz.",
-    how3Title: "Band qiling va olib keting",
-    how3Text: "Sotuvchi tasdiqlaydi, siz detalni olib ketasiz. Oldindan to‘lov yo‘q.",
-    footerAbout: "Sotuvchilarning avtomobil ehtiyot qismlari bitta katalogda: mos kelishini tekshiring, narxlarni solishtiring va band qiling.",
+    how1Title: "Raqam yoki nomni yozing",
+    how1Text: "Artikul, OEM raqam, detal nomi yoki mashina — qanday bilsangiz shunday.",
+    how2Title: "Kimda borligini ko‘ring",
+    how2Text: "Har bir sotuvchining qoldig‘i, narxi va ma’lumot qachon yangilangani.",
+    how3Title: "Sotuvchiga murojaat qiling",
+    how3Text: "Qo‘ng‘iroq qiling, Telegram’da yozing yoki band qiling. Oldindan to‘lov yo‘q.",
+    footerAbout: "O‘zbekistonda zapchast qayerda borligini toping: bir nechta sotuvchining takliflari bitta qidiruvda — artikul, OEM raqam, nom yoki mashina bo‘yicha.",
     footerCatalog: "Katalog",
     footerChooseCar: "Mashinani tanlash",
     footerForSellers: "Sotuvchilar uchun",
     footerStaffLogin: "Xodimlar kabineti",
     language: "Til",
     largerText: "Katta harf",
-    title: "Mashinangiz uchun kerakli detalni toping",
-    subtitle: "Mashinangizni tanlang, so‘ng detal nomini yozing yoki pastdagi bo‘limlardan tanlang.",
+    title: "Zapchast kimda borligini toping",
+    subtitle: "Odatdagi sotuvchingizda yo‘q detalni artikul, OEM raqam, nom yoki mashina bo‘yicha qidiring — bir nechta sotuvchining takliflari bir joyda.",
     stepCar: "Mashinangiz",
     make: "Marka",
     model: "Model",
@@ -56,10 +56,10 @@ const STRINGS = {
     carChosen: (car) => `Tanlandi: ${car}. Faqat shu mashinaga mos detallar ko‘rsatiladi.`,
     showAllForCar: (n) => `Mashinamga mos barcha detallar (${n})`,
     stepPart: "Qanday detal kerak?",
-    searchPlaceholder: "Masalan: kolodka, svecha yoki detal raqami",
+    searchPlaceholder: "Artikul, OEM raqam yoki nom: 96273708, kolodka…",
     searchButton: "Qidirish",
     examples: "Masalan:",
-    exampleQueries: ["svecha", "kolodka", "moy filtri", "Cobalt svecha"],
+    exampleQueries: ["96273708", "kolodka oldi nexia", "Cobalt svecha", "amortizator orqa"],
     sectionsTitle: "Yoki bo‘limni tanlang",
     sectionsLead: "Mashinaning qaysi qismi uchun detal kerak?",
     parts: (n) => `${n} ta detal`,
@@ -204,6 +204,7 @@ const STRINGS = {
     quantityShort: (n) => `${n} dona`,
     alternativesTitle: "Muqobil variantlar",
     sameNumber: (number) => `Xuddi shu raqam (${number}), boshqa brend`,
+    sameNumberVariant: (number) => `Xuddi shu raqam (${number}), boshqa variant`,
     sameType: "Shu mashina uchun boshqa variant",
     completeJobTitle: "Odatda birga almashtiriladi",
     offerCount: (n) => `${n} ta taklif`,
@@ -220,38 +221,38 @@ const STRINGS = {
   },
   ru: {
     skipToContent: "Перейти к содержанию",
-    pageTitle: "MegaParts — автозапчасти",
+    pageTitle: "MegaParts — где есть запчасть: поиск автозапчастей",
     tagline: "Каталог автозапчастей",
-    heroEyebrow: "Для Chevrolet, Daewoo и других машин",
+    heroEyebrow: "Для магазинов, сервисов и мастеров",
     heroParts: (n) => `${n} ${ruPlural(n, "деталь", "детали", "деталей")}`,
     heroModels: (n) => `${n} ${ruPlural(n, "модель", "модели", "моделей")} машин`,
     heroSections: (n) => `${n} ${ruPlural(n, "раздел", "раздела", "разделов")}`,
-    value1Title: "Проверяем совместимость",
-    value1Text: "У каждой детали указано, подходит ли она к вашей машине",
-    value2Title: "Сравнивайте цены",
-    value2Text: "Предложения разных продавцов на одну деталь",
-    value3Title: "Без предоплаты",
-    value3Text: "Бронируйте сейчас, платите при получении",
-    value4Title: "Спросите продавца",
-    value4Text: "Не уверены — напишите в Telegram",
+    value1Title: "Точно по номеру",
+    value1Text: "Артикул, OEM или код продавца — PT43 и PT 43 одно и то же",
+    value2Title: "У кого есть — в одном поиске",
+    value2Text: "Наличие, цена и время обновления у нескольких продавцов",
+    value3Title: "Применимость указана",
+    value3Text: "Машина, перед/зад и лево/право не перепутаются",
+    value4Title: "Напрямую с продавцом",
+    value4Text: "Звонок, Telegram или бронь — ваши условия с продавцом сохраняются",
     popularCarsTitle: "Выбор по машине",
     popularCarsLead: "Нажмите на свою машину — останутся только подходящие детали.",
     howTitle: "Как это работает",
-    how1Title: "Выберите машину",
-    how1Text: "Укажите марку и модель, при желании — VIN-номер.",
-    how2Title: "Найдите деталь",
-    how2Text: "Напишите название или выберите раздел — сразу видно, подходит ли она.",
-    how3Title: "Забронируйте и заберите",
-    how3Text: "Продавец подтверждает, вы забираете деталь. Без предоплаты.",
-    footerAbout: "Автозапчасти от продавцов в одном каталоге: проверьте совместимость, сравните цены и забронируйте.",
+    how1Title: "Введите номер или название",
+    how1Text: "Артикул, OEM-номер, название детали или машина — как вам удобнее.",
+    how2Title: "Посмотрите, у кого есть",
+    how2Text: "Наличие и цена у каждого продавца и когда данные обновлялись.",
+    how3Title: "Свяжитесь с продавцом",
+    how3Text: "Позвоните, напишите в Telegram или забронируйте. Без предоплаты.",
+    footerAbout: "Найдите, у кого есть запчасть в Узбекистане: предложения нескольких продавцов в одном поиске — по артикулу, OEM-номеру, названию или машине.",
     footerCatalog: "Каталог",
     footerChooseCar: "Выбрать машину",
     footerForSellers: "Для продавцов",
     footerStaffLogin: "Вход для сотрудников",
     language: "Язык",
     largerText: "Крупный шрифт",
-    title: "Найдите нужную запчасть для вашей машины",
-    subtitle: "Выберите машину, затем напишите название детали или выберите раздел ниже.",
+    title: "Найдите, у кого есть запчасть",
+    subtitle: "Ищите деталь, которой нет у вашего обычного поставщика, по артикулу, OEM-номеру, названию или машине — предложения нескольких продавцов в одном месте.",
     stepCar: "Ваша машина",
     make: "Марка",
     model: "Модель",
@@ -265,10 +266,10 @@ const STRINGS = {
     carChosen: (car) => `Показываем только детали, подходящие для ${car}.`,
     showAllForCar: (n) => `Все детали для моей машины (${n})`,
     stepPart: "Какая деталь нужна?",
-    searchPlaceholder: "Например: колодки, свеча или номер детали",
+    searchPlaceholder: "Артикул, OEM-номер или название: 96273708, колодки…",
     searchButton: "Найти",
     examples: "Например:",
-    exampleQueries: ["свеча", "колодки", "фильтр масляный", "Кобальт свеча"],
+    exampleQueries: ["96273708", "колодки передние нексия", "Кобальт свеча", "амортизатор задний"],
     sectionsTitle: "Или выберите раздел",
     sectionsLead: "Для какой части машины нужна деталь?",
     parts: (n) => `${n} ${ruPlural(n, "деталь", "детали", "деталей")}`,
@@ -413,6 +414,7 @@ const STRINGS = {
     quantityShort: (n) => `${n} шт.`,
     alternativesTitle: "Альтернативы",
     sameNumber: (number) => `Тот же номер (${number}), другой бренд`,
+    sameNumberVariant: (number) => `Тот же номер (${number}), другой вариант`,
     sameType: "Другой вариант для этой машины",
     completeJobTitle: "Обычно меняют вместе",
     offerCount: (n) => `${n} ${ruPlural(n, "предложение", "предложения", "предложений")}`,
@@ -429,38 +431,38 @@ const STRINGS = {
   },
   en: {
     skipToContent: "Skip to main content",
-    pageTitle: "MegaParts — car parts",
+    pageTitle: "MegaParts — where the part is in stock: car parts search",
     tagline: "Car parts catalog",
-    heroEyebrow: "For Chevrolet, Daewoo and other cars",
+    heroEyebrow: "For parts shops, garages and mechanics",
     heroParts: (n) => `${n} ${n === 1 ? "part" : "parts"}`,
     heroModels: (n) => `${n} car ${n === 1 ? "model" : "models"}`,
     heroSections: (n) => `${n} ${n === 1 ? "section" : "sections"}`,
-    value1Title: "Fit checked",
-    value1Text: "Every part says whether it fits your car",
-    value2Title: "Compare prices",
-    value2Text: "Offers from different sellers for one part",
-    value3Title: "No prepayment",
-    value3Text: "Reserve now, pay when you pick it up",
-    value4Title: "Ask the seller",
-    value4Text: "Not sure? Message them on Telegram",
+    value1Title: "Exact by number",
+    value1Text: "Part number, OEM or seller code — PT43 and PT 43 are the same",
+    value2Title: "Who has it — in one search",
+    value2Text: "Stock, price and last update from several sellers",
+    value3Title: "Fit shown",
+    value3Text: "Car, front/rear and left/right are never mixed up",
+    value4Title: "Straight to the seller",
+    value4Text: "Call, Telegram or reserve — your own terms with the seller stay",
     popularCarsTitle: "Shop by car",
     popularCarsLead: "Tap your car — only the parts that fit it will remain.",
     howTitle: "How it works",
-    how1Title: "Choose your car",
-    how1Text: "Pick the make and model, and add the VIN if you like.",
-    how2Title: "Find the part",
-    how2Text: "Type its name or pick a section — you see right away if it fits.",
-    how3Title: "Reserve and pick up",
-    how3Text: "The seller confirms and you collect the part. No prepayment.",
-    footerAbout: "Car parts from sellers in one catalog: check the fit, compare prices and reserve.",
+    how1Title: "Type a number or a name",
+    how1Text: "Part number, OEM number, part name or car — whatever you know.",
+    how2Title: "See who has it",
+    how2Text: "Each seller’s stock and price, and when the data was last updated.",
+    how3Title: "Contact the seller",
+    how3Text: "Call, message on Telegram or reserve. No prepayment.",
+    footerAbout: "Find who has the part in Uzbekistan: offers from several sellers in one search — by part number, OEM number, name or car.",
     footerCatalog: "Catalog",
     footerChooseCar: "Choose your car",
     footerForSellers: "For sellers",
     footerStaffLogin: "Staff sign-in",
     language: "Language",
     largerText: "Larger text",
-    title: "Find the right part for your car",
-    subtitle: "Choose your car, then type the part name or pick a section below.",
+    title: "Find who has the part",
+    subtitle: "Search for the part your usual supplier doesn’t have — by part number, OEM number, name or car. Offers from several sellers in one place.",
     stepCar: "Your car",
     make: "Make",
     model: "Model",
@@ -474,10 +476,10 @@ const STRINGS = {
     carChosen: (car) => `Showing only parts that fit ${car}.`,
     showAllForCar: (n) => `All parts for my car (${n})`,
     stepPart: "What part do you need?",
-    searchPlaceholder: "For example: brake pads, spark plug or part number",
+    searchPlaceholder: "Part number, OEM number or name: 96273708, brake pads…",
     searchButton: "Search",
     examples: "Try:",
-    exampleQueries: ["spark plug", "brake pads", "oil filter", "fuel pump"],
+    exampleQueries: ["96273708", "front brake pads nexia", "Cobalt spark plug", "rear shock absorber"],
     sectionsTitle: "Or choose a section",
     sectionsLead: "Which part of the car needs a part?",
     parts: (n) => `${n} ${n === 1 ? "part" : "parts"}`,
@@ -622,6 +624,7 @@ const STRINGS = {
     quantityShort: (n) => `Qty ${n}`,
     alternativesTitle: "Alternatives",
     sameNumber: (number) => `Same number (${number}), other brand`,
+    sameNumberVariant: (number) => `Same number (${number}), another variant`,
     sameType: "Another option for this car",
     completeJobTitle: "Usually replaced together",
     offerCount: (n) => `${n} ${n === 1 ? "offer" : "offers"}`,
@@ -637,6 +640,425 @@ const STRINGS = {
     requestOpen: "Part not listed? Send a request",
   },
 };
+
+// Basket, repair lists, quality grades, sellers and "sell on MegaParts".
+Object.assign(STRINGS.uz, {
+  basket: "Savat",
+  addToBasket: "Savatga qo‘shish",
+  inBasket: "Savatda ✓",
+  basketTitle: "Savatingiz",
+  basketLead: "Bir nechta sotuvchidan detallarni bir martada band qiling. Har bir sotuvchi o‘z qismini oladi, to‘lov olib ketayotganda.",
+  basketEmpty: "Savat bo‘sh. Detal sahifasida “Savatga qo‘shish” tugmasini bosing yoki tayyor ta’mir ro‘yxatidan foydalaning.",
+  basketSeller: (name) => `Sotuvchi: ${name}`,
+  basketRemove: "Olib tashlash",
+  basketQty: "Soni",
+  basketTotal: "Jami",
+  basketTotalNote: "Narxi ko‘rsatilmagan detallar narxini sotuvchi aytadi.",
+  basketReserveAll: (n) => `Hammasini band qilish (${n})`,
+  basketSent: "Band qilindi! Har bir sotuvchiga yozib qo‘ying — buyurtma raqamlari xabarda bo‘ladi.",
+  basketGone: "Bu taklif endi mavjud emas",
+  basketShare: "Ro‘yxatni ulashish",
+  basketShareTelegram: "Telegram’da yuborish",
+  basketCopy: "Havolani nusxalash",
+  basketCopied: "Havola nusxalandi",
+  basketShareText: (n) => `MegaParts: ${n} ta detal ro‘yxati`,
+  basketClear: "Savatni tozalash",
+  basketInLabel: "✓ Savatda",
+  basketOpen: "Savatni ochish",
+  basketRemoveFull: "Savatdan olib tashlash",
+  basketRemoved: (name) => `“${name}” savatdan olib tashlandi.`,
+  basketCleared: "Savat tozalandi.",
+  undo: "Qaytarish",
+  qtyLess: "Kamaytirish",
+  qtyMore: "Ko‘paytirish",
+  cancelReservation: "Bekor qilish",
+  cancelConfirm: "Bu buyurtma bekor qilinsinmi?",
+  cancelAllConfirm: "Savatdagi barcha buyurtmalar bekor qilinsinmi?",
+  cancelYes: "Ha, bekor qilish",
+  cancelNo: "Yo‘q",
+  cancelAll: (n) => `Hammasini bekor qilish (${n})`,
+  cancelled: "Bekor qilindi. Sotuvchiga ham xabar bering.",
+  cancelError: "Bekor qilib bo‘lmadi. Sahifani yangilab, qayta urinib ko‘ring.",
+  tellSeller: "Sotuvchiga xabar berish",
+  tgCancel: (ids) => `Assalomu alaykum! MegaParts orqali qilingan buyurtma ${ids} bekor qilindi. Uzr.`,
+  partNumber: "Raqam",
+  refTypeOE: "OEM (zavod raqami)",
+  refTypeOES: "Zavod yetkazuvchisi",
+  refTypeAFTERMARKET: "Ishlab chiqaruvchi artikuli",
+  refTypeSUPPLIER_SKU: "Sotuvchi kodi",
+  refTypeEAN: "Shtrix-kod (EAN)",
+  viewCards: "Kartochkalar",
+  viewTable: "Jadval",
+  colNumber: "Raqam",
+  colPart: "Detal",
+  colFit: "Mosligi",
+  colSellers: "Sotuvchilar",
+  colPrice: "Narx",
+  colStock: "Qoldiq",
+  attr_repair_size: "Ta’mir o‘lchami",
+  attr_placement: "Tashqi / ichki",
+  attr_transmission: "Uzatmalar qutisi",
+  attr_engine_type: "Dvigatel",
+  attr_spec_code: "O‘lcham / kod",
+  val_OUTER: "Tashqi",
+  val_INNER: "Ichki",
+  val_AT: "Avtomat (AKPP)",
+  val_MT: "Mexanika (MKPP)",
+  steps: ["Yuborildi", "Tasdiqlandi", "Tayyor", "Olindi"],
+  basketGroup: (n) => `Savatdan ${n} ta detal`,
+  basketButton: (n) => (n ? `Savat (${n})` : "Savat"),
+  sharedListTitle: "Sizga yuborilgan detallar ro‘yxati",
+  sharedListAdd: "Hammasini savatimga qo‘shish",
+  tgBasket: (lines, carText, vin) => `Assalomu alaykum! MegaParts orqali band qildim:\n${lines}\nMashina: ${carText}\nVIN: ${vin}\nTayyor bo‘lganda xabar bering.`,
+  promoNEW_ARRIVAL: "Yangi keldi",
+  promoDISCOUNT: (p) => (p ? `Aksiya −${p}%` : "Aksiya"),
+  promoPRICE_DROP: "Narxi tushdi",
+  promoNEW_PRICE: "Yangi narx",
+  warrantyKm: (months, km) => `Kafolat: ${[months ? `${months} oy` : null, km ? `${formatNumber(km)} km` : null].filter(Boolean).join(" yoki ")}`,
+  listDate: (date) => `Sotuvchi ro‘yxati: ${date}`,
+  favSeller: "☆ Sevimli sotuvchi qilish",
+  favSellerOn: "★ Sevimli sotuvchingiz",
+  qualityORIGINAL: "Original (GM)",
+  qualityKOREA: "Koreya / zavod sifati",
+  qualityCHINA: "Xitoy",
+  qualityBUDGET: "Arzon variant",
+  qualityOTHER: "Boshqa",
+  qualityTitle: "Sifat bo‘yicha tanlang",
+  qualityLead: "Bir xil detal raqami — turli sifat va narx.",
+  tierBest: "Eng ishonchli",
+  tierBetter: "Narx va sifat",
+  tierGood: "Tejamkor",
+  thisPart: "Shu detal",
+  filterQuality: "Sifat",
+  filterBrand: "Brend",
+  sortLabel: "Tartib",
+  sortRelevance: "Mosligi bo‘yicha",
+  sortPrice: "Avval arzonlari",
+  jobsTitle: "Tayyor ta’mir ro‘yxatlari",
+  jobsLead: "Ta’mirni tanlang — kerakli detallarni mashinangiz uchun bir joyda ko‘rsatamiz.",
+  jobSteps: (n) => `${n} ta detal`,
+  jobChooseCar: "Avval mashinangizni tanlang — ro‘yxat unga moslanadi.",
+  jobAddAll: (n) => `Hammasini savatga (${n})`,
+  jobNone: "Hozircha sotuvda yo‘q",
+  jobMore: (n) => `Boshqa variantlar (${n})`,
+  jobForCar: (carText) => `${carText} uchun`,
+  jobAdded: "Savatga qo‘shildi",
+  sellersTitle: "Sotuvchilar",
+  sellersLead: "MegaParts’dagi sotuvchilar, ularning kontaktlari va sotadigan brendlari.",
+  sellerParts: (n) => `${formatNumber(n)} ta detal`,
+  sellerPriced: (n) => `${formatNumber(n)} tasi narx bilan`,
+  sellerOpen: "Sotuvchi sahifasi",
+  sellerLastList: (date) => `Oxirgi ro‘yxat: ${date}`,
+  sellTitle: "MegaParts’da soting",
+  sellLead: "Ehtiyot qismlar do‘koningiz bormi? Ariza qoldiring — narxlar ro‘yxatingizni (Excel) qabul qilib, 24 soat ichida joylaymiz. Joylash bepul.",
+  sellPoints: [
+    "Xaridorlar detallaringizni mashinasi bo‘yicha topadi",
+    "Buyurtmalar telefon va Telegram orqali keladi, oldindan to‘lovsiz",
+    "Excel ro‘yxatingiz istalgan ko‘rinishda bo‘lishi mumkin — o‘zimiz tartiblaymiz",
+  ],
+  sellBusiness: "Do‘kon nomi",
+  sellContact: "Ismingiz",
+  sellPhone: "Telefon",
+  sellTelegram: "Telegram (ixtiyoriy)",
+  sellCity: "Shahar",
+  sellAddress: "Manzil (bozor, rasta)",
+  sellCars: "Qaysi mashinalar uchun detal sotasiz?",
+  sellNote: "Izoh (ixtiyoriy)",
+  sellSend: "Ariza yuborish",
+  sellSent: "Rahmat! Tez orada siz bilan bog‘lanamiz.",
+  sellBannerTitle: "Siz sotuvchimisiz?",
+  sellBannerText: "Detallaringizni MegaParts’ga bepul joylang — xaridorlar sizni mashinasi bo‘yicha topadi.",
+  sellBannerButton: "Batafsil",
+  footerSell: "MegaParts’da sotish",
+  footerSellers: "Barcha sotuvchilar",
+  footerJobs: "Tayyor ta’mir ro‘yxatlari",
+  faqTitle: "Ko‘p so‘raladigan savollar",
+  faq: [
+    ["To‘lovni qachon qilaman?", "Oldindan to‘lov yo‘q. Detalni band qilasiz, sotuvchi tasdiqlaydi, to‘lovni detalni olayotganda sotuvchiga qilasiz."],
+    ["Detal mashinamga to‘g‘ri kelishini qanday bilaman?", "Mashinangizni tanlang — har bir detalda “Mos keladi” yoki “Tekshiring” belgisi chiqadi. Ikkilansangiz, “Telegram’da so‘rash” tugmasi bilan sotuvchiga mashina va VIN raqamini yuboring."],
+    ["Bir nechta sotuvchidan bir martada olsam bo‘ladimi?", "Ha. Detallarni savatga qo‘shing va “Hammasini band qilish”ni bosing — har bir sotuvchi o‘z qismini oladi."],
+    ["“Original”, “Koreya” va “Xitoy” nimani anglatadi?", "Original — avtozavodning o‘z detali (GM). Koreya / zavod sifati — Koreyada yoki zavod yetkazuvchisi ishlab chiqargan. Xitoy — arzonroq analog. Bir xil raqamdagi detallarni detal sahifasida solishtirasiz."],
+    ["Kerakli detal topilmasa-chi?", "Qidiruv natijasi ostidagi so‘rovni to‘ldiring — sotuvchilar topib, siz bilan bog‘lanishadi."],
+  ],
+});
+Object.assign(STRINGS.ru, {
+  basket: "Корзина",
+  addToBasket: "В корзину",
+  inBasket: "В корзине ✓",
+  basketTitle: "Ваша корзина",
+  basketLead: "Забронируйте детали у нескольких продавцов за один раз. Каждый продавец получает свою часть, оплата при получении.",
+  basketEmpty: "Корзина пуста. Нажмите «В корзину» на странице детали или воспользуйтесь готовым списком для ремонта.",
+  basketSeller: (name) => `Продавец: ${name}`,
+  basketRemove: "Убрать",
+  basketQty: "Кол-во",
+  basketTotal: "Итого",
+  basketTotalNote: "Цену деталей без цены сообщит продавец.",
+  basketReserveAll: (n) => `Забронировать всё (${n})`,
+  basketSent: "Забронировано! Напишите каждому продавцу — номера заказов уже в сообщении.",
+  basketGone: "Это предложение больше недоступно",
+  basketShare: "Поделиться списком",
+  basketShareTelegram: "Отправить в Telegram",
+  basketCopy: "Скопировать ссылку",
+  basketCopied: "Ссылка скопирована",
+  basketShareText: (n) => `MegaParts: список из ${n} ${ruPlural(n, "детали", "деталей", "деталей")}`,
+  basketClear: "Очистить корзину",
+  basketInLabel: "✓ В корзине",
+  basketOpen: "Открыть корзину",
+  basketRemoveFull: "Убрать из корзины",
+  basketRemoved: (name) => `«${name}» убрана из корзины.`,
+  basketCleared: "Корзина очищена.",
+  undo: "Вернуть",
+  qtyLess: "Меньше",
+  qtyMore: "Больше",
+  cancelReservation: "Отменить",
+  cancelConfirm: "Отменить этот заказ?",
+  cancelAllConfirm: "Отменить все заказы из этой корзины?",
+  cancelYes: "Да, отменить",
+  cancelNo: "Нет",
+  cancelAll: (n) => `Отменить все (${n})`,
+  cancelled: "Отменено. Сообщите и продавцу.",
+  cancelError: "Не удалось отменить. Обновите страницу и попробуйте снова.",
+  tellSeller: "Сообщить продавцу",
+  tgCancel: (ids) => `Здравствуйте! Заказ ${ids}, сделанный через MegaParts, отменён. Извините.`,
+  partNumber: "Номер",
+  refTypeOE: "OEM (номер завода)",
+  refTypeOES: "Поставщик завода",
+  refTypeAFTERMARKET: "Артикул производителя",
+  refTypeSUPPLIER_SKU: "Код продавца",
+  refTypeEAN: "Штрихкод (EAN)",
+  viewCards: "Карточки",
+  viewTable: "Таблица",
+  colNumber: "Номер",
+  colPart: "Деталь",
+  colFit: "Применимость",
+  colSellers: "Продавцы",
+  colPrice: "Цена",
+  colStock: "Наличие",
+  attr_repair_size: "Ремонтный размер",
+  attr_placement: "Наружный / внутренний",
+  attr_transmission: "Коробка передач",
+  attr_engine_type: "Двигатель",
+  attr_spec_code: "Размер / код",
+  val_OUTER: "Наружный",
+  val_INNER: "Внутренний",
+  val_AT: "Автомат (АКПП)",
+  val_MT: "Механика (МКПП)",
+  steps: ["Отправлено", "Подтверждено", "Готово", "Получено"],
+  basketGroup: (n) => `Из корзины: ${n} ${ruPlural(n, "деталь", "детали", "деталей")}`,
+  basketButton: (n) => (n ? `Корзина (${n})` : "Корзина"),
+  sharedListTitle: "Список деталей, которым с вами поделились",
+  sharedListAdd: "Добавить всё в мою корзину",
+  tgBasket: (lines, carText, vin) => `Здравствуйте! Забронировал через MegaParts:\n${lines}\nАвтомобиль: ${carText}\nVIN: ${vin}\nНапишите, когда будет готово.`,
+  promoNEW_ARRIVAL: "Новое поступление",
+  promoDISCOUNT: (p) => (p ? `Скидка −${p}%` : "Акция"),
+  promoPRICE_DROP: "Цена снижена",
+  promoNEW_PRICE: "Новая цена",
+  warrantyKm: (months, km) => `Гарантия: ${[months ? `${months} мес.` : null, km ? `${formatNumber(km)} км` : null].filter(Boolean).join(" или ")}`,
+  listDate: (date) => `Прайс продавца от ${date}`,
+  favSeller: "☆ В любимые продавцы",
+  favSellerOn: "★ Ваш любимый продавец",
+  qualityORIGINAL: "Оригинал (GM)",
+  qualityKOREA: "Корея / заводское качество",
+  qualityCHINA: "Китай",
+  qualityBUDGET: "Эконом",
+  qualityOTHER: "Другое",
+  qualityTitle: "Выберите по качеству",
+  qualityLead: "Один номер детали — разное качество и цена.",
+  tierBest: "Самое надёжное",
+  tierBetter: "Цена и качество",
+  tierGood: "Экономно",
+  thisPart: "Эта деталь",
+  filterQuality: "Качество",
+  filterBrand: "Бренд",
+  sortLabel: "Сортировка",
+  sortRelevance: "По соответствию",
+  sortPrice: "Сначала дешёвые",
+  jobsTitle: "Готовые списки для ремонта",
+  jobsLead: "Выберите ремонт — покажем все нужные детали для вашей машины в одном месте.",
+  jobSteps: (n) => `${n} ${ruPlural(n, "деталь", "детали", "деталей")}`,
+  jobChooseCar: "Сначала выберите машину — список подстроится под неё.",
+  jobAddAll: (n) => `Всё в корзину (${n})`,
+  jobNone: "Пока нет в продаже",
+  jobMore: (n) => `Другие варианты (${n})`,
+  jobForCar: (carText) => `Для ${carText}`,
+  jobAdded: "Добавлено в корзину",
+  sellersTitle: "Продавцы",
+  sellersLead: "Продавцы на MegaParts, их контакты и бренды, которые они продают.",
+  sellerParts: (n) => `${formatNumber(n)} ${ruPlural(n, "деталь", "детали", "деталей")}`,
+  sellerPriced: (n) => `из них ${formatNumber(n)} с ценой`,
+  sellerOpen: "Страница продавца",
+  sellerLastList: (date) => `Последний прайс: ${date}`,
+  sellTitle: "Продавайте на MegaParts",
+  sellLead: "У вас магазин запчастей? Оставьте заявку — примем ваш прайс (Excel) и разместим за 24 часа. Размещение бесплатное.",
+  sellPoints: [
+    "Покупатели находят ваши детали по своей машине",
+    "Заказы приходят по телефону и в Telegram, без предоплаты",
+    "Прайс в Excel может быть в любом виде — мы сами его разберём",
+  ],
+  sellBusiness: "Название магазина",
+  sellContact: "Ваше имя",
+  sellPhone: "Телефон",
+  sellTelegram: "Telegram (необязательно)",
+  sellCity: "Город",
+  sellAddress: "Адрес (рынок, ряд)",
+  sellCars: "Для каких машин продаёте детали?",
+  sellNote: "Комментарий (необязательно)",
+  sellSend: "Отправить заявку",
+  sellSent: "Спасибо! Мы скоро свяжемся с вами.",
+  sellBannerTitle: "Вы продавец?",
+  sellBannerText: "Разместите свои детали на MegaParts бесплатно — покупатели найдут вас по своей машине.",
+  sellBannerButton: "Подробнее",
+  footerSell: "Продавать на MegaParts",
+  footerSellers: "Все продавцы",
+  footerJobs: "Готовые списки для ремонта",
+  faqTitle: "Частые вопросы",
+  faq: [
+    ["Когда платить?", "Предоплаты нет. Вы бронируете деталь, продавец подтверждает, а оплачиваете вы продавцу при получении."],
+    ["Как узнать, подходит ли деталь к моей машине?", "Выберите машину — на каждой детали появится отметка «Подходит» или «Проверьте». Если сомневаетесь, кнопкой «Спросить в Telegram» отправьте продавцу машину и VIN."],
+    ["Можно купить у нескольких продавцов сразу?", "Да. Добавьте детали в корзину и нажмите «Забронировать всё» — каждый продавец получит свою часть."],
+    ["Что значит «Оригинал», «Корея» и «Китай»?", "Оригинал — деталь автозавода (GM). Корея / заводское качество — сделано в Корее или поставщиком завода. Китай — более дешёвый аналог. Детали с одним номером сравниваются на странице детали."],
+    ["А если нужной детали нет?", "Заполните запрос под результатами поиска — продавцы найдут деталь и свяжутся с вами."],
+  ],
+});
+Object.assign(STRINGS.en, {
+  basket: "Basket",
+  addToBasket: "Add to basket",
+  inBasket: "In basket ✓",
+  basketTitle: "Your basket",
+  basketLead: "Reserve parts from several sellers in one go. Each seller gets their own part of the order; you pay on collection.",
+  basketEmpty: "Your basket is empty. Press “Add to basket” on a part page, or use a ready repair list.",
+  basketSeller: (name) => `Seller: ${name}`,
+  basketRemove: "Remove",
+  basketQty: "Qty",
+  basketTotal: "Total",
+  basketTotalNote: "The seller will tell you the price of parts listed without one.",
+  basketReserveAll: (n) => `Reserve all (${n})`,
+  basketSent: "Reserved! Message each seller — the reservation numbers are already in the message.",
+  basketGone: "This offer is no longer available",
+  basketShare: "Share this list",
+  basketShareTelegram: "Send in Telegram",
+  basketCopy: "Copy link",
+  basketCopied: "Link copied",
+  basketShareText: (n) => `MegaParts: a list of ${n} parts`,
+  basketClear: "Empty the basket",
+  basketInLabel: "✓ In basket",
+  basketOpen: "Open basket",
+  basketRemoveFull: "Remove from basket",
+  basketRemoved: (name) => `“${name}” removed from the basket.`,
+  basketCleared: "The basket is empty now.",
+  undo: "Undo",
+  qtyLess: "Fewer",
+  qtyMore: "More",
+  cancelReservation: "Cancel",
+  cancelConfirm: "Cancel this reservation?",
+  cancelAllConfirm: "Cancel every reservation from this basket?",
+  cancelYes: "Yes, cancel",
+  cancelNo: "No",
+  cancelAll: (n) => `Cancel all (${n})`,
+  cancelled: "Cancelled. Please let the seller know too.",
+  cancelError: "Could not cancel. Reload the page and try again.",
+  tellSeller: "Tell the seller",
+  tgCancel: (ids) => `Hello! Reservation ${ids} made through MegaParts is cancelled. Sorry.`,
+  partNumber: "No.",
+  refTypeOE: "OEM (carmaker number)",
+  refTypeOES: "Factory supplier",
+  refTypeAFTERMARKET: "Maker’s article",
+  refTypeSUPPLIER_SKU: "Seller code",
+  refTypeEAN: "Barcode (EAN)",
+  viewCards: "Cards",
+  viewTable: "Table",
+  colNumber: "Number",
+  colPart: "Part",
+  colFit: "Fit",
+  colSellers: "Sellers",
+  colPrice: "Price",
+  colStock: "Stock",
+  attr_repair_size: "Repair size",
+  attr_placement: "Outer / inner",
+  attr_transmission: "Gearbox",
+  attr_engine_type: "Engine",
+  attr_spec_code: "Size / code",
+  val_OUTER: "Outer",
+  val_INNER: "Inner",
+  val_AT: "Automatic",
+  val_MT: "Manual",
+  steps: ["Sent", "Confirmed", "Ready", "Collected"],
+  basketGroup: (n) => `From one basket: ${n} parts`,
+  basketButton: (n) => (n ? `Basket (${n})` : "Basket"),
+  sharedListTitle: "A parts list shared with you",
+  sharedListAdd: "Add all to my basket",
+  tgBasket: (lines, carText, vin) => `Hello! I reserved these through MegaParts:\n${lines}\nCar: ${carText}\nVIN: ${vin}\nPlease let me know when they are ready.`,
+  promoNEW_ARRIVAL: "New arrival",
+  promoDISCOUNT: (p) => (p ? `Sale −${p}%` : "On sale"),
+  promoPRICE_DROP: "Price dropped",
+  promoNEW_PRICE: "New price",
+  warrantyKm: (months, km) => `Warranty: ${[months ? `${months} months` : null, km ? `${formatNumber(km)} km` : null].filter(Boolean).join(" or ")}`,
+  listDate: (date) => `Seller’s list of ${date}`,
+  favSeller: "☆ Make favourite seller",
+  favSellerOn: "★ Your favourite seller",
+  qualityORIGINAL: "Original (GM)",
+  qualityKOREA: "Korea / factory quality",
+  qualityCHINA: "China",
+  qualityBUDGET: "Budget",
+  qualityOTHER: "Other",
+  qualityTitle: "Choose by quality",
+  qualityLead: "One part number — different quality and price.",
+  tierBest: "Most reliable",
+  tierBetter: "Value for money",
+  tierGood: "Budget",
+  thisPart: "This part",
+  filterQuality: "Quality",
+  filterBrand: "Brand",
+  sortLabel: "Sort",
+  sortRelevance: "Best match",
+  sortPrice: "Cheapest first",
+  jobsTitle: "Ready repair lists",
+  jobsLead: "Pick a repair — we show every part it needs for your car in one place.",
+  jobSteps: (n) => `${n} parts`,
+  jobChooseCar: "Choose your car first — the list adapts to it.",
+  jobAddAll: (n) => `Add all to basket (${n})`,
+  jobNone: "Not on sale yet",
+  jobMore: (n) => `Other options (${n})`,
+  jobForCar: (carText) => `For ${carText}`,
+  jobAdded: "Added to basket",
+  sellersTitle: "Sellers",
+  sellersLead: "The sellers on MegaParts, how to reach them and the brands they sell.",
+  sellerParts: (n) => `${formatNumber(n)} parts`,
+  sellerPriced: (n) => `${formatNumber(n)} with prices`,
+  sellerOpen: "Seller page",
+  sellerLastList: (date) => `Latest list: ${date}`,
+  sellTitle: "Sell on MegaParts",
+  sellLead: "Run a parts shop? Send an application — we take your Excel price list and put it online within 24 hours. Listing is free.",
+  sellPoints: [
+    "Buyers find your parts by their car",
+    "Orders come by phone and Telegram, with no prepayment",
+    "Your Excel list can be in any layout — we sort it out",
+  ],
+  sellBusiness: "Shop name",
+  sellContact: "Your name",
+  sellPhone: "Phone",
+  sellTelegram: "Telegram (optional)",
+  sellCity: "City",
+  sellAddress: "Address (market, row)",
+  sellCars: "Which cars do you sell parts for?",
+  sellNote: "Note (optional)",
+  sellSend: "Send application",
+  sellSent: "Thank you! We will contact you soon.",
+  sellBannerTitle: "Are you a seller?",
+  sellBannerText: "List your parts on MegaParts for free — buyers find you by their car.",
+  sellBannerButton: "Learn more",
+  footerSell: "Sell on MegaParts",
+  footerSellers: "All sellers",
+  footerJobs: "Ready repair lists",
+  faqTitle: "Frequently asked questions",
+  faq: [
+    ["When do I pay?", "There is no prepayment. You reserve the part, the seller confirms, and you pay the seller when you collect it."],
+    ["How do I know a part fits my car?", "Choose your car — every part shows “Fits” or “Check”. If unsure, press “Ask in Telegram” to send the seller your car and VIN."],
+    ["Can I buy from several sellers at once?", "Yes. Add the parts to the basket and press “Reserve all” — each seller gets their own part of the order."],
+    ["What do “Original”, “Korea” and “China” mean?", "Original is the carmaker’s own part (GM). Korea / factory quality is made in Korea or by the factory’s supplier. China is a cheaper equivalent. Parts with the same number are compared on the part page."],
+    ["What if the part I need is not listed?", "Fill in the request under the search results — sellers will find it and contact you."],
+  ],
+});
 
 const storage = {
   get(key) { try { return localStorage.getItem(key); } catch { return null; } },
@@ -704,11 +1126,17 @@ const quickCars = $("#quick-cars");
 const vinRow = $("#vin-row");
 const vinInput = $("#car-vin");
 const vinStatus = $("#vin-status");
+const basketView = $("#basket-view");
+const jobView = $("#job-view");
+const sellersView = $("#sellers-view");
+const sellView = $("#sell-view");
+const shopFilters = $("#shop-filters");
 
 const PAGE_SIZE = 100;
 // Reservations in 90 days before a part is marked "often reserved".
 const POPULAR_AFTER = 3;
-const state = { query: "", category: "", all: false, spellcheck: true };
+// brand, quality and sort narrow a search or a section; they reset with a new search.
+const state = { query: "", category: "", all: false, spellcheck: true, brand: "", quality: "", sort: "" };
 let lastResponse = null;
 let lastResponseUrl = "";
 let lastDetail = null;
@@ -775,6 +1203,9 @@ function el(tag, attributes = {}, children = []) {
   return node;
 }
 
+// replaceChildren() would print a skipped (null) child as the text "null".
+const fill = (node, ...children) => node.replaceChildren(...children.filter((child) => child !== null && child !== undefined && child !== false));
+
 const postJson = (url, payload) => fetch(url, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
@@ -790,7 +1221,13 @@ const scrollToContent = () => {
 };
 
 const formatNumber = (value) => new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(Number(value));
-const formatPrice = (value, currency) => `${formatNumber(value)} ${!currency || currency === "UZS" ? t("som") : currency}`;
+// So'm are whole; a list priced in dollars keeps its cents ("2,47 $").
+const formatPrice = (value, currency) => {
+  if (!currency || currency === "UZS") return `${formatNumber(value)} ${t("som")}`;
+  const amount = new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(value));
+  return currency === "USD" ? `${amount} $` : `${amount} ${currency}`;
+};
+const formatDate = (value) => new Date(value).toLocaleDateString(lang === "en" ? "en-GB" : "ru-RU");
 
 const ICONS = {
   "CAT-ENG": '<path d="M4 10v5M4 12.5h2M6 9h3V7h5v2h2l2 2h2v5h-2l-2 2H9l-3-2z"/><path d="M9 5h5"/>',
@@ -863,6 +1300,7 @@ function renderGroups() {
   }));
   renderHeroStats();
   renderPopularCars();
+  renderJobCards();
 }
 
 // The catalog's real size, counted from what is loaded.
@@ -1048,6 +1486,7 @@ async function setCar(next, { refining = false } = {}) {
   renderCarHint();
   renderGroups();
   if (!detailView.hidden && lastDetail) renderDetail();
+  else if (!jobView.hidden && currentJobId) showJob(currentJobId, false);
   else if (!resultsView.hidden || !loading.hidden) navigate({ ...state, push: false });
 }
 
@@ -1065,7 +1504,8 @@ const showOnly = (element) => {
   if (element !== detailView) document.title = t("pageTitle");
   // The full welcome area is for the home page; other views get a compact top.
   document.body.classList.toggle("view-home", element === browseView);
-  [browseView, loading, errorBox, resultsView, detailView, reservationsView].forEach((node) => { node.hidden = node !== element; });
+  [browseView, loading, errorBox, resultsView, detailView, reservationsView, basketView, jobView, sellersView, sellView]
+    .forEach((node) => { node.hidden = node !== element; });
 };
 
 // A part lives at /part/{id}, the address search engines index; the search stays in ?q=.
@@ -1074,21 +1514,25 @@ const urlFor = (product) => {
   if (state.query) params.set("q", state.query);
   if (state.category) params.set("cat", state.category);
   if (state.all && !state.query && !state.category) params.set("all", "1");
+  if (state.brand) params.set("brand", state.brand);
+  if (state.quality) params.set("quality", state.quality);
+  if (state.sort) params.set("sort", state.sort);
   const search = params.toString();
   const path = product ? `/part/${encodeURIComponent(product)}` : "/";
   return search ? `${path}?${search}` : path;
 };
 
 function showHome(push = true) {
-  Object.assign(state, { query: "", category: "", all: false, spellcheck: true });
+  Object.assign(state, { query: "", category: "", all: false, spellcheck: true, brand: "", quality: "", sort: "" });
   input.value = "";
   if (push) history.pushState(null, "", "/");
   renderGroups();
+  renderJobCards();
   showOnly(browseView);
 }
 
-function navigate({ query = state.query, category = state.category, all = false, spellcheck = true, push = true } = {}) {
-  Object.assign(state, { query: query.trim(), category, all, spellcheck });
+function navigate({ query = state.query, category = state.category, all = false, spellcheck = true, push = true, brand = "", quality = "", sort = state.sort } = {}) {
+  Object.assign(state, { query: query.trim(), category, all, spellcheck, brand: String(brand || ""), quality, sort });
   if (!state.query && !state.category && !(state.all && hasCar())) {
     showHome(push);
     return;
@@ -1106,6 +1550,9 @@ async function runSearch({ push = true } = {}) {
   const params = new URLSearchParams({ q: state.query, limit: String(PAGE_SIZE), session_id: pilotSessionId });
   carParams(params);
   if (state.category) params.set("category", state.category);
+  if (state.brand) params.set("brand", state.brand);
+  if (state.quality) params.set("quality", state.quality);
+  if (state.sort) params.set("sort", state.sort);
   if (!state.spellcheck) params.set("spellcheck", "false");
   try {
     const response = await fetch(`/api/v1/search?${params}`);
@@ -1245,11 +1692,22 @@ function renderResults() {
   renderBreadcrumbs();
   renderActiveFilters();
   renderTypeFilter();
+  renderShopFilters();
   renderSpelling();
 
   results.replaceChildren();
+  renderLayoutToggle();
+  const table = resultsLayout === "table" && data.items.length;
+  results.classList.toggle("is-table", Boolean(table));
+  if (table) {
+    // Similar (RELATED) parts stay below the matches, under their own heading.
+    const main = data.items.filter((item) => item.result_group !== "RELATED" || !data.query);
+    const related = data.items.filter((item) => item.result_group === "RELATED" && data.query);
+    if (main.length) results.append(resultsTable(main));
+    if (related.length) results.append(el("h3", { class: "related-heading", text: t("related") }), resultsTable(related));
+  }
   let relatedShown = false;
-  data.items.forEach((item) => {
+  (table ? [] : data.items).forEach((item) => {
     if (item.result_group === "RELATED" && data.query && !relatedShown) {
       results.append(el("h3", { class: "related-heading", text: t("related") }));
       relatedShown = true;
@@ -1333,18 +1791,72 @@ function verdictNode(verdict, compact = false) {
   ]);
 }
 
+// The number professionals search by: the carmaker's (OEM) first, then the part maker's;
+// a seller's own code only when there is nothing else.
+const NUMBER_ORDER = ["OE", "OES", "AFTERMARKET", "EAN", "SUPPLIER_SKU"];
+const sortedNumbers = (item) => [...(item.reference_numbers || [])]
+  .sort((a, b) => NUMBER_ORDER.indexOf(a.type) - NUMBER_ORDER.indexOf(b.type));
+const mainNumber = (item) => sortedNumbers(item)[0]?.number || null;
+
+async function openFromResults(item) {
+  currentProductId = item.id;
+  if (currentEventId) {
+    try { await postJson(`/api/search-events/${currentEventId}/click`, { product_id: item.id }); } catch { /* analytics only */ }
+  }
+  openProduct(item.id);
+}
+
+// Shops and mechanics compare many parts at once: number, part, brand, fit, sellers, stock, price.
+let resultsLayout = storage.get("megaparts_results_layout") === "table" ? "table" : "cards";
+function renderLayoutToggle() {
+  $("#layout-toggle").replaceChildren(...["cards", "table"].map((mode) => el("button", {
+    type: "button",
+    class: `layout-button${resultsLayout === mode ? " is-active" : ""}`,
+    "aria-pressed": String(resultsLayout === mode),
+    text: t(mode === "cards" ? "viewCards" : "viewTable"),
+    onclick: () => {
+      resultsLayout = mode;
+      storage.set("megaparts_results_layout", mode);
+      renderResults();
+    },
+  })));
+}
+
+function resultsTable(items) {
+  const headings = [t("colNumber"), t("colPart"), t("brand"), t("colFit"), t("colSellers"), t("colStock"), t("colPrice")];
+  const rows = items.map((item) => {
+    const offers = item.offers || item.supplier_offers || [];
+    const price = priceSummary(offers);
+    const stock = stockSummary(offers);
+    const verdict = fitVerdict(item);
+    const row = el("tr", { class: `result-row${item.result_group === "RELATED" ? " is-related" : ""}`, tabindex: "0", onclick: () => openFromResults(item) }, [
+      el("td", { class: "mono", text: mainNumber(item) || "—" }),
+      el("td", {}, [
+        el("strong", { class: "table-name", text: productName(item) }),
+        el("span", { class: "table-sub", text: localName(item.category) }),
+      ]),
+      el("td", {}, [el("span", { text: brandLabel(item.brand) }), " ", qualityBadge(item.quality)]),
+      el("td", {}, el("span", { class: `table-fit is-${verdict.tone}`, text: `${VERDICT_ICON[verdict.tone]} ${verdict.title}` })),
+      el("td", { class: "num", text: String(offers.length) }),
+      el("td", {}, el("span", { class: `stock stock-${stock.tone}`, text: stock.text })),
+      el("td", { class: `num${price.known ? "" : " muted"}`, text: price.text }),
+    ]);
+    row.addEventListener("keydown", (event) => { if (event.key === "Enter") openFromResults(item); });
+    return row;
+  });
+  return el("div", { class: "table-scroll" }, el("table", { class: "results-table" }, [
+    el("thead", {}, el("tr", {}, headings.map((label) => el("th", { scope: "col", text: label })))),
+    el("tbody", {}, rows),
+  ]));
+}
+
 function resultCard(item) {
   const offers = item.offers || item.supplier_offers;
   const price = priceSummary(offers);
   const stock = stockSummary(offers);
   const place = placeLabel(item);
-  const open = async () => {
-    currentProductId = item.id;
-    if (currentEventId) {
-      try { await postJson(`/api/search-events/${currentEventId}/click`, { product_id: item.id }); } catch { /* analytics only */ }
-    }
-    openProduct(item.id);
-  };
+  const number = mainNumber(item);
+  const open = () => openFromResults(item);
   const card = el("article", { class: "result-card", onclick: open }, [
     el("div", { class: "result-head" }, [
       partThumb(item.category),
@@ -1354,7 +1866,8 @@ function resultCard(item) {
           item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
         ]),
         el("h3", { class: "result-name", text: productName(item) }),
-        el("p", { class: "result-brand" }, [`${t("brand")}: `, el("strong", { text: brandLabel(item.brand) })]),
+        el("p", { class: "result-brand" }, [`${t("brand")}: `, el("strong", { text: brandLabel(item.brand) }), " ", qualityBadge(item.quality)]),
+        number ? el("p", { class: "result-number" }, [`${t("partNumber")}: `, el("strong", { class: "mono", text: number })]) : null,
       ]),
     ]),
     place ? el("p", { class: "result-place", text: place }) : null,
@@ -1439,7 +1952,9 @@ function askSellerBox(item, offerItems) {
 function relatedSection(title, items) {
   if (!items?.length) return null;
   const relationLabel = (related) => {
-    if (related.relation === "SAME_NUMBER") return t("sameNumber", related.shared_number);
+    if (related.relation === "SAME_NUMBER") {
+      return t(related.same_variant === false ? "sameNumberVariant" : "sameNumber", related.shared_number);
+    }
     if (related.relation === "SAME_TYPE") return t("sameType");
     return localName(related.category);
   };
@@ -1501,9 +2016,11 @@ function sellerTrust(supplier) {
 const offerLabels = (offer) => [
   offer.part_origin && t(`origin${offer.part_origin}`),
   offer.condition && t(`condition${offer.condition}`),
-  offer.warranty_months ? t("warranty", offer.warranty_months) : null,
+  offer.warranty_km ? t("warrantyKm", offer.warranty_months, offer.warranty_km) : offer.warranty_months ? t("warranty", offer.warranty_months) : null,
   offer.return_days ? t("returns", offer.return_days) : null,
 ].filter(Boolean);
+// The seller's own label from their list: "Yangi keldi", "Aksiya −20%".
+const promoLabel = (offer) => (offer.promo ? t(`promo${offer.promo}`, offer.discount_percent) : null);
 
 const leadTimeLabel = (offer) => {
   if (offer.lead_time_days === 0) return t("inStockNow");
@@ -1602,7 +2119,8 @@ function reserveForm(offer, toggle, item) {
     if (!reservation) return;
     formNode.querySelectorAll("input, button[type=submit]").forEach((node) => { node.disabled = true; });
     const message = `${t("tgReservation", reservation.id)}\n${sellerMessage(item)}`;
-    followUp.replaceChildren(
+    fill(
+      followUp,
       offer.supplier.telegram ? el("a", { class: "primary-button", href: telegramLink(offer.supplier.telegram, message), target: "_blank", rel: "noopener", text: t("messageSeller") }) : null,
       el("button", { type: "button", class: "secondary-button", text: t("myReservations"), onclick: () => showReservations() }),
     );
@@ -1615,11 +2133,25 @@ function offerNode(offer, item) {
   const stock = stockSummary([offer]);
   const leadTime = leadTimeLabel(offer);
   const labels = offerLabels(offer);
-  const outdated = offer.freshness_status === "OUTDATED";
+  const promo = promoLabel(offer);
+  // A list naming parts without price or stock only says the seller carries the part.
+  const listedOnly = offer.price == null && offer.stock_qty == null;
+  const outdated = !listedOnly && offer.freshness_status === "OUTDATED";
   const ageDays = offer.updated_at ? Math.round((Date.now() - new Date(offer.updated_at).getTime()) / 86400000) : 0;
-  const reserveButton = el("button", { type: "button", class: "primary-button", text: t("reserve") });
+  const reserveButton = el("button", { type: "button", class: "secondary-button", text: t("reserve") });
   const formNode = reserveForm(offer, reserveButton, item);
   reserveButton.addEventListener("click", () => { reserveButton.hidden = true; formNode.hidden = false; formNode.querySelector("input").focus(); });
+  const basketSlot = el("div", { class: "basket-slot" });
+  const showBasketState = () => basketSlot.replaceChildren(basketControl(offer.id, item.id, showBasketState, () => recordAction("basket_add", offer)));
+  showBasketState();
+  const favourite = el("button", { type: "button", class: "fav-seller" });
+  const showFavourite = () => {
+    const on = favSellers.has(offer.supplier.id);
+    favourite.textContent = on ? t("favSellerOn") : t("favSeller");
+    favourite.setAttribute("aria-pressed", String(on));
+  };
+  favourite.addEventListener("click", () => { toggleFavSeller(offer.supplier.id); showFavourite(); });
+  showFavourite();
   const actions = [
     el("button", { type: "button", class: "secondary-button", text: t("viewSeller"), onclick: async () => { await recordAction("supplier_click", offer); location.href = `/suppliers/${offer.supplier.id}`; } }),
   ];
@@ -1635,17 +2167,21 @@ function offerNode(offer, item) {
   }
   actions.push(reserveButton);
   recordAction("supplier_offer_view", offer);
-  return el("div", { class: `offer${outdated ? " is-outdated" : ""}` }, [
+  const freshness = listedOnly && offer.updated_at ? t("listDate", formatDate(offer.updated_at)) : outdated ? t("outdated", ageDays) : freshnessLabel(offer);
+  return el("div", { class: `offer${outdated ? " is-outdated" : ""}${favSellers.has(offer.supplier.id) ? " is-favourite" : ""}` }, [
     el("div", { class: "offer-supplier", text: supplierLabel(offer.supplier) }),
+    favourite,
     sellerTrust(offer.supplier),
-    el("div", { class: "offer-code", text: offer.supplier_sku || t("noSellerCode") }),
+    offer.supplier_sku ? el("div", { class: "offer-code", text: offer.supplier_sku }) : null,
+    promo ? el("span", { class: `offer-promo is-${offer.promo.toLowerCase()}`, text: promo }) : null,
     labels.length ? el("div", { class: "offer-labels" }, labels.map((label) => el("span", { class: "offer-label", text: label }))) : null,
     el("div", { class: "offer-row" }, [
       el("span", { class: "price", text: price }),
       el("span", { class: `stock stock-${stock.tone}`, text: leadTime && stock.tone !== "in" ? leadTime : stock.text }),
     ]),
-    el("div", { class: "offer-freshness", text: outdated ? t("outdated", ageDays) : freshnessLabel(offer) }),
+    el("div", { class: "offer-freshness", text: freshness }),
     pilotMode && offer.data_status === "DEMO" ? el("div", { class: "offer-demo", text: t("testData") }) : null,
+    basketSlot,
     el("div", { class: "offer-actions" }, actions),
     formNode,
   ]);
@@ -1661,12 +2197,20 @@ function renderDetail() {
     onclick: () => (lastResponse ? history.back() : showHome()),
   });
 
-  const facts = [[t("partType"), localName(item.category)], [t("position"), item.position && (t(item.position) || item.position)], [t("side"), item.side && (t(item.side) || item.side)], [t("origin"), CatalogText.originLabel(item.origin, lang)]]
+  const facts = [[t("partType"), localName(item.category)], [t("position"), item.position && (t(item.position) || item.position)], [t("side"), item.side && (t(item.side) || item.side)], [t("origin"), CatalogText.originLabel(item.origin, lang)], [t("filterQuality"), item.quality && item.quality !== "OTHER" ? t(`quality${item.quality}`) : null],
+    // The part's attributes read from sellers' names (repair size, outer/inner, gearbox…).
+    ...(item.attributes || [])
+      .filter((attribute) => ["repair_size", "placement", "transmission", "engine_type", "spec_code"].includes(attribute.attribute_code))
+      .map((attribute) => [t(`attr_${attribute.attribute_code}`), t(`val_${attribute.value}`) || attribute.value])]
     .filter(([, value]) => value)
     .map(([label, value]) => el("div", { class: "fact" }, [el("span", { text: label }), el("strong", { text: value })]));
 
+  // Each number says what it is: the carmaker's, the part maker's, or a seller's own code.
   const references = item.reference_numbers.length
-    ? item.reference_numbers.map((ref) => el("span", { class: "reference", text: ref.number }))
+    ? sortedNumbers(item).map((ref) => el("span", { class: `reference is-${ref.type.toLowerCase()}` }, [
+      ref.number,
+      el("small", { class: "reference-type", text: t(`refType${ref.type}`) || ref.type }),
+    ]))
     : [el("p", { class: "muted", text: t("noReferences") })];
 
   const fitmentLine = (fitment) => {
@@ -1677,13 +2221,17 @@ function renderDetail() {
       fitment.condition_note ? el("span", { class: "fitment-note", text: `${t("fitCondition")}: ${noteLabel(fitment.condition_note)}` }) : null,
     ]);
   };
+  // Several sellers can list the same car; it is shown once.
+  const fitments = [...new Map(item.vehicle_fitments.map((fitment) => [fitment.vehicle.id, fitment])).values()];
   const cars = item.universal
     ? [el("div", { class: "fitment is-match", text: t("fitsAll") })]
-    : item.vehicle_fitments.length
-      ? item.vehicle_fitments.map(fitmentLine)
+    : fitments.length
+      ? fitments.map(fitmentLine)
       : [el("p", { class: "muted", text: t("fitsUnknown") })];
 
-  const offerItems = item.offers || item.supplier_offers;
+  // The buyer's favourite sellers first; otherwise the server's order (in stock, reliable).
+  const offerItems = [...(item.offers || item.supplier_offers)]
+    .sort((a, b) => Number(favSellers.has(b.supplier.id)) - Number(favSellers.has(a.supplier.id)));
   const main = el("article", { class: "detail-main" }, [
     el("div", { class: "detail-head" }, [
       partThumb(item.category, true),
@@ -1696,6 +2244,7 @@ function renderDetail() {
       ]),
     ]),
     verdictNode(fitVerdict(item)),
+    qualityChoices(item),
     askSellerBox(item, offerItems),
     facts.length ? el("div", { class: "facts" }, facts) : null,
     el("section", { class: "detail-section" }, [el("h3", { text: t("referenceNumbers") }), el("div", { class: "reference-list" }, references)]),
@@ -1747,24 +2296,118 @@ function reservationCard(reservation) {
     reservation.vin || t("notGiven"),
   )}`;
   const created = new Date(reservation.created_at).toLocaleDateString(lang === "en" ? "en-GB" : `${lang}-UZ`);
+  const open = OPEN_STATUSES.includes(reservation.status);
   return el("article", { class: "reservation-card" }, [
     el("span", { class: `reservation-status is-${reservation.status.toLowerCase()}`, text: t(`status${reservation.status}`) || reservation.status }),
+    statusSteps(reservation.status),
     el("h3", {}, [el("button", { type: "button", class: "link-button", text: productName(reservedProduct), onclick: () => openProduct(reservation.product_id) })]),
     el("p", { class: "muted", text: [`№${reservation.id}`, created, t("quantityShort", reservation.quantity), reservation.vehicle_label, reservation.vin].filter(Boolean).join(" · ") }),
     el("p", {}, [el("strong", { text: supplierLabel(supplier) }), reservation.price != null ? ` · ${formatPrice(reservation.price, reservation.currency)}` : ""]),
+    justCancelled.has(reservation.id) ? cancelledNotice([reservation]) : null,
     el("div", { class: "reserve-actions" }, [
-      supplier.telegram ? el("a", { class: "primary-button", href: telegramLink(supplier.telegram, message), target: "_blank", rel: "noopener", text: t("messageSeller") }) : null,
-      supplier.phone ? el("a", { class: "secondary-button", href: `tel:${supplier.phone}`, text: t("call") }) : null,
+      open && supplier.telegram ? el("a", { class: "primary-button", href: telegramLink(supplier.telegram, message), target: "_blank", rel: "noopener", text: t("messageSeller") }) : null,
+      open && supplier.phone ? el("a", { class: "secondary-button", href: `tel:${supplier.phone}`, text: t("call") }) : null,
+      open ? cancelControl(t("cancelReservation"), t("cancelConfirm"), () => cancelReservations(`/api/v1/reservations/${reservation.id}/cancel`)) : null,
     ]),
   ]);
 }
 
+// ---------- Cancelling a reservation ----------
+
+// A buyer can cancel until the part is collected; the seller is not marked unreliable for it.
+const OPEN_STATUSES = ["REQUESTED", "CONFIRMED", "READY"];
+const justCancelled = new Set();
+
+// A cancel button that asks once more before it acts.
+function cancelControl(label, question, run) {
+  const slot = el("div", { class: "cancel-control" });
+  const ask = () => slot.replaceChildren(
+    el("span", { class: "cancel-question", text: question }),
+    el("button", {
+      type: "button",
+      class: "danger-button",
+      text: t("cancelYes"),
+      onclick: async (event) => {
+        event.currentTarget.disabled = true;
+        if (!(await run())) slot.replaceChildren(el("span", { class: "reserve-status is-error", text: t("cancelError") }));
+      },
+    }),
+    el("button", { type: "button", class: "secondary-button", text: t("cancelNo"), onclick: idle }),
+  );
+  const idle = () => slot.replaceChildren(el("button", { type: "button", class: "link-button cancel-link", text: label, onclick: ask }));
+  idle();
+  return slot;
+}
+
+async function cancelReservations(url) {
+  let updated = null;
+  try {
+    const response = await postJson(url, { session_id: pilotSessionId });
+    if (response.ok) updated = await response.json();
+  } catch { /* reported by the caller */ }
+  if (!updated) return false;
+  [].concat(updated).forEach((reservation) => {
+    justCancelled.add(reservation.id);
+    const index = myReservations.findIndex((entry) => entry.id === reservation.id);
+    if (index >= 0) myReservations[index] = reservation;
+  });
+  renderReservations();
+  return true;
+}
+
+// After cancelling: a ready Telegram message so the seller stops keeping the part.
+function cancelledNotice(reservations) {
+  const { supplier } = reservations[0];
+  const ids = reservations.map((reservation) => `№${reservation.id}`).join(", ");
+  return el("div", { class: "cancelled-notice", role: "status" }, [
+    el("span", { text: t("cancelled") }),
+    supplier.telegram ? el("a", { class: "secondary-button", href: telegramLink(supplier.telegram, t("tgCancel", ids)), target: "_blank", rel: "noopener", text: t("tellSeller") }) : null,
+    supplier.phone ? el("a", { class: "secondary-button", href: `tel:${supplier.phone}`, text: t("call") }) : null,
+  ]);
+}
+
+const STATUS_ORDER = ["REQUESTED", "CONFIRMED", "READY", "COMPLETED"];
+// Where the reservation is: sent, confirmed by the seller, ready, collected.
+function statusSteps(status) {
+  const reached = STATUS_ORDER.indexOf(status);
+  if (reached < 0) return null;
+  return el("ol", { class: "status-steps", "aria-label": t(`status${status}`) }, t("steps").map((label, index) => el("li", {
+    class: index < reached ? "is-done" : index === reached ? "is-current" : "",
+    "aria-current": index === reached ? "step" : null,
+    text: label,
+  })));
+}
+
 function renderReservations() {
+  // Reservations sent together from the basket stay together.
+  const groups = [];
+  const byBasket = new Map();
+  myReservations.forEach((reservation) => {
+    if (!reservation.basket_id) {
+      groups.push([reservation]);
+      return;
+    }
+    if (!byBasket.has(reservation.basket_id)) {
+      byBasket.set(reservation.basket_id, []);
+      groups.push(byBasket.get(reservation.basket_id));
+    }
+    byBasket.get(reservation.basket_id).push(reservation);
+  });
   reservationsView.replaceChildren(
     el("button", { type: "button", class: "back secondary-button", text: t("back"), onclick: () => showHome() }),
     el("h2", { class: "page-title", text: t("myReservations") }),
     myReservations.length
-      ? el("div", { class: "reservation-list" }, myReservations.map(reservationCard))
+      ? el("div", { class: "reservation-list" }, groups.map((group) => {
+        if (group.length === 1) return reservationCard(group[0]);
+        const stillOpen = group.filter((reservation) => OPEN_STATUSES.includes(reservation.status));
+        return el("section", { class: "reservation-basket" }, [
+          el("div", { class: "reservation-basket-head" }, [
+            el("h3", { class: "reservation-basket-title", text: t("basketGroup", group.length) }),
+            stillOpen.length > 1 ? cancelControl(t("cancelAll", stillOpen.length), t("cancelAllConfirm"), () => cancelReservations(`/api/v1/reservations/basket/${encodeURIComponent(group[0].basket_id)}/cancel`)) : null,
+          ]),
+          ...group.map(reservationCard),
+        ]);
+      }))
       : el("p", { class: "muted", text: t("noReservations") }),
   );
   showOnly(reservationsView);
@@ -1772,6 +2415,628 @@ function renderReservations() {
 
 $("#my-reservations").addEventListener("click", () => showReservations());
 $("#footer-year").textContent = `© ${new Date().getFullYear()}`;
+
+// ---------- Quality grades ----------
+
+const QUALITY_ORDER = ["ORIGINAL", "KOREA", "CHINA", "BUDGET", "OTHER"];
+const qualityBadge = (quality) => (quality && quality !== "OTHER"
+  ? el("span", { class: `quality-badge is-${quality.toLowerCase()}`, text: t(`quality${quality}`) })
+  : null);
+const lowestOffer = (offers) => {
+  const priced = (offers || []).filter((offer) => offer.price != null);
+  return priced.length ? priced.reduce((best, offer) => (Number(offer.price) < Number(best.price) ? offer : best)) : null;
+};
+
+// The same part number from other brands, as buyers choose: the original, factory
+// quality at a fair price, or the budget option.
+function qualityChoices(item) {
+  const cheapest = lowestOffer(item.offers);
+  const options = [
+    { ...item, relation: "SELF", lowest_price: cheapest?.price ?? null, currency: cheapest?.currency, offer_count: (item.offers || []).length },
+    ...(item.alternatives || []).filter((alt) => alt.relation === "SAME_NUMBER" && alt.same_variant !== false),
+  ];
+  const tiers = [
+    ["tierBest", (grade) => grade === "ORIGINAL"],
+    ["tierBetter", (grade) => grade === "KOREA"],
+    ["tierGood", (grade) => !["ORIGINAL", "KOREA"].includes(grade)],
+  ];
+  const priceKey = (option) => (option.lowest_price != null ? Number(option.lowest_price) : Infinity);
+  const picks = tiers.map(([label, test]) => {
+    const candidates = options.filter((option) => test(option.quality || "OTHER"));
+    if (!candidates.length) return null;
+    candidates.sort((a, b) => (priceKey(a) - priceKey(b)) || (b.offer_count - a.offer_count) || ((a.relation === "SELF" ? 0 : 1) - (b.relation === "SELF" ? 0 : 1)));
+    return [label, candidates[0]];
+  }).filter(Boolean);
+  if (picks.length < 2) return null;
+  return el("section", { class: "quality-choices" }, [
+    el("h3", { text: t("qualityTitle") }),
+    el("p", { class: "muted", text: t("qualityLead") }),
+    el("div", { class: "quality-grid" }, picks.map(([label, option]) => {
+      const self = option.relation === "SELF";
+      const price = option.lowest_price != null ? formatPrice(option.lowest_price, option.currency)
+        : option.offer_count ? t("offerCount", option.offer_count) : t("priceOnRequest");
+      return el(self ? "div" : "button", { class: `quality-option${self ? " is-current" : ""}`, type: self ? null : "button", onclick: self ? null : () => openProduct(option.id) }, [
+        el("span", { class: "quality-tier", text: t(label) }),
+        qualityBadge(option.quality) || el("span", { class: "quality-badge", text: t("qualityOTHER") }),
+        el("strong", { class: "quality-brand", text: brandLabel(option.brand) }),
+        el("span", { class: "quality-price", text: price }),
+        el("span", { class: "quality-action", text: self ? t("thisPart") : `${t("details")} →` }),
+      ]);
+    })),
+  ]);
+}
+
+// ---------- Search filters: quality, brand, order ----------
+
+function renderShopFilters() {
+  shopFilters.replaceChildren();
+  const data = lastResponse;
+  const rows = [];
+  const grades = QUALITY_ORDER.filter((grade) => data.quality_counts?.[grade]);
+  if (grades.length > 1 || state.quality) {
+    rows.push(el("div", { class: "filter-group" }, [
+      el("span", { class: "filter-group-label", text: t("filterQuality") }),
+      el("div", { class: "pill-row" }, [
+        typePill(t("all"), null, !state.quality, () => navigate({ brand: state.brand, quality: "" })),
+        ...grades.map((grade) => typePill(t(`quality${grade}`), data.quality_counts[grade], state.quality === grade, () => navigate({ brand: state.brand, quality: grade }))),
+      ]),
+    ]));
+  }
+  const brands = data.brand_facets || [];
+  if (brands.length > 1 || state.brand) {
+    rows.push(el("div", { class: "filter-group" }, [
+      el("span", { class: "filter-group-label", text: t("filterBrand") }),
+      el("div", { class: "pill-row" }, [
+        typePill(t("all"), null, !state.brand, () => navigate({ quality: state.quality, brand: "" })),
+        ...brands.slice(0, 10).map((brand) => typePill(CatalogText.brandName(brand) || t("noBrand"), brand.count, state.brand === String(brand.id), () => navigate({ quality: state.quality, brand: brand.id }))),
+      ]),
+    ]));
+  }
+  if (data.total > 1) {
+    const select = el("select", { "aria-label": t("sortLabel") }, [
+      el("option", { value: "", text: t("sortRelevance") }),
+      el("option", { value: "price", text: t("sortPrice") }),
+    ]);
+    select.value = state.sort;
+    select.addEventListener("change", () => navigate({ brand: state.brand, quality: state.quality, sort: select.value }));
+    rows.push(el("label", { class: "filter-group sort-group" }, [el("span", { class: "filter-group-label", text: t("sortLabel") }), select]));
+  }
+  shopFilters.append(...rows);
+  shopFilters.hidden = !rows.length;
+}
+
+// ---------- Favourite sellers ----------
+
+// Mechanics go back to the same stalls; their sellers come first on every part.
+let favSellers = new Set(readStored("megaparts_fav_sellers", []));
+function toggleFavSeller(id) {
+  if (favSellers.has(id)) favSellers.delete(id);
+  else favSellers.add(id);
+  storage.set("megaparts_fav_sellers", JSON.stringify([...favSellers]));
+}
+
+// ---------- Basket ----------
+
+// Parts from several sellers, reserved in one go; each seller gets their own reservations.
+const BASKET_KEY = "megaparts_basket";
+const MAX_BASKET = 30;
+let basket = readStored(BASKET_KEY, []).filter((entry) => entry && Number.isInteger(entry.offer_id));
+let basketOffers = new Map();
+let sharedList = null;
+const inBasket = (offerId) => basket.some((entry) => entry.offer_id === offerId);
+
+function renderBasketButton() {
+  const button = $("#basket-button");
+  button.querySelector(".basket-count").textContent = basket.length ? String(basket.length) : "";
+  button.setAttribute("aria-label", t("basketButton", basket.length));
+}
+
+function saveBasket() {
+  storage.set(BASKET_KEY, JSON.stringify(basket));
+  renderBasketButton();
+}
+
+function addToBasket(offerId, productId, quantity = 1) {
+  const entry = basket.find((item) => item.offer_id === offerId);
+  if (entry) entry.quantity = Math.min(1000, entry.quantity + quantity);
+  else if (basket.length < MAX_BASKET) basket.push({ offer_id: offerId, product_id: productId, quantity });
+  saveBasket();
+}
+
+// The last removal from the basket, so the buyer can take it back with "Undo".
+let lastRemoved = null;
+function removeFromBasket(offerId, message = null) {
+  const index = basket.findIndex((entry) => entry.offer_id === offerId);
+  if (index < 0) return;
+  const [entry] = basket.splice(index, 1);
+  lastRemoved = message ? { entries: [entry], at: index, message } : null;
+  saveBasket();
+}
+
+function undoRemoval() {
+  if (!lastRemoved) return;
+  basket.splice(Math.min(lastRemoved.at, basket.length), 0, ...lastRemoved.entries.filter((entry) => !inBasket(entry.offer_id)));
+  lastRemoved = null;
+  saveBasket();
+  renderBasket();
+}
+
+// "Add to basket"; once added: open the basket, or take the part out again.
+function basketControl(offerId, productId, onChange, onAdd = () => {}) {
+  if (!inBasket(offerId)) {
+    return el("button", {
+      type: "button",
+      class: "primary-button basket-add",
+      text: t("addToBasket"),
+      onclick: () => { addToBasket(offerId, productId); onAdd(); onChange(); },
+    });
+  }
+  return el("div", { class: "basket-added" }, [
+    el("span", { class: "basket-added-label", text: t("basketInLabel") }),
+    el("button", { type: "button", class: "secondary-button", text: t("basketOpen"), onclick: () => showBasket() }),
+    el("button", { type: "button", class: "link-button basket-remove", text: t("basketRemoveFull"), onclick: () => { removeFromBasket(offerId); onChange(); } }),
+  ]);
+}
+
+const encodeList = (entries) => entries.map((entry) => `${entry.offer_id}:${entry.quantity}`).join(",");
+const decodeList = (text) => (text || "").split(",")
+  .map((part) => part.split(":").map(Number))
+  .filter(([id]) => Number.isInteger(id) && id > 0)
+  .map(([id, quantity]) => ({ offer_id: id, quantity: Number.isInteger(quantity) && quantity > 0 ? Math.min(quantity, 1000) : 1 }))
+  .slice(0, MAX_BASKET);
+
+async function showBasket(push = true, shared = null) {
+  sharedList = shared && shared.length ? shared : null;
+  lastRemoved = null;
+  if (push) history.pushState(null, "", sharedList ? `/?view=basket&list=${encodeList(sharedList)}` : "/?view=basket");
+  showOnly(loading);
+  scrollToContent();
+  const entries = sharedList || basket;
+  try {
+    basketOffers = new Map();
+    if (entries.length) {
+      const response = await fetch(`/api/v1/offers?ids=${entries.map((entry) => entry.offer_id).join(",")}`);
+      if (!response.ok) throw new Error(t("searchUnavailable"));
+      (await response.json()).forEach((entry) => basketOffers.set(entry.offer.id, entry));
+    }
+    renderBasket();
+  } catch (error) {
+    errorBox.textContent = error.message;
+    showOnly(errorBox);
+  }
+}
+
+function basketLine(entry, editable) {
+  const data = basketOffers.get(entry.offer_id);
+  const remove = () => {
+    removeFromBasket(entry.offer_id, t("basketRemoved", data ? productName(data) : t("basketGone")));
+    renderBasket();
+  };
+  const removeButton = editable ? el("button", { type: "button", class: "basket-remove-button", onclick: remove }, [
+    el("span", { "aria-hidden": "true", text: "✕" }),
+    el("span", { text: t("basketRemove") }),
+  ]) : null;
+  if (!data) {
+    return el("div", { class: "basket-line is-gone" }, [el("span", { text: t("basketGone") }), removeButton]);
+  }
+  const { offer } = data;
+  const setQuantity = (value) => {
+    entry.quantity = Math.max(1, Math.min(1000, Math.round(Number(value) || 1)));
+    saveBasket();
+    renderBasket();
+  };
+  const quantity = el("input", { type: "number", min: "1", max: "1000", step: "1", value: String(entry.quantity), inputmode: "numeric", "aria-label": t("basketQty"), disabled: !editable });
+  quantity.addEventListener("change", () => setQuantity(quantity.value));
+  return el("div", { class: "basket-line" }, [
+    partThumb(data.category),
+    el("div", { class: "basket-line-text" }, [
+      el("button", { type: "button", class: "link-button basket-line-name", text: productName(data), onclick: () => openProduct(data.product_id) }),
+      el("span", { class: "muted", text: [brandLabel(data.brand), data.reference_numbers.slice(0, 2).join(", ")].filter(Boolean).join(" · ") }),
+      promoLabel(offer) ? el("span", { class: `offer-promo is-${offer.promo.toLowerCase()}`, text: promoLabel(offer) }) : null,
+    ]),
+    el("div", { class: "basket-qty" }, [
+      el("span", { class: "field-label", text: t("basketQty") }),
+      el("div", { class: "qty-stepper" }, [
+        el("button", { type: "button", class: "qty-button", "aria-label": t("qtyLess"), text: "−", disabled: !editable || entry.quantity <= 1, onclick: () => setQuantity(entry.quantity - 1) }),
+        quantity,
+        el("button", { type: "button", class: "qty-button", "aria-label": t("qtyMore"), text: "+", disabled: !editable || entry.quantity >= 1000, onclick: () => setQuantity(entry.quantity + 1) }),
+      ]),
+    ]),
+    el("div", { class: "basket-price" }, [
+      el("strong", { text: offer.price != null ? formatPrice(Number(offer.price) * entry.quantity, offer.currency) : t("priceOnRequest") }),
+      el("span", { class: `stock stock-${stockSummary([offer]).tone}`, text: stockSummary([offer]).text }),
+    ]),
+    removeButton,
+  ]);
+}
+
+function basketShareBox(entries) {
+  const link = `${location.origin}/?view=basket&list=${encodeList(entries)}`;
+  const text = t("basketShareText", entries.length);
+  const copied = el("span", { class: "muted", role: "status" });
+  return el("div", { class: "basket-share" }, [
+    el("strong", { text: t("basketShare") }),
+    el("div", { class: "ask-actions" }, [
+      el("a", { class: "secondary-button", href: `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`, target: "_blank", rel: "noopener", text: t("basketShareTelegram") }),
+      el("button", {
+        type: "button",
+        class: "secondary-button",
+        text: t("basketCopy"),
+        onclick: async () => {
+          try { await navigator.clipboard.writeText(link); copied.textContent = t("basketCopied"); } catch { copied.textContent = link; }
+        },
+      }),
+      copied,
+    ]),
+  ]);
+}
+
+function basketReserveForm(entries) {
+  const phone = el("input", { type: "tel", autocomplete: "tel" });
+  const vin = el("input", { maxlength: "17", autocomplete: "off", autocapitalize: "characters", spellcheck: "false", value: car.vin || "" });
+  const note = el("input", { maxlength: "1000", placeholder: t("reserveNoteHint") });
+  const status = el("p", { class: "reserve-status", role: "status" });
+  const available = entries.filter((entry) => basketOffers.has(entry.offer_id));
+  const formNode = el("form", { class: "reserve-form basket-form" }, [
+    field(t("reservePhone"), phone),
+    hasCar() ? el("p", { class: "reserve-car" }, [`${t("reserveCar")}: `, el("strong", { text: carLabel() })]) : null,
+    field(t("vinLabel"), vin),
+    field(t("reserveNote"), note),
+    el("button", { type: "submit", class: "primary-button", text: t("basketReserveAll", available.length) }),
+    status,
+  ]);
+  formNode.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const vinValue = vin.value.trim().toUpperCase();
+    if (vinValue && !VIN_PATTERN.test(vinValue)) {
+      status.textContent = t("vinInvalid");
+      status.className = "reserve-status is-error";
+      return;
+    }
+    let result = null;
+    try {
+      const response = await postJson("/api/v1/reservations/basket", {
+        session_id: pilotSessionId,
+        items: available.map((entry) => ({ product_id: basketOffers.get(entry.offer_id).product_id, supplier_offer_id: entry.offer_id, quantity: entry.quantity })),
+        phone: phone.value.trim() || null,
+        vehicle_id: car.vehicle_id || null,
+        vehicle_label: hasCar() ? carLabel() : null,
+        vin: vinValue || null,
+        note: note.value.trim() || null,
+      });
+      if (response.ok) result = await response.json();
+    } catch { /* reported below */ }
+    if (!result) {
+      status.textContent = t("reserveError");
+      status.className = "reserve-status is-error";
+      return;
+    }
+    renderBasketSent(result, available, vinValue);
+  });
+  return formNode;
+}
+
+// After reserving: one ready Telegram message per seller with their reservation numbers.
+function renderBasketSent(result, entries, vinValue) {
+  const bySeller = new Map();
+  result.reservations.forEach((reservation) => {
+    const data = basketOffers.get(reservation.supplier_offer_id);
+    const supplier = data.offer.supplier;
+    if (!bySeller.has(supplier.id)) bySeller.set(supplier.id, { supplier, lines: [], ids: [] });
+    bySeller.get(supplier.id).lines.push(`№${reservation.id} ${productName(data)} × ${reservation.quantity}`);
+    bySeller.get(supplier.id).ids.push(reservation.id);
+  });
+  basket = basket.filter((entry) => !entries.some((sent) => sent.offer_id === entry.offer_id));
+  saveBasket();
+  basketView.replaceChildren(
+    el("h2", { class: "page-title", text: t("basketTitle") }),
+    el("p", { class: "reserve-status is-ok", text: t("basketSent") }),
+    el("div", { class: "basket-sent" }, [...bySeller.values()].map(({ supplier, lines, ids }) => {
+      const message = t("tgBasket", lines.join("\n"), hasCar() ? carLabel() : t("notGiven"), vinValue || car.vin || t("notGiven"));
+      const heading = el("h3", { text: supplierLabel(supplier) });
+      const list = el("pre", { class: "basket-lines", text: lines.join("\n") });
+      const article = el("article", { class: "basket-seller" });
+      // Changed one's mind: cancel this seller's part of the order right here.
+      const cancel = cancelControl(t("cancelReservation"), t("cancelConfirm"), async () => {
+        const results = await Promise.all(ids.map((id) => postJson(`/api/v1/reservations/${id}/cancel`, { session_id: pilotSessionId })
+          .then((response) => response.ok).catch(() => false)));
+        if (!results.every(Boolean)) return false;
+        article.replaceChildren(heading, list, cancelledNotice(ids.map((id) => ({ id, supplier }))));
+        return true;
+      });
+      article.append(heading, list, el("div", { class: "ask-actions" }, [
+        supplier.telegram ? el("a", { class: "primary-button", href: telegramLink(supplier.telegram, message), target: "_blank", rel: "noopener", text: t("messageSeller") }) : null,
+        supplier.phone ? el("a", { class: "secondary-button", href: `tel:${supplier.phone}`, text: t("call") }) : null,
+        cancel,
+      ]));
+      return article;
+    })),
+    el("button", { type: "button", class: "secondary-button", text: t("myReservations"), onclick: () => showReservations() }),
+  );
+  showOnly(basketView);
+}
+
+function renderBasket() {
+  const entries = sharedList || basket;
+  const editable = !sharedList;
+  const groups = new Map();
+  entries.forEach((entry) => {
+    const data = basketOffers.get(entry.offer_id);
+    const key = data ? data.offer.supplier.id : "gone";
+    if (!groups.has(key)) groups.set(key, { supplier: data?.offer.supplier, entries: [] });
+    groups.get(key).entries.push(entry);
+  });
+  const totals = new Map();
+  let unpriced = false;
+  entries.forEach((entry) => {
+    const offer = basketOffers.get(entry.offer_id)?.offer;
+    if (!offer) return;
+    if (offer.price == null) unpriced = true;
+    else totals.set(offer.currency, (totals.get(offer.currency) || 0) + Number(offer.price) * entry.quantity);
+  });
+  const available = entries.filter((entry) => basketOffers.has(entry.offer_id));
+  fill(
+    basketView,
+    el("button", { type: "button", class: "back secondary-button", text: t("back"), onclick: () => (history.length > 1 ? history.back() : showHome()) }),
+    el("h2", { class: "page-title", text: editable ? t("basketTitle") : t("sharedListTitle") }),
+    editable && lastRemoved ? el("div", { class: "undo-bar", role: "status" }, [
+      el("span", { text: lastRemoved.message }),
+      el("button", { type: "button", class: "secondary-button", text: t("undo"), onclick: undoRemoval }),
+    ]) : null,
+    entries.length ? el("p", { class: "muted basket-lead", text: t("basketLead") }) : el("p", { class: "muted", text: t("basketEmpty") }),
+    ...[...groups.values()].map(({ supplier, entries: lines }) => el("section", { class: "basket-seller" }, [
+      supplier ? el("h3", { text: t("basketSeller", supplierLabel(supplier)) }) : null,
+      supplier ? sellerTrust(supplier) : null,
+      ...lines.map((entry) => basketLine(entry, editable)),
+    ])),
+    available.length ? el("div", { class: "basket-summary" }, [
+      el("div", { class: "basket-total" }, [
+        el("span", { text: t("basketTotal") }),
+        el("strong", { text: [...totals.entries()].map(([currency, sum]) => formatPrice(sum, currency)).join(" + ") || "—" }),
+      ]),
+      unpriced ? el("p", { class: "muted", text: t("basketTotalNote") }) : null,
+      editable ? basketReserveForm(entries) : el("button", {
+        type: "button",
+        class: "primary-button",
+        text: t("sharedListAdd"),
+        onclick: () => {
+          available.forEach((entry) => addToBasket(entry.offer_id, basketOffers.get(entry.offer_id).product_id, entry.quantity));
+          showBasket();
+        },
+      }),
+      editable ? basketShareBox(available) : null,
+      editable ? el("button", {
+        type: "button",
+        class: "link-button",
+        text: t("basketClear"),
+        onclick: () => {
+          lastRemoved = { entries: [...basket], at: 0, message: t("basketCleared") };
+          basket = [];
+          saveBasket();
+          renderBasket();
+        },
+      }) : null,
+    ]) : null,
+  );
+  showOnly(basketView);
+}
+
+$("#basket-button").addEventListener("click", () => showBasket());
+// Footer and banner links open their page in place, without reloading the site.
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("[data-view-link]");
+  if (!link || event.ctrlKey || event.metaKey || event.shiftKey) return;
+  event.preventDefault();
+  if (link.dataset.viewLink === "sell") showSell();
+  else if (link.dataset.viewLink === "sellers") showSellers();
+});
+
+// ---------- Ready repair lists ----------
+
+let jobsCache = { key: null, jobs: [] };
+let currentJobId = null;
+const carKey = () => JSON.stringify([car.make || "", car.model || "", car.vehicle_id || ""]);
+const jobName = (job) => job[`name_${lang}`] || job.name_uz;
+const jobPartName = (part) => part[`type_name_${lang}`] || part.type_name_uz;
+
+async function loadJobs() {
+  const key = carKey();
+  if (jobsCache.key !== key) {
+    const response = await fetch(`/api/v1/jobs?${carParams(new URLSearchParams())}`);
+    if (!response.ok) throw new Error(t("searchUnavailable"));
+    jobsCache = { key, jobs: await response.json() };
+  }
+  return jobsCache.jobs;
+}
+
+async function renderJobCards() {
+  const grid = $("#job-grid");
+  if (!grid) return;
+  let jobs;
+  try { jobs = await loadJobs(); } catch { return; }
+  $("#jobs-lead").textContent = hasCar() ? t("jobForCar", carLabel()) : t("jobsLead");
+  grid.replaceChildren(...jobs.map((job) => {
+    const tile = el("button", { type: "button", class: "job-card", onclick: () => showJob(job.id) });
+    tile.innerHTML = `<span class="group-icon">${icon(job.icon)}</span><span class="job-text"><span class="job-name"></span><span class="job-count"></span></span>`;
+    tile.querySelector(".job-name").textContent = hyphenate(jobName(job));
+    tile.querySelector(".job-count").textContent = hasCar() ? `${job.available} / ${job.parts.length}` : t("jobSteps", job.parts.length);
+    return tile;
+  }));
+}
+
+async function showJob(id, push = true) {
+  currentJobId = id;
+  if (push) history.pushState(null, "", `/?view=job&job=${encodeURIComponent(id)}`);
+  showOnly(loading);
+  scrollToContent();
+  try {
+    const job = (await loadJobs()).find((candidate) => candidate.id === id);
+    if (!job) throw new Error(t("productNotFound"));
+    renderJob(job);
+  } catch (error) {
+    errorBox.textContent = error.message;
+    showOnly(errorBox);
+  }
+}
+
+function renderJob(job) {
+  const picks = job.parts.filter((part) => part.product && (part.product.offers || []).length);
+  const status = el("p", { class: "reserve-status is-ok", role: "status" });
+  const addAll = el("button", {
+    type: "button",
+    class: "primary-button",
+    text: t("jobAddAll", picks.length),
+    onclick: () => {
+      picks.forEach((part) => { if (!inBasket(part.product.offers[0].id)) addToBasket(part.product.offers[0].id, part.product.id); });
+      status.textContent = t("jobAdded");
+      renderJob(job);
+    },
+  });
+  const rows = job.parts.map((part) => {
+    const product = part.product;
+    const label = [jobPartName(part), part.position ? t(part.position) : null].filter(Boolean).join(" · ");
+    if (!product) {
+      return el("div", { class: "job-row is-missing" }, [
+        el("span", { class: "job-row-type", text: label }),
+        el("span", { class: "muted", text: t("jobNone") }),
+      ]);
+    }
+    const offer = product.offers[0];
+    const price = priceSummary(product.offers);
+    return el("div", { class: "job-row" }, [
+      partThumb(product.category),
+      el("div", { class: "job-row-text" }, [
+        el("span", { class: "job-row-type", text: label }),
+        el("button", { type: "button", class: "link-button job-row-name", text: productName(product), onclick: () => openProduct(product.id) }),
+        el("span", { class: "result-brand" }, [brandLabel(product.brand), " ", qualityBadge(product.quality)]),
+      ]),
+      el("div", { class: "job-row-price" }, [
+        el("strong", { text: price.text }),
+        el("span", { class: "muted", text: t("offerCount", product.offers.length) }),
+      ]),
+      el("div", { class: "job-row-actions" }, [
+        offer ? basketControl(offer.id, product.id, () => renderJob(job)) : null,
+        part.options > 1 ? el("button", { type: "button", class: "link-button", text: t("jobMore", part.options - 1), onclick: () => navigate({ query: "", category: part.type_id }) }) : null,
+      ]),
+    ]);
+  });
+  fill(
+    jobView,
+    el("button", { type: "button", class: "back secondary-button", text: t("back"), onclick: () => showHome() }),
+    el("h2", { class: "page-title", text: jobName(job) }),
+    hasCar()
+      ? el("p", { class: "muted", text: t("jobForCar", carLabel()) })
+      : el("div", { class: "fit-verdict is-check" }, [
+        el("span", { class: "fit-icon", "aria-hidden": "true", text: "!" }),
+        el("div", { class: "fit-text" }, [
+          el("strong", { text: t("jobChooseCar") }),
+          el("button", { type: "button", class: "link-button", text: t("footerChooseCar"), onclick: () => $("#step-car-title").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" }) }),
+        ]),
+      ]),
+    picks.length ? el("div", { class: "job-actions" }, [addAll, el("button", { type: "button", class: "secondary-button", text: t("basketButton", basket.length), onclick: () => showBasket() }), status]) : null,
+    el("div", { class: "job-list" }, rows),
+  );
+  showOnly(jobView);
+}
+
+// ---------- Sellers ----------
+
+async function showSellers(push = true) {
+  if (push) history.pushState(null, "", "/?view=sellers");
+  showOnly(loading);
+  scrollToContent();
+  try {
+    const response = await fetch("/api/v1/sellers");
+    if (!response.ok) throw new Error(t("searchUnavailable"));
+    renderSellers(await response.json());
+  } catch (error) {
+    errorBox.textContent = error.message;
+    showOnly(errorBox);
+  }
+}
+
+let lastSellers = [];
+function renderSellers(cards = lastSellers) {
+  lastSellers = cards;
+  sellersView.replaceChildren(
+    el("button", { type: "button", class: "back secondary-button", text: t("back"), onclick: () => showHome() }),
+    el("h2", { class: "page-title", text: t("sellersTitle") }),
+    el("p", { class: "muted basket-lead", text: t("sellersLead") }),
+    el("div", { class: "seller-grid" }, cards.map((card) => {
+      const { supplier } = card;
+      return el("article", { class: "seller-card" }, [
+        el("h3", { text: supplierLabel(supplier) }),
+        sellerTrust(supplier),
+        el("p", { class: "seller-counts" }, [
+          el("strong", { text: t("sellerParts", card.active_offers_count) }),
+          card.priced_offers_count ? ` · ${t("sellerPriced", card.priced_offers_count)}` : "",
+        ]),
+        card.brands.length ? el("p", { class: "muted", text: card.brands.join(", ") }) : null,
+        card.last_data_update ? el("p", { class: "muted", text: t("sellerLastList", formatDate(card.last_data_update)) }) : null,
+        el("div", { class: "ask-actions" }, [
+          el("a", { class: "primary-button", href: `/suppliers/${supplier.id}`, text: t("sellerOpen") }),
+          supplier.telegram ? el("a", { class: "secondary-button", href: telegramLink(supplier.telegram), target: "_blank", rel: "noopener", text: "Telegram" }) : null,
+          supplier.phone ? el("a", { class: "secondary-button", href: `tel:${supplier.phone}`, text: t("call") }) : null,
+        ]),
+      ]);
+    })),
+  );
+  showOnly(sellersView);
+}
+
+// ---------- Sell on MegaParts ----------
+
+function showSell(push = true) {
+  if (push) history.pushState(null, "", "/?view=sell");
+  const inputs = {
+    business_name: el("input", { required: true, minlength: "2", maxlength: "200", autocomplete: "organization" }),
+    contact_name: el("input", { maxlength: "200", autocomplete: "name" }),
+    phone: el("input", { required: true, minlength: "7", maxlength: "50", type: "tel", autocomplete: "tel" }),
+    telegram: el("input", { maxlength: "100" }),
+    city: el("input", { maxlength: "200", autocomplete: "address-level2" }),
+    address: el("input", { maxlength: "500" }),
+    cars: el("input", { maxlength: "300", placeholder: "Nexia, Cobalt, Damas…" }),
+    note: el("input", { maxlength: "1000" }),
+  };
+  const labels = { business_name: "sellBusiness", contact_name: "sellContact", phone: "sellPhone", telegram: "sellTelegram", city: "sellCity", address: "sellAddress", cars: "sellCars", note: "sellNote" };
+  const status = el("p", { class: "reserve-status", role: "status" });
+  const formNode = el("form", { class: "request-form sell-form" }, [
+    ...Object.entries(inputs).map(([key, node]) => field(t(labels[key]), node)),
+    el("button", { type: "submit", class: "primary-button", text: t("sellSend") }),
+    status,
+  ]);
+  formNode.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const payload = Object.fromEntries(Object.entries(inputs).map(([key, node]) => [key, node.value.trim() || null]));
+    let ok = false;
+    try { ok = (await postJson("/api/v1/seller-applications", payload)).ok; } catch { /* reported below */ }
+    status.textContent = ok ? t("sellSent") : t("reserveError");
+    status.className = `reserve-status ${ok ? "is-ok" : "is-error"}`;
+    if (ok) formNode.querySelectorAll("input, button").forEach((node) => { node.disabled = true; });
+  });
+  sellView.replaceChildren(
+    el("button", { type: "button", class: "back secondary-button", text: t("back"), onclick: () => showHome() }),
+    el("div", { class: "sell-intro" }, [
+      el("h2", { class: "page-title", text: t("sellTitle") }),
+      el("p", { class: "hero-lead-dark", text: t("sellLead") }),
+      el("ul", { class: "sell-points" }, t("sellPoints").map((point) => el("li", { text: point }))),
+    ]),
+    formNode,
+  );
+  showOnly(sellView);
+  scrollToContent();
+}
+
+// ---------- Questions ----------
+
+function renderFaq() {
+  const list = $("#faq-list");
+  if (!list) return;
+  list.replaceChildren(...t("faq").map(([question, answer]) => el("details", { class: "faq-item" }, [
+    el("summary", { text: question }),
+    el("p", { text: answer }),
+  ])));
+}
 
 // ---------- Part requests ----------
 
@@ -1947,6 +3212,12 @@ function applyLanguage() {
   if (!resultsView.hidden && lastResponse) renderResults();
   if (!detailView.hidden && lastDetail) renderDetail();
   if (!reservationsView.hidden) renderReservations();
+  renderBasketButton();
+  renderFaq();
+  if (!basketView.hidden && basketView.querySelector(".basket-summary, .basket-lead")) renderBasket();
+  if (!jobView.hidden && currentJobId) showJob(currentJobId, false);
+  if (!sellersView.hidden) renderSellers();
+  if (!sellView.hidden) showSell(false);
 }
 
 document.querySelectorAll("[data-lang]").forEach((button) => button.addEventListener("click", () => {
@@ -1981,12 +3252,20 @@ function applyUrl() {
   state.category = params.get("cat") || "";
   state.all = params.has("all");
   state.spellcheck = true;
+  state.brand = params.get("brand") || "";
+  state.quality = params.get("quality") || "";
+  state.sort = params.get("sort") || "";
   input.value = state.query;
   // /part/{id}; ?product= links from before part pages had their own address still work.
   const partPath = location.pathname.match(/^\/part\/([^/]+)$/);
   const product = partPath ? decodeURIComponent(partPath[1]) : params.get("product");
+  const view = params.get("view");
   if (product) openProduct(product, false);
-  else if (params.get("view") === "reservations") showReservations(false);
+  else if (view === "reservations") showReservations(false);
+  else if (view === "basket") showBasket(false, params.get("list") ? decodeList(params.get("list")) : null);
+  else if (view === "job" && params.get("job")) showJob(params.get("job"), false);
+  else if (view === "sellers") showSellers(false);
+  else if (view === "sell") showSell(false);
   else if (lastResponse && lastResponseUrl === urlFor()) renderResults();
   else if (state.query || state.category || (state.all && hasCar())) runSearch({ push: false });
   else showHome(false);

@@ -2,7 +2,7 @@ from collections import Counter
 from datetime import UTC, date, datetime
 from pathlib import Path
 from time import perf_counter
-from typing import Annotated
+from typing import Annotated, Literal
 from urllib.parse import quote
 from uuid import uuid4
 
@@ -47,6 +47,7 @@ from app.models import (
     SearchAlias,
     SearchEvent,
     SearchEventAction,
+    SellerApplication,
     Supplier,
     SupplierImport,
     SupplierOffer,
@@ -55,6 +56,7 @@ from app.models import (
 from app.normalization import normalize_text, sanitize_query
 from app.offers import active_sorted_offers, freshness_status, supplier_summary
 from app.part_types import category_with_descendants, part_groups
+from app.price_list_import import import_price_list
 from app.product_context import fit_report_summary
 from app.query_parser import parse_query
 from app.reservations import admin_reservation_out, my_reservation_out, recompute_reliability
@@ -62,8 +64,12 @@ from app.schemas import (
     AdminFitReportOut,
     AdminLogin,
     AdminReservationOut,
+    BasketCreate,
+    BasketOfferOut,
+    BasketOut,
     FitReportCreate,
     FitReportSummary,
+    JobOut,
     MyReservationOut,
     PartGroupOut,
     PartRequestCreate,
@@ -72,7 +78,9 @@ from app.schemas import (
     PartTypeOut,
     PilotFeedbackCreate,
     PilotFeedbackOut,
+    PriceListImportOut,
     ProductDetail,
+    ReservationCancel,
     ReservationCreate,
     ReservationOut,
     ReservationUpdate,
@@ -84,18 +92,24 @@ from app.schemas import (
     SearchEventCreate,
     SearchEventOut,
     SearchResponse,
+    SellerApplicationCreate,
+    SellerApplicationOut,
+    SellerApplicationUpdate,
+    SellerCardOut,
     SuggestedProductOut,
     SuggestResponse,
     SupplierAdminOut,
+    SupplierCreate,
     SupplierDetailOut,
     SupplierImportOut,
     SupplierProductOut,
     SupplierUpdate,
     VehicleOptionOut,
 )
-from app.search import get_product_detail, search_products
+from app.search import get_product_detail, product_search_out, search_products
 from app.search_vocabulary import PRODUCT_SYNONYMS, VEHICLE_ALIASES
 from app.seo import part_page, robots, sitemap
+from app.shop import basket_offers, create_basket, job_lists, sellers_directory
 from app.supplier_import import import_supplier_workbook
 
 settings = get_settings()
@@ -218,6 +232,9 @@ def search(
     model: Annotated[str | None, Query(max_length=300)] = None,
     vehicle_id: Annotated[str | None, Query(max_length=64)] = None,
     category: Annotated[str | None, Query(max_length=64)] = None,
+    brand: int | None = None,
+    quality: Literal["ORIGINAL", "KOREA", "CHINA", "BUDGET", "OTHER"] | None = None,
+    sort: Literal["relevance", "price"] = "relevance",
     spellcheck: bool = True,
     session_id: Annotated[str | None, Query(max_length=100)] = None,
     x_session_id: Annotated[str | None, Header(max_length=100)] = None,
@@ -243,6 +260,9 @@ def search(
         spellcheck=spellcheck,
         category=category_row,
         category_ids=category_ids,
+        brand_id=brand,
+        quality=quality,
+        sort=sort,
     )
     elapsed_ms = (perf_counter() - started) * 1000
     if settings.pilot_mode:
@@ -660,6 +680,112 @@ def my_reservations(
     return [my_reservation_out(reservation) for reservation in reservations]
 
 
+
+@app.get(f"{settings.api_prefix}/jobs", response_model=list[JobOut])
+def repair_lists(
+    session: Annotated[Session, Depends(get_session)],
+    make: Annotated[str | None, Query(max_length=150)] = None,
+    model: Annotated[str | None, Query(max_length=300)] = None,
+    vehicle_id: Annotated[str | None, Query(max_length=64)] = None,
+) -> list[JobOut]:
+    """Ready repair lists ("front brakes") with the part to pick at each step for the car."""
+    vehicle_ids, _ = resolve_vehicle_filter(session, make, model, vehicle_id)
+    return job_lists(session, vehicle_ids, product_search_out)
+
+
+@app.get(f"{settings.api_prefix}/offers", response_model=list[BasketOfferOut])
+def offers_for_basket(
+    session: Annotated[Session, Depends(get_session)],
+    ids: Annotated[str, Query(max_length=600, pattern=r"^\d+(,\d+)*$")],
+) -> list[BasketOfferOut]:
+    return basket_offers(session, [int(value) for value in ids.split(",")][:60])
+
+
+@app.post(f"{settings.api_prefix}/reservations/basket", response_model=BasketOut, status_code=201)
+def reserve_basket(
+    payload: BasketCreate,
+    session: Annotated[Session, Depends(get_session)],
+) -> BasketOut:
+    """Reserve every part in the basket at once; each seller gets their own reservations."""
+    return create_basket(session, payload)
+
+
+@app.get(f"{settings.api_prefix}/sellers", response_model=list[SellerCardOut])
+def sellers(session: Annotated[Session, Depends(get_session)]) -> list[SellerCardOut]:
+    return sellers_directory(session)
+
+
+@app.post(
+    f"{settings.api_prefix}/seller-applications",
+    response_model=SellerApplicationOut,
+    status_code=201,
+)
+def apply_to_sell(
+    payload: SellerApplicationCreate,
+    session: Annotated[Session, Depends(get_session)],
+) -> SellerApplication:
+    """A shop asking to sell on MegaParts; the team calls them back."""
+    application = SellerApplication(**payload.model_dump())
+    session.add(application)
+    session.commit()
+    session.refresh(application)
+    return application
+
+# A buyer can cancel until the part is collected; the seller's reliability is not affected.
+OPEN_RESERVATION_STATUSES = ("REQUESTED", "CONFIRMED", "READY")
+
+
+def _cancel_reservations(
+    session: Session, session_id: str, *conditions
+) -> list[MyReservationOut]:
+    reservations = session.scalars(
+        select(ReservationRequest)
+        .where(ReservationRequest.session_id == session_id, *conditions)
+        .options(
+            selectinload(ReservationRequest.product).selectinload(Product.reference_numbers),
+            selectinload(ReservationRequest.supplier_offer).selectinload(SupplierOffer.supplier),
+        )
+        .order_by(ReservationRequest.id)
+    ).all()
+    if not reservations:
+        raise HTTPException(status_code=404, detail="Reservation not found")
+    now = datetime.now(UTC)
+    for reservation in reservations:
+        if reservation.status in OPEN_RESERVATION_STATUSES:
+            reservation.status = "CANCELLED"
+            reservation.updated_at = now
+    session.commit()
+    return [my_reservation_out(reservation) for reservation in reservations]
+
+
+@app.post(
+    f"{settings.api_prefix}/reservations/{{reservation_id}}/cancel",
+    response_model=MyReservationOut,
+)
+def cancel_reservation(
+    reservation_id: int,
+    payload: ReservationCancel,
+    session: Annotated[Session, Depends(get_session)],
+) -> MyReservationOut:
+    """The buyer cancels one reservation made from this browser."""
+    return _cancel_reservations(
+        session, payload.session_id, ReservationRequest.id == reservation_id
+    )[0]
+
+
+@app.post(
+    f"{settings.api_prefix}/reservations/basket/{{basket_id}}/cancel",
+    response_model=list[MyReservationOut],
+)
+def cancel_basket(
+    basket_id: str,
+    payload: ReservationCancel,
+    session: Annotated[Session, Depends(get_session)],
+) -> list[MyReservationOut]:
+    """The buyer cancels every open reservation sent from one basket."""
+    return _cancel_reservations(session, payload.session_id, ReservationRequest.basket_id == basket_id)
+
+
 @app.get(f"{settings.api_prefix}/suppliers/{{supplier_id}}", response_model=SupplierDetailOut)
 def supplier_detail(
     supplier_id: int,
@@ -759,6 +885,19 @@ def update_supplier(
         raise HTTPException(status_code=404, detail="Supplier not found")
     changes = payload.model_dump(exclude_unset=True)
     verified = changes.pop("verified", None)
+    if changes.get("name"):
+        changes["name"] = changes["name"].strip()
+        normalized = normalize_text(changes["name"])
+        taken = session.scalar(
+            select(Supplier.id).where(
+                Supplier.normalized_name == normalized, Supplier.id != supplier.id
+            )
+        )
+        if taken:
+            raise HTTPException(status_code=409, detail="A supplier with this name already exists")
+        supplier.normalized_name = normalized
+    elif "name" in changes:
+        changes.pop("name")
     for key, value in changes.items():
         setattr(supplier, key, value)
     if verified is not None:
@@ -802,6 +941,89 @@ def import_supplier_offers(
         },
         supplier_name=supplier.name,
     )
+
+
+@app.post("/api/admin/suppliers", response_model=SupplierAdminOut, status_code=201)
+def create_supplier(
+    payload: SupplierCreate,
+    session: Annotated[Session, Depends(get_session)],
+) -> SupplierAdminOut:
+    normalized = normalize_text(payload.name)
+    if session.scalar(select(Supplier.id).where(Supplier.normalized_name == normalized)):
+        raise HTTPException(status_code=409, detail="A supplier with this name already exists")
+    supplier = Supplier(
+        name=payload.name.strip(),
+        normalized_name=normalized,
+        phone=payload.phone,
+        telegram=payload.telegram,
+        city=payload.city,
+        is_active=True,
+    )
+    session.add(supplier)
+    session.commit()
+    supplier = session.scalar(
+        select(Supplier).where(Supplier.id == supplier.id).options(selectinload(Supplier.offers))
+    )
+    return supplier_admin_out(supplier)
+
+
+@app.post("/api/admin/suppliers/{supplier_id}/price-list", response_model=PriceListImportOut)
+def import_supplier_price_list(
+    supplier_id: int,
+    file: Annotated[UploadFile, File()],
+    session: Annotated[Session, Depends(get_session)],
+) -> PriceListImportOut:
+    """A seller's own Excel list, in any layout: its parts join the catalog with their offers."""
+    supplier = session.get(Supplier, supplier_id)
+    if supplier is None:
+        raise HTTPException(status_code=404, detail="Supplier not found")
+    try:
+        result = import_price_list(session, supplier, file.file.read(), file.filename)
+        session.commit()
+    except ValueError as exc:
+        session.rollback()
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return PriceListImportOut(
+        import_id=result.batch.id,
+        supplier_id=supplier.id,
+        rows=result.batch.rows_received,
+        parts_created=result.products_created,
+        parts_reused=result.products_reused,
+        offers_created=result.offers_created,
+        offers_updated=result.offers_updated,
+        offers_closed=result.offers_closed,
+        rows_without_car=result.without_car,
+        cars_created=result.vehicles_created,
+        unrecognised=sorted(set(result.unrecognised))[:100],
+    )
+
+
+@app.get("/api/admin/seller-applications", response_model=list[SellerApplicationOut])
+def seller_applications(
+    session: Annotated[Session, Depends(get_session)],
+) -> list[SellerApplication]:
+    return list(
+        session.scalars(
+            select(SellerApplication).order_by(SellerApplication.created_at.desc()).limit(200)
+        )
+    )
+
+
+@app.patch(
+    "/api/admin/seller-applications/{application_id}", response_model=SellerApplicationOut
+)
+def update_seller_application(
+    application_id: int,
+    payload: SellerApplicationUpdate,
+    session: Annotated[Session, Depends(get_session)],
+) -> SellerApplication:
+    application = session.get(SellerApplication, application_id)
+    if application is None:
+        raise HTTPException(status_code=404, detail="Application not found")
+    application.status = payload.status
+    session.commit()
+    session.refresh(application)
+    return application
 
 
 @app.get("/api/admin/supplier-imports", response_model=list[SupplierImportOut])

@@ -12,6 +12,23 @@ from app.normalization import normalize_text
 
 NOT_APPLICABLE = {"N/A", "NA", "NONE", "UNKNOWN", ""}
 
+# Attributes that make two parts with one part number different parts: front/rear,
+# left/right, repair size (STD, 0.25) and outer/inner (the blueprint's variant identity).
+VARIANT_ATTRIBUTES = ("position", "side", "repair_size", "placement")
+
+
+def variant_of(attributes: dict[str, str | None]) -> tuple:
+    return tuple(attributes.get(code) for code in VARIANT_ATTRIBUTES)
+
+
+def product_variant(product: Product) -> tuple:
+    return variant_of({attribute.attribute_code: attribute.value for attribute in product.attributes})
+
+
+def compatible_variants(left: tuple, right: tuple) -> bool:
+    """Missing is not a conflict; front against rear (or STD against 0.25) is."""
+    return all(a is None or b is None or a == b for a, b in zip(left, right, strict=True))
+
 
 def meaningful(value: str | None) -> bool:
     return bool(value) and value.strip().upper() not in NOT_APPLICABLE
@@ -25,13 +42,23 @@ def product_loading_options():
         selectinload(Product.reference_numbers),
         selectinload(Product.fitments).selectinload(Fitment.vehicle),
         selectinload(Product.supplier_offers).selectinload(SupplierOffer.supplier),
+        selectinload(Product.raw_supplier_products),
     )
 
 
 def refresh_product(product: Product) -> None:
     """Recompute everything search reads from a product's own data and relations."""
     names = [value for value in (product.name, product.name_ru, product.name_en) if value]
-    product.normalized_name = normalize_text(" ".join(names))
+    # Sellers' own wording from their price lists ("KALODKA OLDI", "amartizator") finds the
+    # part too: buyers search in the same words sellers write.
+    seller_names = [
+        raw.raw_name
+        for raw in product.raw_supplier_products
+        if (raw.source_payload or {}).get("price_list")
+    ]
+    product.normalized_name = normalize_text(
+        " ".join([*names, *dict.fromkeys(seller_names)])
+    )[:500]
 
     # A single position/side across all fitments is a property of the part itself.
     positions = {fit.position for fit in product.fitments if meaningful(fit.position)}

@@ -2,6 +2,7 @@ const errorBox = document.querySelector("#requests-error");
 const STATUSES = ["REQUESTED", "CONFIRMED", "READY", "COMPLETED", "CANCELLED"];
 const OUTCOMES = ["", "HONOURED", "WRONG_FIT", "OUT_OF_STOCK", "PRICE_CHANGED", "NO_SHOW"];
 const REQUEST_STATUSES = ["OPEN", "ANSWERED", "CLOSED"];
+const APPLICATION_STATUSES = ["NEW", "CONTACTED", "ONBOARDED", "DECLINED"];
 
 const cell = (text) => { const td = document.createElement("td"); td.textContent = text ?? "—"; return td; };
 const date = (value) => (value ? new Date(value).toLocaleString("en-GB", { dateStyle: "short", timeStyle: "short" }) : "—");
@@ -79,6 +80,30 @@ async function loadPartRequests() {
   }));
 }
 
+async function loadApplications() {
+  const response = await fetch("/api/admin/seller-applications");
+  if (!response.ok) throw new Error("Seller applications could not be loaded");
+  const rows = await response.json();
+  document.querySelector("#application-count").textContent = `${rows.filter((row) => row.status === "NEW").length} new`;
+  document.querySelector("#application-rows").replaceChildren(...rows.map((row) => {
+    const tr = document.createElement("tr");
+    const status = select(APPLICATION_STATUSES, row.status);
+    status.addEventListener("change", () => patch(`/api/admin/seller-applications/${row.id}`, { status: status.value }));
+    const td = document.createElement("td"); td.append(status);
+    tr.append(
+      cell(date(row.created_at)),
+      cell(row.business_name),
+      cell(row.contact_name),
+      cell([row.phone, row.telegram].filter(Boolean).join(" · ")),
+      cell([row.city, row.address].filter(Boolean).join(", ") || null),
+      cell(row.cars),
+      cell(row.note),
+      td,
+    );
+    return tr;
+  }));
+}
+
 async function loadFitReports() {
   const response = await fetch("/api/admin/fit-reports");
   if (!response.ok) throw new Error("Fit reports could not be loaded");
@@ -96,4 +121,4 @@ async function loadFitReports() {
   }));
 }
 
-Promise.all([loadReservations(), loadPartRequests(), loadFitReports()]).catch((error) => showError(error.message));
+Promise.all([loadReservations(), loadPartRequests(), loadApplications(), loadFitReports()]).catch((error) => showError(error.message));

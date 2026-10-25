@@ -11,6 +11,8 @@ dependencies = [
   "alembic>=1.14,<2",
   "fastapi>=0.115,<1",
   "openpyxl>=3.1,<4",
+  # Sellers send old-format .xls price lists as well as .xlsx.
+  "xlrd>=2.0,<3",
   "psycopg[binary]>=3.2,<4",
   "pydantic-settings>=2.7,<3",
   "python-multipart>=0.0.20,<1",

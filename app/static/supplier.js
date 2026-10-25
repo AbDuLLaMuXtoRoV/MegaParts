@@ -91,9 +91,13 @@ document.querySelector("#supplier-name").textContent = t("loading");
 const supplierId = location.pathname.split("/").filter(Boolean).at(-1);
 const products = document.querySelector("#supplier-products");
 const span = (text) => { const node = document.createElement("span"); node.textContent = text; return node; };
-const money = (value, currency) => (value == null
-  ? t("priceOnRequest")
-  : `${new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(Number(value))} ${!currency || currency === "UZS" ? t("som") : currency}`);
+// So'm are whole; dollar prices keep their cents ("2,47 $").
+const money = (value, currency) => {
+  if (value == null) return t("priceOnRequest");
+  if (!currency || currency === "UZS") return `${new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(Number(value))} ${t("som")}`;
+  const amount = new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(value));
+  return currency === "USD" ? `${amount} $` : `${amount} ${currency}`;
+};
 const brandLabel = (name) => CatalogText.brandName(name ? { name } : null) || t("noBrand");
 
 fetch(`/api/v1/suppliers/${supplierId}`).then(async (response) => {

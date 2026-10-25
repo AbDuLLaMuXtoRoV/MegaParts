@@ -19,6 +19,7 @@ from app.product_context import (
 )
 from app.query_parser import ParsedQuery, parse_query
 from app.schemas import (
+    BrandFacetOut,
     CategoryOut,
     ProductDetail,
     ProductSearchResult,
@@ -26,6 +27,7 @@ from app.schemas import (
     VehicleFilterOut,
 )
 from app.search_vocabulary import RELATED_PRODUCT_MARKERS
+from app.shop import quality_tier
 from app.vocabulary import (
     SearchVocabulary,
     correction_candidates,
@@ -59,6 +61,19 @@ class ScoredProduct:
         ):
             return 0
         return {"EXACT": 1, "COMPATIBLE": 2, "RELATED": 3}[self.result_group]
+
+
+# A typed word this close to a part's name counts as a misspelling of it.
+FUZZY_RATIO = 0.55
+
+
+def _display_text(name: str | None, name_ru: str | None, name_en: str | None) -> str:
+    """The part's own names, without the sellers' wording a fuzzy match would drown in."""
+    return normalize_text(" ".join(filter(None, [name, name_ru, name_en])))
+
+
+def _fuzzy_ratio(expansions, text: str) -> float:
+    return max(SequenceMatcher(None, expansion, text).ratio() for expansion in expansions)
 
 
 def _phrase_in(text: str, phrase: str) -> bool:
@@ -133,8 +148,9 @@ def _score(
             parts[f"category:{term}"] = 30
             matched_product_terms.append(term)
         else:
-            ratio = max(SequenceMatcher(None, expansion, name).ratio() for expansion in expansions)
-            if ratio >= 0.55:
+            display = _display_text(product.name, product.name_ru, product.name_en)
+            ratio = _fuzzy_ratio(expansions, display)
+            if ratio >= FUZZY_RATIO:
                 parts[f"fuzzy_product:{term}"] = round(ratio * 18, 2)
 
     related_variant = any(
@@ -316,10 +332,28 @@ def _rank(
         session.scalars(stmt.where(condition) if condition is not None else stmt).unique().all()
     )
 
-    # A miss on product text gets one bounded fuzzy pass over this small catalog.
+    # A miss on product text gets one bounded fuzzy pass over the catalog: names first,
+    # and only the parts whose name comes close are loaded in full.
     fuzzy_fallback = bool(parsed.product_terms and not products)
     if fuzzy_fallback:
-        products = session.scalars(stmt).unique().all()
+        names = select(Product.id, Product.name, Product.name_ru, Product.name_en).where(
+            Product.is_searchable.is_(True)
+        )
+        if filter_applied:
+            names = names.where(fits_vehicles(vehicle_ids))
+        if category_ids:
+            names = names.where(Product.category_id.in_(category_ids))
+        close = [
+            product_id
+            for product_id, *texts in session.execute(names)
+            if any(
+                _fuzzy_ratio(parsed.product_expansions[term], _display_text(*texts)) >= FUZZY_RATIO
+                for term in parsed.product_terms
+            )
+        ]
+        products = (
+            session.scalars(stmt.where(Product.id.in_(close))).unique().all() if close else []
+        )
 
     scored = [
         _score(product, query, parsed, vocabulary.category_texts.get(product.category_id, ""))
@@ -360,6 +394,9 @@ def search_products(
     spellcheck: bool = True,
     category: Category | None = None,
     category_ids: set[str] | None = None,
+    brand_id: int | None = None,
+    quality: str | None = None,
+    sort: str = "relevance",
 ) -> SearchResponse:
     vocabulary = load_vocabulary(session)
     parsed, ranked, filter_applied = _rank(session, query, vocabulary, vehicle_ids, category_ids)
@@ -380,6 +417,19 @@ def search_products(
                 fallback = (shorter, corrected)
         if fallback:
             corrected_query, (parsed, ranked, filter_applied) = fallback
+
+    # Brand and quality narrow the list; their own counts are taken before, so the buyer
+    # can switch between them.
+    brand_counts = Counter(item.product.brand_id for item in ranked if item.product.brand)
+    brand_names = {item.product.brand_id: item.product.brand.name for item in ranked
+                   if item.product.brand}
+    quality_counts = Counter(quality_tier(item.product) for item in ranked)
+    if brand_id is not None:
+        ranked = [item for item in ranked if item.product.brand_id == brand_id]
+    if quality:
+        ranked = [item for item in ranked if quality_tier(item.product) == quality]
+    if sort == "price":
+        ranked = sorted(ranked, key=lambda item: _lowest_price(item.product))
 
     page = ranked[offset : offset + limit]
     group_distribution = {
@@ -447,11 +497,26 @@ def search_products(
         category_counts=Counter(
             item.product.category_id for item in ranked if item.product.category_id
         ),
+        brand_facets=[
+            BrandFacetOut(id=brand, name=brand_names[brand], count=count)
+            for brand, count in brand_counts.most_common(12)
+        ],
+        quality_counts=dict(quality_counts),
         items=items,
         search_debug=debug,
         parsed_query_internal=parsed.public_dict(),
         result_group_distribution_internal=group_distribution,
     )
+
+
+def _lowest_price(product: Product) -> tuple:
+    """Priced parts by their cheapest offer, in so'm before dollars; unpriced ones last."""
+    prices = [
+        (offer.currency != "UZS", float(offer.price))
+        for offer in active_sorted_offers(product.supplier_offers)
+        if offer.price is not None
+    ]
+    return (0, *min(prices)) if prices else (1, 0, 0.0)
 
 
 def get_product_detail(
@@ -471,6 +536,9 @@ def get_product_detail(
         name_ru=product.name_ru,
         name_en=product.name_en,
         reservation_count=reservation_counts(session, [product.id]).get(product.id, 0),
+        quality=quality_tier(product),
+        country_of_origin=product.country_of_origin,
+        attributes=sorted(product.attributes, key=lambda attribute: attribute.attribute_code),
         alternatives=alternatives(session, product, vehicle_ids),
         complete_the_job=complete_the_job(session, product, vehicle_ids),
         fit_reports=fit_report_summary(session, product.id),
@@ -513,4 +581,23 @@ def _product_search_out(item: ScoredProduct, reservation_count: int = 0) -> Prod
         relevance_score=item.score,
         result_group=item.result_group,
         reservation_count=reservation_count,
+        quality=quality_tier(item.product),
+        country_of_origin=item.product.country_of_origin,
+    )
+
+
+def product_search_out(product: Product) -> ProductSearchResult:
+    """A part in the shape search results use, for lists that are not a search."""
+    return _product_search_out(
+        ScoredProduct(
+            product=product,
+            score=0,
+            scoring={},
+            result_group="EXACT",
+            matched_vehicle=None,
+            matched_product_terms=[],
+            matched_position=None,
+            matched_side=None,
+            fitment_match=None,
+        )
     )

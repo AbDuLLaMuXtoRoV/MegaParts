@@ -1,7 +1,8 @@
-"""Search vocabulary assembled per request: static synonyms, admin aliases, and catalog words.
+"""Search vocabulary: static synonyms, admin aliases, and catalog words.
 
-The catalog is small (hundreds of products), so the lexicon is rebuilt on every search.
-That keeps admin alias changes and catalog re-imports effective immediately.
+The lexicon is rebuilt whenever the catalog changes (a cheap fingerprint query tells),
+so admin alias changes and catalog re-imports take effect on the next search, while
+searches in between reuse it.
 """
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 from itertools import product
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.models import Brand, Category, Product, SearchAlias, SearchSynonym, Vehicle
@@ -140,7 +141,36 @@ def workbook_vehicle_synonyms(session: Session) -> list[tuple[str, str]]:
     ]
 
 
+_CACHE: dict[int, tuple[tuple, SearchVocabulary]] = {}
+
+
+def _fingerprint(session: Session) -> tuple:
+    """Changes whenever anything the vocabulary is built from changes."""
+    counts = [
+        select(func.count(Product.id)).scalar_subquery(),
+        select(func.max(Product.updated_at)).scalar_subquery(),
+        select(func.count(SearchAlias.id)).scalar_subquery(),
+        select(func.max(SearchAlias.id)).scalar_subquery(),
+        select(func.count(SearchSynonym.id)).scalar_subquery(),
+        select(func.count(Vehicle.id)).scalar_subquery(),
+        select(func.count(Brand.id)).scalar_subquery(),
+        select(func.count(Category.id)).scalar_subquery(),
+    ]
+    return tuple(session.execute(select(*counts)).one())
+
+
 def load_vocabulary(session: Session) -> SearchVocabulary:
+    key = id(session.get_bind())
+    fingerprint = _fingerprint(session)
+    cached = _CACHE.get(key)
+    if cached and cached[0] == fingerprint:
+        return cached[1]
+    vocabulary = _build_vocabulary(session)
+    _CACHE[key] = (fingerprint, vocabulary)
+    return vocabulary
+
+
+def _build_vocabulary(session: Session) -> SearchVocabulary:
     aliases = session.execute(
         select(SearchAlias.kind, SearchAlias.canonical, SearchAlias.alias)
     ).all()
@@ -267,7 +297,14 @@ def _token_options(token: str, vocabulary: SearchVocabulary) -> list[str]:
     ranked: list[tuple[int, bool, int, int, str]] = []
     for word, count in vocabulary.word_counts.items():
         spelled = edit_distance(token, word, limit)
-        distance = min(spelled, edit_distance(key, vocabulary.phonetic_keys[word], limit))
+        # A sound-alike has about the same length and sounds nearly the same; otherwise
+        # short catalog words ("std") would "correct" any gibberish ("zzzzqqq").
+        sounds = limit + 1
+        if abs(len(token) - len(word)) <= limit:
+            sounds = edit_distance(key, vocabulary.phonetic_keys[word], limit)
+            if limit > 1 and spelled > limit and sounds >= limit:
+                sounds = limit + 1
+        distance = min(spelled, sounds)
         partial = False
         if (
             distance > limit

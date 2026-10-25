@@ -3,14 +3,28 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="MegaParts — avtomobil ehtiyot qismlari katalogi">
+    <meta name="description" content="MegaParts — O‘zbekistonda zapchast kimda borligini toping: artikul, OEM raqam, nom yoki mashina bo‘yicha bir nechta sotuvchining takliflari.">
     <meta name="theme-color" content="#111722">
-    <title>MegaParts — ehtiyot qismlar</title>
+    <title>MegaParts — zapchast qayerda bor: ehtiyot qismlar qidiruvi</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e2222a'/%3E%3Ctext x='16' y='23' font-family='Arial' font-weight='900' font-style='italic' font-size='20' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="/static/styles.css">
+    <script type="application/ld+json">
+      {"@context": "https://schema.org", "@graph": [
+        {"@type": "Organization", "@id": "/#org", "name": "MegaParts", "url": "/",
+         "description": "Avtomobil ehtiyot qismlari katalogi: sotuvchilar takliflari, moslik tekshiruvi va oldindan to‘lovsiz band qilish."},
+        {"@type": "WebSite", "name": "MegaParts", "url": "/", "inLanguage": ["uz", "ru", "en"],
+         "potentialAction": {"@type": "SearchAction", "target": "/?q={search_term_string}", "query-input": "required name=search_term_string"}},
+        {"@type": "FAQPage", "mainEntity": [
+          {"@type": "Question", "name": "To‘lovni qachon qilaman?", "acceptedAnswer": {"@type": "Answer", "text": "Oldindan to‘lov yo‘q. Detalni band qilasiz, sotuvchi tasdiqlaydi, to‘lovni detalni olayotganda sotuvchiga qilasiz."}},
+          {"@type": "Question", "name": "Detal mashinamga to‘g‘ri kelishini qanday bilaman?", "acceptedAnswer": {"@type": "Answer", "text": "Mashinangizni tanlang — har bir detalda “Mos keladi” yoki “Tekshiring” belgisi chiqadi. Ikkilansangiz, sotuvchiga mashina va VIN raqamini Telegram’da yuboring."}},
+          {"@type": "Question", "name": "Bir nechta sotuvchidan bir martada olsam bo‘ladimi?", "acceptedAnswer": {"@type": "Answer", "text": "Ha. Detallarni savatga qo‘shing va “Hammasini band qilish”ni bosing — har bir sotuvchi o‘z qismini oladi."}},
+          {"@type": "Question", "name": "Kerakli detal topilmasa-chi?", "acceptedAnswer": {"@type": "Answer", "text": "Qidiruv natijasi ostidagi so‘rovni to‘ldiring — sotuvchilar topib, siz bilan bog‘lanishadi."}}
+        ]}
+      ]}
+    </script>
   </head>
   <body class="view-home">
     <a class="skip-link" href="#content" data-i18n="skipToContent">Asosiy qismga o‘tish</a>
@@ -24,6 +38,11 @@
           </span>
         </a>
         <div class="topbar-tools">
+          <button type="button" id="basket-button" class="topbar-button basket-button">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 10.5h10.6L20.5 7H6.4"/><circle cx="9.5" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
+            <span class="topbar-label" data-i18n="basket">Savat</span>
+            <span class="basket-count" aria-hidden="true"></span>
+          </button>
           <button type="button" id="my-reservations" class="topbar-button" data-i18n-aria="myReservations">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 4h12v16l-6-3-6 3z"/></svg>
             <span class="topbar-label" data-i18n="myReservations">Buyurtmalarim</span>
@@ -108,7 +127,7 @@
           <!-- What the site promises, each backed by a real feature. -->
           <ul class="value-strip">
             <li>
-              <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 12.5l2 2 4-4.5"/><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg></span>
+              <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16"/></svg></span>
               <span><strong data-i18n="value1Title"></strong><span data-i18n="value1Text"></span></span>
             </li>
             <li>
@@ -116,7 +135,7 @@
               <span><strong data-i18n="value2Title"></strong><span data-i18n="value2Text"></span></span>
             </li>
             <li>
-              <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12v16l-6-3-6 3z"/><path d="M9.5 10l2 2 3.5-3.5"/></svg></span>
+              <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 12.5l2 2 4-4.5"/><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg></span>
               <span><strong data-i18n="value3Title"></strong><span data-i18n="value3Text"></span></span>
             </li>
             <li>
@@ -133,12 +152,28 @@
             <div id="popular-cars" class="popular-cars"></div>
           </section>
 
+          <section class="home-section" aria-labelledby="jobs-title">
+            <div class="section-head">
+              <h2 id="jobs-title" class="sections-title" data-i18n="jobsTitle"></h2>
+              <p id="jobs-lead" class="sections-lead"></p>
+            </div>
+            <div id="job-grid" class="job-grid"></div>
+          </section>
+
           <section class="home-section" aria-labelledby="sections-title">
             <div class="section-head">
               <h2 id="sections-title" class="sections-title" data-i18n="sectionsTitle"></h2>
               <p class="sections-lead" data-i18n="sectionsLead"></p>
             </div>
             <div id="group-grid" class="group-grid"></div>
+          </section>
+
+          <section class="sell-banner" aria-labelledby="sell-banner-title">
+            <div>
+              <h2 id="sell-banner-title" data-i18n="sellBannerTitle"></h2>
+              <p data-i18n="sellBannerText"></p>
+            </div>
+            <a class="primary-button" href="/?view=sell" data-view-link="sell" data-i18n="sellBannerButton"></a>
           </section>
 
           <section class="home-section how-it-works" aria-labelledby="how-title">
@@ -148,6 +183,11 @@
               <li><span class="how-number" aria-hidden="true">2</span><strong data-i18n="how2Title"></strong><p data-i18n="how2Text"></p></li>
               <li><span class="how-number" aria-hidden="true">3</span><strong data-i18n="how3Title"></strong><p data-i18n="how3Text"></p></li>
             </ol>
+          </section>
+
+          <section class="home-section" aria-labelledby="faq-title">
+            <h2 id="faq-title" class="sections-title" data-i18n="faqTitle"></h2>
+            <div id="faq-list" class="faq-list"></div>
           </section>
         </section>
 
@@ -159,9 +199,11 @@
           <div class="results-heading">
             <h2 id="results-title"></h2>
             <span id="results-count" class="count" aria-live="polite"></span>
+            <div id="layout-toggle" class="layout-toggle" role="group" data-i18n-aria="viewTable"></div>
           </div>
           <div id="active-filters" class="active-filters"></div>
           <div id="type-filter" class="type-filter"></div>
+          <div id="shop-filters" class="shop-filters" hidden></div>
           <p id="spelling-notice" class="spelling-notice" hidden></p>
           <div id="results" class="results"></div>
           <p id="results-more" class="results-more" hidden></p>
@@ -171,6 +213,10 @@
 
         <section id="detail-view" hidden></section>
         <section id="reservations-view" hidden></section>
+        <section id="basket-view" hidden></section>
+        <section id="job-view" hidden></section>
+        <section id="sellers-view" hidden></section>
+        <section id="sell-view" hidden></section>
       </section>
     </main>
 
@@ -185,9 +231,12 @@
           <a href="/" data-i18n="home"></a>
           <a href="/?view=reservations" data-i18n="myReservations"></a>
           <a href="#step-car-title" data-i18n="footerChooseCar"></a>
+          <a href="#jobs-title" data-i18n="footerJobs"></a>
+          <a href="/?view=sellers" data-view-link="sellers" data-i18n="footerSellers"></a>
         </nav>
         <nav class="footer-links" data-i18n-aria="footerForSellers">
           <strong data-i18n="footerForSellers"></strong>
+          <a href="/?view=sell" data-view-link="sell" data-i18n="footerSell"></a>
           <a href="/admin/login" data-i18n="footerStaffLogin"></a>
         </nav>
       </div>

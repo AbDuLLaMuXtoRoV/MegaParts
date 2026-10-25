@@ -61,6 +61,7 @@ def my_reservation_out(reservation: ReservationRequest) -> MyReservationOut:
         supplier=supplier_summary(offer.supplier),
         price=offer.price,
         currency=offer.currency,
+        basket_id=reservation.basket_id,
     )
 
 

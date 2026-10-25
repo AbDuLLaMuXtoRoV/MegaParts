@@ -4,6 +4,7 @@ const errorBox = document.querySelector("#supplier-admin-error");
 
 // Shown to buyers as "verified seller"; ticking the box needs the legal name and INN.
 const TEXT_FIELDS = [
+  ["name", "Name shown to buyers"],
   ["phone", "Phone"],
   ["telegram", "Telegram (@username or link)"],
   ["address", "Address (e.g. Sergeli auto market, row 9)"],
@@ -17,7 +18,7 @@ const TEXT_FIELDS = [
 
 function supplierCard(supplier) {
   const node = document.createElement("article"); node.className = "need-item";
-  node.innerHTML = `<h3></h3><p class="supplier-stats"></p><p class="supplier-trust"></p><form class="supplier-form"></form><form class="import-form"><input name="file" type="file" accept=".xlsx" required><button>Import XLSX</button></form><p class="status"></p>`;
+  node.innerHTML = `<h3></h3><p class="supplier-stats"></p><p class="supplier-trust"></p><form class="supplier-form"></form><form class="price-list-form"><label>Seller's price list (any layout, .xlsx or .xls) <input name="file" type="file" accept=".xlsx,.xls" required></label><button>Upload price list</button></form><form class="import-form"><label>Strict offer file (supplier_sku column) <input name="file" type="file" accept=".xlsx" required></label><button>Import XLSX</button></form><p class="status"></p><ul class="status-list"></ul>`;
   node.querySelector("h3").textContent = supplier.name;
   node.querySelector(".supplier-stats").textContent = `${supplier.active_offers_count} active offers · Last update: ${supplier.latest_data_update || "never"}`;
   node.querySelector(".supplier-trust").textContent = [
@@ -44,6 +45,23 @@ function supplierCard(supplier) {
     node.querySelector(".status").textContent = response.ok ? "Saved" : (typeof data.detail === "string" ? data.detail : "Save failed: check INN (9 or 14 digits) and map link (https://…)");
     if (response.ok) loadSuppliers();
   });
+  node.querySelector(".price-list-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const button = event.currentTarget.querySelector("button");
+    button.disabled = true;
+    node.querySelector(".status").textContent = "Reading the list…";
+    const response = await fetch(`/api/admin/suppliers/${supplier.id}/price-list`, { method: "POST", body: new FormData(event.currentTarget) });
+    const data = await response.json();
+    button.disabled = false;
+    node.querySelector(".status").textContent = response.ok
+      ? `Done: ${data.rows} rows · ${data.parts_created} new parts · ${data.parts_reused} already in the catalog · ${data.offers_created} new offers, ${data.offers_updated} updated, ${data.offers_closed} no longer listed · ${data.rows_without_car} rows without a car${data.cars_created.length ? ` · new cars: ${data.cars_created.join(", ")}` : ""}`
+      : (typeof data.detail === "string" ? data.detail : "Upload failed");
+    const list = node.querySelector(".status-list");
+    list.replaceChildren(...(response.ok ? data.unrecognised : []).map((name) => {
+      const item = document.createElement("li"); item.textContent = `Not recognised (kept under the seller's name): ${name}`; return item;
+    }));
+    if (response.ok) { loadSuppliers(); loadImports(); }
+  });
   node.querySelector(".import-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const body = new FormData(event.currentTarget);
@@ -67,5 +85,15 @@ async function loadImports() {
   const imports = await response.json(); importList.replaceChildren();
   imports.forEach((item) => { const row = document.createElement("div"); row.className = "compact-row"; row.textContent = `${item.supplier_name} · ${item.source_filename || "XLSX"} · ${item.status} · ${item.rows_matched} matched / ${item.unmatched_rows} review`; importList.append(row); });
 }
+
+document.querySelector("#supplier-create").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const body = Object.fromEntries([...new FormData(form)].map(([key, value]) => [key, String(value).trim() || null]));
+  const response = await fetch("/api/admin/suppliers", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const data = await response.json();
+  document.querySelector("#supplier-create-status").textContent = response.ok ? `Added ${data.name}. Upload their price list on their card below.` : (typeof data.detail === "string" ? data.detail : "Could not add the seller");
+  if (response.ok) { form.reset(); loadSuppliers(); }
+});
 
 Promise.all([loadSuppliers(), loadImports()]).catch((error) => { errorBox.hidden = false; errorBox.textContent = error.message; });

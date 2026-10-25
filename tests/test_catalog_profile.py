@@ -90,8 +90,8 @@ def editable(record: dict) -> dict:
 
 def test_every_workbook_sheet_is_in_the_database(engine) -> None:
     with Session(engine) as session:
-        # 47 workbook categories plus the 67 standard part types the workbook lacks.
-        assert session.scalar(select(func.count(Category.id))) == 47 + 67
+        # 47 workbook categories plus the 96 standard part types the workbook lacks.
+        assert session.scalar(select(func.count(Category.id))) == 47 + 96
         assert session.scalar(select(func.count(SearchSynonym.id))) == 120
         # Four products carry two audit findings each; none may be dropped.
         assert session.scalar(select(func.count(ProductAudit.id))) == 36

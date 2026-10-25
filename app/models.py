@@ -328,7 +328,14 @@ class SupplierOffer(Base):
     # GENUINE (carmaker part), OE (original-equipment maker's brand), AFTERMARKET or BUDGET.
     part_origin: Mapped[str | None] = mapped_column(String(20))
     warranty_months: Mapped[int | None] = mapped_column(Integer)
+    warranty_km: Mapped[int | None] = mapped_column(Integer)
     return_days: Mapped[int | None] = mapped_column(Integer)
+    # The seller's own label: NEW_ARRIVAL, DISCOUNT (with discount_percent), PRICE_DROP or
+    # NEW_PRICE, as their price list marks it ("YANGI KELDI", "-20% AKSIYA").
+    promo: Mapped[str | None] = mapped_column(String(30))
+    discount_percent: Mapped[int | None] = mapped_column(Integer)
+    # Pieces per carton in the seller's list ("KAROBKA").
+    pack_qty: Mapped[int | None] = mapped_column(Integer)
 
     supplier: Mapped[Supplier] = relationship(back_populates="offers")
     product: Mapped[Product] = relationship(back_populates="supplier_offers")
@@ -525,6 +532,8 @@ class ReservationRequest(Base):
     vehicle_label: Mapped[str | None] = mapped_column(String(300))
     vin: Mapped[str | None] = mapped_column(String(17))
     note: Mapped[str | None] = mapped_column(Text)
+    # Reservations sent together from one basket share this id, one per seller and part.
+    basket_id: Mapped[str | None] = mapped_column(String(40), index=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), index=True
     )
@@ -533,6 +542,27 @@ class ReservationRequest(Base):
     product: Mapped[Product] = relationship()
     supplier_offer: Mapped[SupplierOffer] = relationship()
     search_event: Mapped[SearchEvent | None] = relationship()
+
+
+class SellerApplication(Base):
+    """A shop that wants to sell on MegaParts, from the "Sell on MegaParts" page."""
+
+    __tablename__ = "seller_applications"
+
+    id: Mapped[int] = mapped_column(BIGINT_PK, primary_key=True, autoincrement=True)
+    business_name: Mapped[str] = mapped_column(String(200))
+    contact_name: Mapped[str | None] = mapped_column(String(200))
+    phone: Mapped[str] = mapped_column(String(50))
+    telegram: Mapped[str | None] = mapped_column(String(100))
+    city: Mapped[str | None] = mapped_column(String(200))
+    address: Mapped[str | None] = mapped_column(Text)
+    cars: Mapped[str | None] = mapped_column(String(300))
+    note: Mapped[str | None] = mapped_column(Text)
+    # NEW -> CONTACTED -> ONBOARDED, or DECLINED.
+    status: Mapped[str] = mapped_column(String(20), default="NEW", index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), index=True
+    )
 
 
 class PartRequest(Base):
