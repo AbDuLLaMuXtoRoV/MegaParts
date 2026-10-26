@@ -41,6 +41,7 @@ from app.models import (
     Vehicle,
 )
 from app.normalization import normalize_code, normalize_text
+from app.oem import split_numbers, valid_oem
 from app.part_names import PartName, display_names, latin_upper, part_numbers, read_part_name
 from app.part_types import ensure_standard_part_types
 from app.price_list_reader import PriceRow, parse_price_list, promo, warranty
@@ -271,6 +272,27 @@ class ImportResult:
     without_car: int = 0
 
 
+# A maker's article typed into the brand column ("KOS-1101"): the letters are the brand.
+_BRAND_COLUMN_ARTICLE = re.compile(r"([A-Z][A-Z&]+)[- ]?(\d{3,}[A-Z0-9]*)")
+
+
+def _brand_column_article(row: PriceRow) -> str | None:
+    text = " ".join(latin_upper(row.brand or "").split())
+    return text if _BRAND_COLUMN_ARTICLE.fullmatch(text) else None
+
+
+def number_kind(number: str, oem: dict[str, str], brand_name: str | None) -> str:
+    """OE for numbers from the seller's OEM column; a number that starts with the part's own
+    brand ("KOS-1303" on a KOS seal) is that maker's article; otherwise by its shape."""
+    normalized = normalize_code(number)
+    if normalized in oem:
+        return "OE"
+    prefix = normalize_code(brand_name or "")
+    if prefix and normalized.startswith(prefix) and normalized[len(prefix):][:3].isdigit():
+        return "AFTERMARKET"
+    return reference_type(number)
+
+
 def _brand_name(row: PriceRow, part: PartName) -> tuple[str | None, str | None, bool]:
     """(brand, country, budget) from the brand column, the code suffix or the name."""
     country = COUNTRY_WORDS.get(latin_upper(row.country or ""))
@@ -281,6 +303,8 @@ def _brand_name(row: PriceRow, part: PartName) -> tuple[str | None, str | None, 
             country = country or code
             raw = re.sub(rf"\b{word}\b", " ", raw)
     raw = " ".join(raw.split())
+    if article := _BRAND_COLUMN_ARTICLE.fullmatch(raw):
+        raw = article.group(1)
     if raw in BUDGET_WORDS:
         raw, budget = "", True
     if not raw and row.code:
@@ -521,15 +545,22 @@ def import_price_list(
         batch.rows_received += 1
         raw_id = f"PL-{supplier.id}-{file_tag}-{row.row_number}"
         part = read_part_name(row.name, row.model or "")
-        numbers = list(dict.fromkeys([*part_numbers(row.code or ""), *part.numbers]))
+        # Numbers from a column the seller titled OEM are the carmaker's, whatever their shape.
+        oem = {
+            normalize_code(number): number for number in split_numbers(row.oem) if valid_oem(number)
+        }
+        brand_name, country, budget = _brand_name(row, part)
+        article = _brand_column_article(row)
+        numbers = list(dict.fromkeys(
+            [*oem.values(), *([article] if article else []), *part_numbers(row.code or ""), *part.numbers]
+        ))
         if part.side is None and row.code:
             code = latin_upper(row.code)
             part.side = "left" if re.search(r"\dL\b|-L\b", code) else (
                 "right" if re.search(r"\dR\b|-R\b", code) else None)
         attributes = part_attributes(part)
         variant = variant_of(attributes)
-        strong = [number for number in numbers if reference_type(number) != "SUPPLIER_SKU"]
-        brand_name, country, budget = _brand_name(row, part)
+        strong = [number for number in numbers if number_kind(number, oem, brand_name) != "SUPPLIER_SKU"]
         brand = catalog.brand(brand_name)
         car = cars.match(row.model or "") if row.model else cars.match(row.name)
         if not car.vehicle_ids:
@@ -612,18 +643,21 @@ def import_price_list(
                                        strict=True)
             )
 
-        have_numbers = {reference.normalized_number for reference in product.reference_numbers}
+        have_numbers = {reference.normalized_number: reference for reference in product.reference_numbers}
         for number in numbers:
             normalized = normalize_code(number)
-            if not normalized or normalized in have_numbers:
+            known = have_numbers.get(normalized)
+            if known is not None and normalized in oem and known.type not in ("OE", "OES"):
+                known.type = "OE"
+            if not normalized or known is not None:
                 continue
-            kind = reference_type(number)
+            kind = number_kind(number, oem, brand_name)
             product.reference_numbers.append(
                 ReferenceNumber(number=number, normalized_number=normalized, type=kind,
                                 source_supplier_id=supplier.id, cross_source="SUPPLIER",
                                 confidence="MEDIUM")
             )
-            have_numbers.add(normalized)
+            have_numbers[normalized] = product.reference_numbers[-1]
             if kind != "SUPPLIER_SKU":
                 catalog.by_number[(brand.id, normalized)].append(product)
         fitted = {
@@ -729,6 +763,11 @@ def _audit_merges(session: Session, product_ids: set[str]) -> None:
             continue
         marks = {(raw.position, raw.side) for raw in rows}
         status = "CONFIRMED" if len(marks) == 1 else "PROBABLE"
+        # Read everything before adding a new audit: a lazy load would flush it half-filled.
+        reference = next((ref.number for ref in product.reference_numbers
+                          if ref.type != "SUPPLIER_SKU"), None)
+        brand = product.brand.name if product.brand else None
+        supplier_names = ", ".join(sorted({raw.supplier.name for raw in rows}))
         audit = session.scalar(
             select(ProductAudit).where(
                 ProductAudit.product_id == product.id,
@@ -736,15 +775,13 @@ def _audit_merges(session: Session, product_ids: set[str]) -> None:
             )
         )
         if audit is None:
-            audit = ProductAudit(product_id=product.id)
+            audit = ProductAudit(product_id=product.id, merge_status=status)
             session.add(audit)
-        reference = next((ref.number for ref in product.reference_numbers
-                          if ref.type != "SUPPLIER_SKU"), None)
-        audit.brand = product.brand.name if product.brand else None
+        audit.brand = brand
         audit.reference = reference
         audit.master_name = product.name
         audit.supplier_count = len(sellers)
-        audit.suppliers = ", ".join(sorted({raw.supplier.name for raw in rows}))
+        audit.suppliers = supplier_names
         audit.merge_status = status
         audit.audit_reason = f"{SOURCE_TYPE}: brend va raqam bir xil ({reference})"
         audit.source_rows = ", ".join(sorted({raw.source_raw_id for raw in rows}))[:2000]

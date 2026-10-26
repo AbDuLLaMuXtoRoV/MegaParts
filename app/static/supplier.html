@@ -3,27 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c111b">
   <title>MegaParts</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=JetBrains+Mono:wght@500..700&display=swap">
+  <link rel="stylesheet" href="/static/styles.css?v=20261027d">
 </head>
 <body class="supplier-body">
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="/" aria-label="MegaParts"><span class="brand-mark">M</span><span class="brand-name">MEGAPARTS</span></a>
+      <a class="brand" href="/" aria-label="MegaParts">
+        <span class="brand-mark">M</span>
+        <span class="brand-text"><span class="brand-name">MEGAPARTS</span></span>
+      </a>
+      <div class="topbar-tools"><a href="/" id="supplier-back" class="topbar-button"></a></div>
     </div>
   </header>
+
+  <!-- The seller (the company): who they are, how to reach them, and how much they list. -->
+  <section class="supplier-hero" aria-labelledby="supplier-name">
+    <div class="supplier-head">
+      <p class="hero-eyebrow" id="supplier-eyebrow"></p>
+      <h1 id="supplier-name"></h1>
+      <div id="supplier-trust" class="supplier-badges"></div>
+      <div id="supplier-contact" class="supplier-actions"></div>
+      <ul id="supplier-stats" class="supplier-stats"></ul>
+    </div>
+  </section>
+
   <main class="supplier-page">
-    <a href="/" id="supplier-back" class="secondary-button supplier-back">←</a>
-    <p class="eyebrow" id="supplier-eyebrow"></p>
-    <h1 id="supplier-name"></h1>
-    <div id="supplier-contact" class="supplier-meta"></div>
-    <p id="supplier-summary"></p>
-    <section id="supplier-products" class="supplier-products"></section>
+    <section class="supplier-section" aria-labelledby="supplier-brands-title">
+      <h2 class="supplier-section-title" id="supplier-brands-title"></h2>
+      <div id="supplier-brands" class="brand-chips"></div>
+    </section>
+    <section class="supplier-section" aria-labelledby="supplier-products-title">
+      <div class="supplier-list-head">
+        <h2 class="supplier-section-title" id="supplier-products-title"></h2>
+        <input id="supplier-filter" class="supplier-filter" type="search" autocomplete="off" spellcheck="false">
+        <span id="supplier-count" class="count" aria-live="polite"></span>
+      </div>
+      <div id="supplier-products" class="supplier-products"></div>
+    </section>
   </main>
-  <script src="/static/catalog-text.js"></script>
-  <script src="/static/supplier.js"></script>
+  <script src="/static/catalog-text.js?v=20261027d"></script>
+  <script src="/static/supplier.js?v=20261027d"></script>
 </body>
 </html>

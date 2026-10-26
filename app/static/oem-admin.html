@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OEM codes · MegaParts</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/admin.css">
+  <link rel="stylesheet" href="/static/catalog.css">
+</head>
+<body class="admin-body">
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">M</span><span>MEGAPARTS</span></a>
+    <nav class="admin-nav" aria-label="Admin"><a href="/admin/catalog">My catalog</a><a href="/admin/search-analytics">Analytics</a><a href="/admin/suppliers">Imports</a><a href="/admin/requests">Requests</a><a href="/admin/oem" aria-current="page">OEM codes</a></nav>
+    <div class="topbar-actions"><button type="button" class="logout-button" data-logout>Log out</button></div>
+  </header>
+  <main class="admin-shell">
+    <h1>OEM codes</h1>
+    <p class="panel-copy">The OEM code is the carmaker's own number for a part (GM 96273708, Hyundai 58101-1RA00). Buyers and mechanics use it to be sure they get the right part, so every part page shows it. Codes come from sellers' lists; fill in the rest here.</p>
+    <p id="oem-error" class="error" hidden></p>
+
+    <div class="metrics">
+      <div class="metric"><span class="metric-label">Parts with an OEM code</span><strong id="metric-with" class="metric-value">—</strong></div>
+      <div class="metric"><span class="metric-label">Still missing</span><strong id="metric-missing" class="metric-value">—</strong></div>
+      <div class="metric"><span class="metric-label">Codes buyers sent</span><strong id="metric-sent" class="metric-value">—</strong></div>
+    </div>
+
+    <section class="admin-panel table-panel">
+      <div class="panel-heading"><div><p class="eyebrow">Coverage</p><h2>By seller</h2></div></div>
+      <div class="table-wrap"><table class="text-table">
+        <thead><tr><th>Seller</th><th>Parts</th><th>With OEM</th><th>Missing</th><th></th></tr></thead>
+        <tbody id="seller-rows"></tbody>
+      </table></div>
+    </section>
+
+    <section class="admin-panel table-panel" id="suggestions-panel">
+      <div class="panel-heading"><div><p class="eyebrow">From buyers and mechanics</p><h2>Codes sent for checking</h2></div><span id="suggestion-count" class="count"></span></div>
+      <p class="panel-copy">Check each code in a catalog before accepting it. Accepted codes show on the part page at once.</p>
+      <div class="table-wrap"><table class="text-table">
+        <thead><tr><th>Date</th><th>Part</th><th>Code sent</th><th>OEM codes now</th><th></th></tr></thead>
+        <tbody id="suggestion-rows"></tbody>
+      </table></div>
+    </section>
+
+    <section class="admin-panel table-panel">
+      <div class="panel-heading"><div><p class="eyebrow">To fill in</p><h2>Parts without an OEM code</h2></div><span id="missing-count" class="count"></span></div>
+      <p class="panel-copy">Type the code and press Save, or click a suggested code to copy it into the box first. Several codes for one part: separate them with commas. "Possible" codes come from the same kind of part for the same car from another seller; they are not always the same part, so check them. For many parts at once, download the Excel file, fill in the last column and upload it.</p>
+      <form id="missing-filters" class="alias-form oem-filters">
+        <label>Seller<select name="supplier_id"><option value="">All sellers</option></select></label>
+        <label>Search<input name="q" maxlength="100" placeholder="Part, car or number"></label>
+        <button>Show</button>
+      </form>
+      <div class="oem-excel">
+        <a id="excel-download" class="fix-button" href="/api/admin/oem/missing.xlsx">Download Excel of these parts</a>
+        <form id="excel-upload" class="oem-upload">
+          <label>Upload filled Excel <input type="file" name="file" accept=".xlsx" required></label>
+          <button class="fix-button">Upload</button>
+        </form>
+      </div>
+      <p id="upload-status" class="alias-status" role="status"></p>
+      <div class="table-wrap"><table class="text-table oem-table">
+        <thead><tr><th>Part</th><th>How sellers wrote it</th><th>Cars</th><th>Other numbers</th><th>Possible OEM</th><th>OEM code</th></tr></thead>
+        <tbody id="missing-rows"></tbody>
+      </table></div>
+      <button type="button" id="missing-more" class="fix-button oem-more" hidden>Show more</button>
+    </section>
+  </main>
+  <script src="/static/admin-session.js"></script>
+  <script src="/static/oem-admin.js"></script>
+</body>
+</html>

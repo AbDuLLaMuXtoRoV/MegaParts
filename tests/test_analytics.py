@@ -120,6 +120,13 @@ def test_search_click_feedback_and_admin_api() -> None:
             )
             assert phone.status_code == 200
 
+            # The part page records adding a seller's part to the basket.
+            basket = client.post(
+                f"/api/search-events/{event_id}/action",
+                json={"action": "basket_add", "supplier_id": supplier_id},
+            )
+            assert basket.status_code == 200
+
             feedback = client.post(
                 f"/api/search-events/{event_id}/feedback",
                 json={

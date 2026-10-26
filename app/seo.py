@@ -27,6 +27,18 @@ def _cars(product: ProductDetail) -> list[str]:
     )
 
 
+# The carmaker's (OEM) number first, a seller's own code last.
+_NUMBER_ORDER = ("OE", "OES", "AFTERMARKET", "EAN", "SUPPLIER_SKU")
+
+
+def _numbers(product: ProductDetail) -> list[str]:
+    ranked = sorted(
+        product.reference_numbers,
+        key=lambda ref: _NUMBER_ORDER.index(ref.type) if ref.type in _NUMBER_ORDER else 99,
+    )
+    return [ref.number for ref in ranked]
+
+
 def _structured_data(product: ProductDetail, url: str) -> dict:
     data: dict = {
         "@context": "https://schema.org",
@@ -36,7 +48,7 @@ def _structured_data(product: ProductDetail, url: str) -> dict:
         "url": url,
     }
     if product.reference_numbers:
-        data["mpn"] = product.reference_numbers[0].number
+        data["mpn"] = _numbers(product)[0]
     if product.brand:
         data["brand"] = {"@type": "Brand", "name": product.brand.name}
     if product.category:
@@ -62,7 +74,8 @@ def _structured_data(product: ProductDetail, url: str) -> dict:
 
 def part_page(template: str, product: ProductDetail, base_url: str) -> str:
     url = part_url(base_url, product.id)
-    numbers = ", ".join(ref.number for ref in product.reference_numbers[:5])
+    numbers = ", ".join(_numbers(product)[:5])
+    oem = [ref.number for ref in product.reference_numbers if ref.type in ("OE", "OES")]
     cars = _cars(product)
     brand = product.brand.name if product.brand else None
     title = " · ".join(filter(None, [product.name, brand, numbers.split(", ")[0] or None]))
@@ -71,6 +84,7 @@ def part_page(template: str, product: ProductDetail, base_url: str) -> str:
             None,
             [
                 f"{product.name}{f' ({brand})' if brand else ''}.",
+                f"OEM: {', '.join(oem[:3])}." if oem else None,
                 f"Raqamlar / номера: {numbers}." if numbers else None,
                 f"Mos keladi / подходит: {', '.join(cars[:6])}." if cars else None,
                 f"Sotuvchilar: {len(product.offers)}." if product.offers else None,

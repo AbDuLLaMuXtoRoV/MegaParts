@@ -585,6 +585,28 @@ class PartRequest(Base):
     )
 
 
+class OemSuggestion(Base):
+    """An OEM code a buyer or mechanic sent for a part; staff check it before it is shown."""
+
+    __tablename__ = "oem_suggestions"
+
+    id: Mapped[int] = mapped_column(BIGINT_PK, primary_key=True, autoincrement=True)
+    session_id: Mapped[str] = mapped_column(String(100), index=True)
+    product_id: Mapped[str] = mapped_column(
+        ForeignKey("products.id", ondelete="CASCADE"), index=True
+    )
+    number: Mapped[str] = mapped_column(String(200))
+    normalized_number: Mapped[str] = mapped_column(String(200), index=True)
+    # NEW -> ACCEPTED (added to the part as an OEM code) or REJECTED.
+    status: Mapped[str] = mapped_column(String(20), default="NEW", index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), index=True
+    )
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    product: Mapped[Product] = relationship()
+
+
 class FitReport(Base):
     """A buyer saying whether a part fitted their car, to catch wrong fitment data."""
 

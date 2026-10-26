@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="MegaParts — O‘zbekistonda zapchast kimda borligini toping: artikul, OEM raqam, nom yoki mashina bo‘yicha bir nechta sotuvchining takliflari.">
-    <meta name="theme-color" content="#111722">
+    <meta name="theme-color" content="#0c111b">
     <title>MegaParts — zapchast qayerda bor: ehtiyot qismlar qidiruvi</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e2222a'/%3E%3Ctext x='16' y='23' font-family='Arial' font-weight='900' font-style='italic' font-size='20' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=JetBrains+Mono:wght@500..700&display=swap">
+    <link rel="stylesheet" href="/static/styles.css?v=20261027d">
     <script type="application/ld+json">
       {"@context": "https://schema.org", "@graph": [
         {"@type": "Organization", "@id": "/#org", "name": "MegaParts", "url": "/",
@@ -52,63 +52,32 @@
             <button type="button" data-lang="ru" lang="ru" aria-label="Русский"><span class="lang-full">Русский</span><span class="lang-short" aria-hidden="true">RU</span></button>
             <button type="button" data-lang="en" lang="en" aria-label="English"><span class="lang-full">English</span><span class="lang-short" aria-hidden="true">EN</span></button>
           </div>
-          <button type="button" id="text-size" class="text-size" aria-pressed="false" data-i18n-aria="largerText">
-            <span class="text-size-mark" aria-hidden="true">A<span>A</span></span>
-            <span class="topbar-label" data-i18n="largerText">Katta harf</span>
-          </button>
         </div>
       </div>
     </header>
 
     <main>
       <section class="hero" aria-labelledby="page-title">
+        <!-- An exploded view, as in a parts catalogue: decoration only. -->
+        <div class="hero-art" aria-hidden="true"><svg class="blueprint" viewBox="0 0 1440 640" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" focusable="false"><g transform="translate(36 0)"><path class="axis" d="M80 318L576 318"/><g class="bp-part drift-a" style="--d:0"><path class="ln" pathLength="1" d="M128 206q-6 0-6 8v86q0 8 6 8h7q4 0 4-6v-90q0-6-4-6z"/><path class="ln" pathLength="1" d="M150 206q-6 0-6 8v86q0 8 6 8h7q4 0 4-6v-90q0-6-4-6z"/><path class="thin" pathLength="1" d="M128 226L128 288"/></g><g class="bp-part drift-b" style="--d:1"><path class="ln" pathLength="1" d="M186 318A46 138 0 1 0 278 318A46 138 0 1 0 186 318Z"/><path class="ln" pathLength="1" d="M252 180A46 138 0 0 1 252 456"/><path class="ln" pathLength="1" d="M232 180L252 180"/><path class="ln" pathLength="1" d="M232 456L252 456"/><path class="thin" pathLength="1" d="M196.1 318A35.9 107.6 0 1 0 267.9 318A35.9 107.6 0 1 0 196.1 318Z"/><path class="ln" pathLength="1" d="M210 318A22 62 0 1 0 254 318A22 62 0 1 0 210 318Z"/><path class="ln" pathLength="1" d="M224 318A8 22 0 1 0 240 318A8 22 0 1 0 224 318Z"/><path class="thin" pathLength="1" d="M229.4 358A2.6 6.5 0 1 0 234.6 358A2.6 6.5 0 1 0 229.4 358Z"/><path class="thin" pathLength="1" d="M216.7 330.4A2.6 6.5 0 1 0 221.9 330.4A2.6 6.5 0 1 0 216.7 330.4Z"/><path class="thin" pathLength="1" d="M221.6 285.6A2.6 6.5 0 1 0 226.8 285.6A2.6 6.5 0 1 0 221.6 285.6Z"/><path class="thin" pathLength="1" d="M237.2 285.6A2.6 6.5 0 1 0 242.4 285.6A2.6 6.5 0 1 0 237.2 285.6Z"/><path class="thin" pathLength="1" d="M242.1 330.4A2.6 6.5 0 1 0 247.3 330.4A2.6 6.5 0 1 0 242.1 330.4Z"/><path class="thin" pathLength="1" d="M264.6 336.1A1.5 4 0 1 0 267.6 336.1A1.5 4 0 1 0 264.6 336.1Z"/><path class="thin" pathLength="1" d="M257.1 364A1.5 4 0 1 0 260.1 364A1.5 4 0 1 0 257.1 364Z"/><path class="thin" pathLength="1" d="M252.8 397.7A1.5 4 0 1 0 255.8 397.7A1.5 4 0 1 0 252.8 397.7Z"/><path class="thin" pathLength="1" d="M241 404.5A1.5 4 0 1 0 244 404.5A1.5 4 0 1 0 241 404.5Z"/><path class="thin" pathLength="1" d="M230.5 422A1.5 4 0 1 0 233.5 422A1.5 4 0 1 0 230.5 422Z"/><path class="thin" pathLength="1" d="M220 404.5A1.5 4 0 1 0 223 404.5A1.5 4 0 1 0 220 404.5Z"/><path class="thin" pathLength="1" d="M208.2 397.7A1.5 4 0 1 0 211.2 397.7A1.5 4 0 1 0 208.2 397.7Z"/><path class="thin" pathLength="1" d="M203.9 364A1.5 4 0 1 0 206.9 364A1.5 4 0 1 0 203.9 364Z"/><path class="thin" pathLength="1" d="M196.4 336.1A1.5 4 0 1 0 199.4 336.1A1.5 4 0 1 0 196.4 336.1Z"/><path class="thin" pathLength="1" d="M200.3 302A1.5 4 0 1 0 203.3 302A1.5 4 0 1 0 200.3 302Z"/><path class="thin" pathLength="1" d="M200.5 266A1.5 4 0 1 0 203.5 266A1.5 4 0 1 0 200.5 266Z"/><path class="thin" pathLength="1" d="M210.8 247.5A1.5 4 0 1 0 213.8 247.5A1.5 4 0 1 0 210.8 247.5Z"/><path class="thin" pathLength="1" d="M218.6 220.3A1.5 4 0 1 0 221.6 220.3A1.5 4 0 1 0 218.6 220.3Z"/><path class="thin" pathLength="1" d="M230.5 226A1.5 4 0 1 0 233.5 226A1.5 4 0 1 0 230.5 226Z"/><path class="thin" pathLength="1" d="M242.4 220.3A1.5 4 0 1 0 245.4 220.3A1.5 4 0 1 0 242.4 220.3Z"/><path class="thin" pathLength="1" d="M250.2 247.5A1.5 4 0 1 0 253.2 247.5A1.5 4 0 1 0 250.2 247.5Z"/><path class="thin" pathLength="1" d="M260.5 266A1.5 4 0 1 0 263.5 266A1.5 4 0 1 0 260.5 266Z"/><path class="thin" pathLength="1" d="M260.7 302A1.5 4 0 1 0 263.7 302A1.5 4 0 1 0 260.7 302Z"/></g><g class="bp-part drift-a" style="--d:2"><path class="ln" pathLength="1" d="M346 318A24 72 0 1 0 394 318A24 72 0 1 0 346 318Z"/><path class="ln" pathLength="1" d="M386 246A24 72 0 0 1 386 390"/><path class="ln" pathLength="1" d="M370 246L386 246"/><path class="ln" pathLength="1" d="M370 390L386 390"/><path class="thin" pathLength="1" d="M360 318A10 28 0 1 0 380 318A10 28 0 1 0 360 318Z"/><path class="thin" pathLength="1" d="M370 359h-46v6h46"/><path class="thin" pathLength="1" d="M356.1 328.6h-46v6h46"/><path class="thin" pathLength="1" d="M361.4 279.4h-46v6h46"/><path class="thin" pathLength="1" d="M378.6 279.4h-46v6h46"/><path class="thin" pathLength="1" d="M383.9 328.6h-46v6h46"/><path class="ln" pathLength="1" d="M386 292h44v52h-44"/></g><g class="bp-part drift-b" style="--d:3"><path class="ln" pathLength="1" d="M452 318A14 40 0 1 0 480 318A14 40 0 1 0 452 318Z"/><path class="ln" pathLength="1" d="M478 278A14 40 0 0 1 478 358"/><path class="ln" pathLength="1" d="M466 278L478 278"/><path class="ln" pathLength="1" d="M466 358L478 358"/><path class="thin" pathLength="1" d="M458 318A8 24 0 1 0 474 318A8 24 0 1 0 458 318Z"/><path class="thin" pathLength="1" d="M476.2 318A1.4 3 0 1 0 478.9 318A1.4 3 0 1 0 476.2 318Z"/><path class="thin" pathLength="1" d="M473.9 336.8A1.4 3 0 1 0 476.7 336.8A1.4 3 0 1 0 473.9 336.8Z"/><path class="thin" pathLength="1" d="M468.2 348.4A1.4 3 0 1 0 471 348.4A1.4 3 0 1 0 468.2 348.4Z"/><path class="thin" pathLength="1" d="M461 348.4A1.4 3 0 1 0 463.8 348.4A1.4 3 0 1 0 461 348.4Z"/><path class="thin" pathLength="1" d="M455.3 336.8A1.4 3 0 1 0 458.1 336.8A1.4 3 0 1 0 455.3 336.8Z"/><path class="thin" pathLength="1" d="M453.1 318A1.4 3 0 1 0 455.8 318A1.4 3 0 1 0 453.1 318Z"/><path class="thin" pathLength="1" d="M455.3 299.2A1.4 3 0 1 0 458.1 299.2A1.4 3 0 1 0 455.3 299.2Z"/><path class="thin" pathLength="1" d="M461 287.6A1.4 3 0 1 0 463.8 287.6A1.4 3 0 1 0 461 287.6Z"/><path class="thin" pathLength="1" d="M468.2 287.6A1.4 3 0 1 0 471 287.6A1.4 3 0 1 0 468.2 287.6Z"/><path class="thin" pathLength="1" d="M473.9 299.2A1.4 3 0 1 0 476.7 299.2A1.4 3 0 1 0 473.9 299.2Z"/></g><g class="bp-part drift-a" style="--d:4"><path class="ln" pathLength="1" d="M534 298L548 298L548 338L534 338Z"/><path class="thin" pathLength="1" d="M534 311L548 311"/><path class="thin" pathLength="1" d="M534 325L548 325"/></g><g class="dim"><path class="thin" pathLength="1" d="M300 180L316 180"/><path class="thin" pathLength="1" d="M300 456L316 456"/><path class="thin" pathLength="1" d="M308 186V450"/><path class="thin" pathLength="1" d="M304 194l4-8 4 8M304 442l4 8 4-8"/><text class="dim-text" x="296" y="322" transform="rotate(-90 296 322)">&#216; 276</text></g><path class="lead" pathLength="1" d="M116.6 162.2L136 214"/><circle class="dot" cx="136" cy="214" r="2.2"/><g class="balloon"><circle cx="112" cy="150" r="13"/><text x="112" y="154.2">1</text></g><path class="lead" pathLength="1" d="M217.1 140.6L228 186"/><circle class="dot" cx="228" cy="186" r="2.2"/><g class="balloon"><circle cx="214" cy="128" r="13"/><text x="214" y="132.2">2</text></g><path class="lead" pathLength="1" d="M382.2 208.9L376 252"/><circle class="dot" cx="376" cy="252" r="2.2"/><g class="balloon"><circle cx="384" cy="196" r="13"/><text x="384" y="200.2">3</text></g><path class="lead" pathLength="1" d="M482.8 238.6L472 282"/><circle class="dot" cx="472" cy="282" r="2.2"/><g class="balloon"><circle cx="486" cy="226" r="13"/><text x="486" y="230.2">4</text></g><path class="lead" pathLength="1" d="M550.5 279.8L542 298"/><circle class="dot" cx="542" cy="298" r="2.2"/><g class="balloon"><circle cx="556" cy="268" r="13"/><text x="556" y="272.2">5</text></g></g><g transform="translate(-36 0)"><path class="axis" d="M1304 46L1304 292"/><path class="axis" d="M1146 300L1146 620"/><path class="axis" d="M1180 396L1352 396"/><g class="bp-part drift-b" style="--d:1"><path class="ln" pathLength="1" d="M1298 70h12v14h-12z"/><path class="thin" pathLength="1" d="M1301 84v8h6v-8"/><path class="ln" pathLength="1" d="M1295.0 92q-3 5 0 10h18q3-5 0-10z"/><path class="ln" pathLength="1" d="M1294.0 102q-3 5 0 10h20q3-5 0-10z"/><path class="ln" pathLength="1" d="M1293.0 112q-3 5 0 10h22q3-5 0-10z"/><path class="ln" pathLength="1" d="M1292.0 122q-3 5 0 10h24q3-5 0-10z"/><path class="ln" pathLength="1" d="M1292.0 132q-3 5 0 10h24q3-5 0-10z"/><path class="ln" pathLength="1" d="M1290 142h28l4 14h-36z"/><path class="ln" pathLength="1" d="M1280 156L1328 156L1328 182L1280 182Z"/><path class="thin" pathLength="1" d="M1296 156L1296 182"/><path class="thin" pathLength="1" d="M1312 156L1312 182"/><path class="ln" pathLength="1" d="M1282 192A22 4 0 1 0 1326 192A22 4 0 1 0 1282 192Z"/><path class="ln" pathLength="1" d="M1290 202h28v58h-28z"/><path class="thin" pathLength="1" d="M1290 206L1318 210"/><path class="thin" pathLength="1" d="M1290 212L1318 216"/><path class="thin" pathLength="1" d="M1290 218L1318 222"/><path class="thin" pathLength="1" d="M1290 224L1318 228"/><path class="thin" pathLength="1" d="M1290 230L1318 234"/><path class="thin" pathLength="1" d="M1290 236L1318 240"/><path class="thin" pathLength="1" d="M1290 242L1318 246"/><path class="thin" pathLength="1" d="M1290 248L1318 252"/><path class="thin" pathLength="1" d="M1290 254L1318 258"/><path class="ln" pathLength="1" d="M1302 260v10M1314 260v16h-12"/></g><g class="bp-part drift-a" style="--d:2"><path class="ln" pathLength="1" d="M1082 340q0-10 10-10h108q10 0 10 10v86q0 6-6 6h-116q-6 0-6-6z"/><path class="thin" pathLength="1" d="M1082 348L1210 348"/><path class="thin" pathLength="1" d="M1082 357L1210 357"/><path class="thin" pathLength="1" d="M1082 366L1210 366"/><path class="ln" pathLength="1" d="M1131 396A15 15 0 1 0 1161 396A15 15 0 1 0 1131 396Z"/><path class="thin" pathLength="1" d="M1139 396A7 7 0 1 0 1153 396A7 7 0 1 0 1139 396Z"/></g><g class="bp-part drift-b" style="--d:3"><path class="ln" pathLength="1" d="M1128 470q-4 28-16 72M1164 470q4 28 16 72"/><path class="ln" pathLength="1" d="M1126 466A20 20 0 1 0 1166 466A20 20 0 1 0 1126 466Z"/><path class="thin" pathLength="1" d="M1136 466A10 10 0 1 0 1156 466A10 10 0 1 0 1136 466Z"/><path class="ln" pathLength="1" d="M1106 574A40 40 0 1 0 1186 574A40 40 0 1 0 1106 574Z"/><path class="thin" pathLength="1" d="M1120 574A26 26 0 1 0 1172 574A26 26 0 1 0 1120 574Z"/><path class="thin" pathLength="1" d="M1094 574h104"/><path class="thin" pathLength="1" d="M1100 562v24"/><path class="thin" pathLength="1" d="M1192 562v24"/></g><g class="bp-part drift-a" style="--d:4"><path class="ln" pathLength="1" d="M1256 396A6 15 0 1 0 1268 396A6 15 0 1 0 1256 396Z"/><path class="ln" pathLength="1" d="M1332 381A6 15 0 0 1 1332 411"/><path class="ln" pathLength="1" d="M1262 381L1332 381"/><path class="ln" pathLength="1" d="M1262 411L1332 411"/><path class="thin" pathLength="1" d="M1259 396A3 7 0 1 0 1265 396A3 7 0 1 0 1259 396Z"/></g><path class="lead" pathLength="1" d="M1353.2 90.4L1312 98"/><circle class="dot" cx="1312" cy="98" r="2.2"/><g class="balloon"><circle cx="1366" cy="88" r="13"/><text x="1366" y="92.2">6</text></g><path class="lead" pathLength="1" d="M1252.4 203.8L1286 214"/><circle class="dot" cx="1286" cy="214" r="2.2"/><g class="balloon"><circle cx="1240" cy="200" r="13"/><text x="1240" y="204.2">7</text></g><path class="lead" pathLength="1" d="M1060.5 325.6L1086 344"/><circle class="dot" cx="1086" cy="344" r="2.2"/><g class="balloon"><circle cx="1050" cy="318" r="13"/><text x="1050" y="322.2">8</text></g><path class="lead" pathLength="1" d="M1361.5 442.1L1334 410"/><circle class="dot" cx="1334" cy="410" r="2.2"/><g class="balloon"><circle cx="1370" cy="452" r="13"/><text x="1370" y="456.2">9</text></g><path class="lead" pathLength="1" d="M1075.7 604.4L1110 588"/><circle class="dot" cx="1110" cy="588" r="2.2"/><g class="balloon"><circle cx="1064" cy="610" r="13"/><text x="1064" y="614.2">10</text></g></g></svg></div>
         <div class="hero-inner">
           <div class="hero-copy">
             <p class="hero-eyebrow" data-i18n="heroEyebrow"></p>
             <h1 id="page-title" data-i18n="title">Mashinangiz uchun kerakli detalni toping</h1>
             <p class="hero-lead" data-i18n="subtitle"></p>
-            <ul id="hero-stats" class="hero-stats" aria-live="polite"></ul>
           </div>
 
-          <div class="finder">
-            <section class="finder-step" aria-labelledby="step-car-title">
-              <h2 class="step-title"><span class="step-number" aria-hidden="true">1</span><span id="step-car-title" data-i18n="stepCar"></span></h2>
-              <div id="garage-list" class="car-chips" hidden></div>
-              <div id="quick-cars" class="car-chips" hidden></div>
-              <div class="car-fields">
-                <label class="field">
-                  <span class="field-label" data-i18n="make"></span>
-                  <select id="car-make"></select>
-                </label>
-                <label class="field">
-                  <span class="field-label" data-i18n="model"></span>
-                  <select id="car-model" disabled></select>
-                </label>
-                <label class="field" id="generation-field" hidden>
-                  <span class="field-label" data-i18n="generation"></span>
-                  <select id="car-generation"></select>
-                </label>
-                <button type="button" id="car-clear" class="secondary-button" hidden data-i18n="clearCar"></button>
-              </div>
-              <div id="car-hint" class="car-hint"></div>
-              <div id="vin-row" class="vin-row" hidden>
-                <label class="field">
-                  <span class="field-label" data-i18n="vinLabel"></span>
-                  <input id="car-vin" maxlength="17" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="vin-status">
-                </label>
-                <p id="vin-status" class="vin-status" role="status"></p>
-              </div>
-            </section>
-
-            <section class="finder-step">
-              <h2 class="step-title"><span class="step-number" aria-hidden="true">2</span><label for="search-input" data-i18n="stepPart"></label></h2>
+          <!-- Search first; the car narrows it. Off the home page the car folds into a button. -->
+          <div id="finder" class="finder">
+            <section class="finder-step finder-search">
+              <h2 class="step-title"><label for="search-input" data-i18n="stepPart"></label></h2>
               <form id="search-form" class="search-form" role="search">
                 <div class="search-box">
                   <input id="search-input" type="search" name="q" autocomplete="off" enterkeyhint="search" data-i18n-placeholder="searchPlaceholder"
                     role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions">
                   <div id="suggestions" class="suggestions" role="listbox" data-i18n-aria="suggestions" hidden></div>
                 </div>
-                <button type="submit" class="primary-button">
+                <button type="submit" class="primary-button" data-i18n-aria="searchButton">
                   <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
                   <span data-i18n="searchButton"></span>
                 </button>
@@ -118,31 +87,70 @@
                 <span id="example-list" class="example-list"></span>
               </div>
             </section>
+
+            <section class="finder-step finder-car" aria-labelledby="step-car-title">
+              <button type="button" id="car-toggle" class="car-toggle" aria-expanded="false" aria-controls="car-panel">
+                <span class="car-toggle-icon"><svg viewBox="0 0 48 24" aria-hidden="true"><path d="M3 17.5v-4.2l5-1.3 5.5-5.5h15.5l7 5.5 7.5 1.4 1.5 4.1"/><circle cx="13" cy="18" r="3.2"/><circle cx="36" cy="18" r="3.2"/><path d="M16.5 18h16M13 12h23"/></svg></span>
+                <span id="car-toggle-label" class="car-toggle-label"></span>
+                <svg class="car-toggle-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div id="car-panel" class="car-panel">
+                <h2 class="step-title"><span class="step-icon"><svg viewBox="0 0 48 24" aria-hidden="true"><path d="M3 17.5v-4.2l5-1.3 5.5-5.5h15.5l7 5.5 7.5 1.4 1.5 4.1"/><circle cx="13" cy="18" r="3.2"/><circle cx="36" cy="18" r="3.2"/><path d="M16.5 18h16M13 12h23"/></svg></span><span id="step-car-title" data-i18n="stepCar"></span></h2>
+                <div id="garage-list" class="car-chips" hidden></div>
+                <div id="quick-cars" class="car-chips" hidden></div>
+                <div class="car-fields">
+                  <div class="field">
+                    <span class="field-label" id="car-make-label" data-i18n="make"></span>
+                    <select id="car-make"></select>
+                  </div>
+                  <div class="field">
+                    <span class="field-label" id="car-model-label" data-i18n="model"></span>
+                    <select id="car-model" disabled></select>
+                  </div>
+                  <div class="field" id="generation-field" hidden>
+                    <span class="field-label" id="car-generation-label" data-i18n="generation"></span>
+                    <select id="car-generation"></select>
+                  </div>
+                  <button type="button" id="car-clear" class="secondary-button" hidden data-i18n="clearCar"></button>
+                </div>
+                <div id="car-hint" class="car-hint"></div>
+                <div id="vin-row" class="vin-row" hidden>
+                  <label class="field">
+                    <span class="field-label" data-i18n="vinLabel"></span>
+                    <input id="car-vin" maxlength="17" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="vin-status">
+                  </label>
+                  <p id="vin-status" class="vin-status" role="status"></p>
+                </div>
+              </div>
+            </section>
           </div>
+
+          <ul id="hero-stats" class="hero-stats" aria-live="polite"></ul>
         </div>
+        <!-- What the site promises, each backed by a real feature. Inside the hero so it can overlap
+             the hero's edge and still sit under the search suggestions. -->
+        <ul class="value-strip">
+          <li>
+            <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16"/></svg></span>
+            <span><strong data-i18n="value1Title"></strong><span data-i18n="value1Text"></span></span>
+          </li>
+          <li>
+            <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h11M4 12h16M4 17h8"/><circle cx="18" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg></span>
+            <span><strong data-i18n="value2Title"></strong><span data-i18n="value2Text"></span></span>
+          </li>
+          <li>
+            <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 12.5l2 2 4-4.5"/><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg></span>
+            <span><strong data-i18n="value3Title"></strong><span data-i18n="value3Text"></span></span>
+          </li>
+          <li>
+            <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 4 3 11l6 2 2 7 3-5 5 3z"/><path d="m9 13 6-4"/></svg></span>
+            <span><strong data-i18n="value4Title"></strong><span data-i18n="value4Text"></span></span>
+          </li>
+        </ul>
       </section>
 
       <section id="content" class="content" tabindex="-1">
         <section id="browse-view">
-          <!-- What the site promises, each backed by a real feature. -->
-          <ul class="value-strip">
-            <li>
-              <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16"/></svg></span>
-              <span><strong data-i18n="value1Title"></strong><span data-i18n="value1Text"></span></span>
-            </li>
-            <li>
-              <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h11M4 12h16M4 17h8"/><circle cx="18" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg></span>
-              <span><strong data-i18n="value2Title"></strong><span data-i18n="value2Text"></span></span>
-            </li>
-            <li>
-              <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 12.5l2 2 4-4.5"/><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg></span>
-              <span><strong data-i18n="value3Title"></strong><span data-i18n="value3Text"></span></span>
-            </li>
-            <li>
-              <span class="value-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 4 3 11l6 2 2 7 3-5 5 3z"/><path d="m9 13 6-4"/></svg></span>
-              <span><strong data-i18n="value4Title"></strong><span data-i18n="value4Text"></span></span>
-            </li>
-          </ul>
 
           <section class="home-section" aria-labelledby="cars-title">
             <div class="section-head">
@@ -185,8 +193,11 @@
             </ol>
           </section>
 
-          <section class="home-section" aria-labelledby="faq-title">
-            <h2 id="faq-title" class="sections-title" data-i18n="faqTitle"></h2>
+          <section class="home-section faq-section" aria-labelledby="faq-title">
+            <div class="section-head">
+              <h2 id="faq-title" class="sections-title" data-i18n="faqTitle"></h2>
+              <p class="sections-lead" data-i18n="faqLead"></p>
+            </div>
             <div id="faq-list" class="faq-list"></div>
           </section>
         </section>
@@ -202,13 +213,20 @@
             <div id="layout-toggle" class="layout-toggle" role="group" data-i18n-aria="viewTable"></div>
           </div>
           <div id="active-filters" class="active-filters"></div>
-          <div id="type-filter" class="type-filter"></div>
-          <div id="shop-filters" class="shop-filters" hidden></div>
-          <p id="spelling-notice" class="spelling-notice" hidden></p>
-          <div id="results" class="results"></div>
-          <p id="results-more" class="results-more" hidden></p>
-          <div id="results-request" class="results-request"></div>
-          <div id="no-results" class="no-results" hidden></div>
+          <!-- Filters sit in a sidebar on wide screens and scroll sideways on phones. -->
+          <div id="results-layout" class="results-layout">
+            <aside class="results-side">
+              <div id="type-filter" class="type-filter"></div>
+              <div id="shop-filters" class="shop-filters" hidden></div>
+            </aside>
+            <div class="results-main">
+              <p id="spelling-notice" class="spelling-notice" hidden></p>
+              <div id="results" class="results"></div>
+              <p id="results-more" class="results-more" hidden></p>
+              <div id="results-request" class="results-request"></div>
+              <div id="no-results" class="no-results" hidden></div>
+            </div>
+          </div>
         </section>
 
         <section id="detail-view" hidden></section>
@@ -243,7 +261,7 @@
       <p class="footer-bottom"><span id="footer-year"></span> MegaParts · <span data-i18n="tagline"></span></p>
     </footer>
 
-    <script src="/static/catalog-text.js" defer></script>
-    <script src="/static/app.js" defer></script>
+    <script src="/static/catalog-text.js?v=20261027d" defer></script>
+    <script src="/static/app.js?v=20261027d" defer></script>
   </body>
 </html>

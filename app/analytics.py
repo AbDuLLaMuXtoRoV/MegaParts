@@ -148,6 +148,7 @@ def build_analytics(
             "telegram_click",
             "contact_supplier",
             "reservation_request",
+            "basket_add",
         }:
             selected_supplier_counts[action.supplier_id] += 1
     supplier_names = (

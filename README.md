@@ -307,6 +307,24 @@ python -m app.price_list_import --supplier "BOS-KOS" "BOS-KOS SECO_UZ.xlsx"
   attributes and shown on the part page. Raw rows keep the import batch and match status.
 - Lists that name parts without price or stock never expire; priced lists follow
   `OFFER_OUTDATED_DAYS` / `OFFER_HIDDEN_DAYS`.
+- A column titled `OEM` (`OEM kod`, `Оригинальный номер`, `Каталожный номер`, …) is always
+  saved as the part's OEM code, whatever the number looks like.
+
+## OEM codes
+
+Every part page, result card and the table view show the part's OEM code (the carmaker's
+number: references of type `OE` or `OES`), or say it is not known yet.
+
+- **Staff** fill in missing codes at `/admin/oem` (`app/oem.py`): coverage by seller, the
+  parts without a code (filter by seller or text), one box per part, and an Excel round
+  trip (`GET /api/admin/oem/missing.xlsx`, fill in the `OEM code` column, upload at
+  `POST /api/admin/oem/upload`). Staff codes are saved as `OE`, `MANUAL`, `HIGH`, verified,
+  and can be removed again if mistyped. `96267421/22` counts as two codes.
+- **Hints:** the same kind of part, for a shared car, with a similar name and no conflicting
+  position/side/size, from another seller, offers its OEM code as "possible". It is never
+  copied automatically (blueprint: weak matches are suggestions only).
+- **Buyers and mechanics** can send a code from a part page that has none
+  (`POST /api/v1/products/{id}/oem-suggestions`). It is shown only after staff accept it.
 
 ## Buying across sellers
 

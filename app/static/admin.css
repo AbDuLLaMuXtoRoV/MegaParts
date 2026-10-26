@@ -66,8 +66,29 @@ table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th { padding: 10px; border-bottom: 2px solid var(--ink); text-align: right; white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; }
 td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: right; }
+/* OEM codes page: filters, the Excel round trip, and one form per part. */
+.oem-filters { grid-template-columns: 1fr 1.6fr auto; margin-bottom: 14px; }
+.oem-excel { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.oem-upload { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.oem-upload label { display: flex; align-items: center; gap: 8px; }
+.oem-table td { min-width: 110px; }
+.oem-table td:first-child { min-width: 200px; }
+.oem-sub { margin: 3px 0 0; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.oem-sub.is-error { color: #8b151a; font-weight: 700; }
+.oem-hints { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.oem-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; color: var(--ink); background: white; border: 1px dashed var(--muted); border-radius: 999px; font: 700 12px ui-monospace, Consolas, monospace; cursor: pointer; }
+.oem-chip:hover { color: var(--red); border-color: var(--red); }
+.oem-chip.is-sent { border-style: solid; border-color: var(--red); background: #fff4f4; }
+.oem-chip.is-saved { color: var(--green); background: var(--green-soft); border: 1px solid var(--green); cursor: default; }
+.oem-chip-remove { padding: 0 2px; color: inherit; background: none; border: 0; font-size: 15px; line-height: 1; cursor: pointer; }
+.oem-form { display: grid; grid-template-columns: minmax(120px, 1fr) auto; gap: 6px; align-items: center; }
+.oem-form .oem-sub { grid-column: 1 / -1; }
+.oem-input { height: 34px; padding: 0 8px; border: 1px solid var(--line); border-radius: 3px; font: 14px ui-monospace, Consolas, monospace; }
+.oem-saved { display: flex; flex-wrap: wrap; gap: 6px; }
+.oem-done { color: var(--green); font-weight: 700; }
+.oem-more { margin-top: 14px; }
 /* Tables of words (requests, reports) read better left-aligned. */
 .text-table th, .text-table td { text-align: left; vertical-align: top; }
 @media (max-width: 900px) { .metrics, .admin-grid, .needs-work { grid-template-columns: 1fr 1fr; } .admin-heading { align-items: start; flex-direction: column; } }
-@media (max-width: 760px) { .alias-form { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .alias-form, .oem-filters { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .admin-main { width: calc(100% - 24px); padding-top: 28px; } .metrics, .admin-grid, .needs-work { grid-template-columns: 1fr; } .filters { justify-content: flex-start; } }

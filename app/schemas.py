@@ -290,6 +290,7 @@ class SearchActionCreate(BaseModel):
         "phone_click",
         "telegram_click",
         "reservation_request",
+        "basket_add",
     ]
     product_id: str | None = None
     supplier_id: int | None = None

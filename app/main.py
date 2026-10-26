@@ -54,6 +54,8 @@ from app.models import (
     Vehicle,
 )
 from app.normalization import normalize_text, sanitize_query
+from app.oem import public_router as oem_public_router
+from app.oem import router as oem_router
 from app.offers import active_sorted_offers, freshness_status, supplier_summary
 from app.part_types import category_with_descendants, part_groups
 from app.price_list_import import import_price_list
@@ -118,6 +120,8 @@ static_dir = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 login_throttle = LoginThrottle()
 app.include_router(catalog_admin_router)
+app.include_router(oem_router)
+app.include_router(oem_public_router)
 
 
 @app.middleware("http")
@@ -132,6 +136,17 @@ async def require_admin_login(request: Request, call_next):
             f"/admin/login?next={quote(request.url.path)}", status_code=303
         )
     return await call_next(request)
+
+
+@app.middleware("http")
+async def revalidate_pages_and_assets(request: Request, call_next):
+    """Pages and their scripts change together. Browsers check for a newer copy on every visit
+    (a quick 304 when nothing changed) instead of pairing a new page with an old script."""
+    response = await call_next(request)
+    content_type = response.headers.get("content-type", "")
+    if request.url.path.startswith("/static/") or content_type.startswith("text/html"):
+        response.headers.setdefault("Cache-Control", "no-cache")
+    return response
 
 
 def admin_home() -> str:
@@ -1184,6 +1199,11 @@ def delete_search_alias(alias_id: int, session: Annotated[Session, Depends(get_s
         raise HTTPException(status_code=404, detail="Alias not found")
     session.delete(record)
     session.commit()
+
+
+@app.get("/admin/oem", include_in_schema=False)
+def admin_oem_page() -> FileResponse:
+    return FileResponse(static_dir / "oem-admin.html")
 
 
 @app.get("/admin/requests", include_in_schema=False)

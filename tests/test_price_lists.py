@@ -14,6 +14,7 @@ from app.database import get_session
 from app.main import app, settings
 from app.models import (
     Base,
+    Brand,
     CatalogReviewItem,
     Fitment,
     Product,
@@ -407,3 +408,30 @@ def test_buyers_cancel_their_own_reservations(client) -> None:
     assert all(
         supplier["reliability_sample"] == 0 for supplier in client.get("/api/admin/suppliers").json()
     )
+
+
+def test_a_makers_article_in_the_brand_column_is_split_off(engine) -> None:
+    """Sellers sometimes type the maker's article into the brand column ("KOS-1303"): the brand is
+    KOS, and the article joins the same KOS seal from another seller."""
+    boskos = workbook([
+        ["№", "Наименование Товаров", "ЕдИзм", "BREND", "KAROBKA", "Модел"],
+        [1, "RABOCHI BACHOG SALNIK (KOS-1303)", "DONA", "KOS", 10, "NEXIA"],
+        [2, "KLAPAN SALNIK CIELO", "DONA", "KOS", 10, "NEXIA"],
+    ])
+    korea = workbook([
+        ["", "Наименование", "Модел", "Бренд", "Ед изм", "Ишлаб чикарувчи"],
+        ["", "SALNIK RABOCHIY BACHOK KOS-1303", "NEXIA", "KOS-1303", "DONA", "KOREA"],
+    ])
+    with Session(engine) as session:
+        import_price_list(session, supplier_by_name(session, "BOS-KOS"), boskos, "b.xlsx", RECEIVED)
+        import_price_list(session, supplier_by_name(session, "KOREA"), korea, "k.xlsx", RECEIVED)
+        session.commit()
+        seals = session.scalars(
+            select(Product).join(ReferenceNumber).where(ReferenceNumber.normalized_number == "kos1303")
+        ).all()
+        assert len(seals) == 1
+        assert seals[0].brand.name == "KOS"
+        assert [(ref.number, ref.type) for ref in seals[0].reference_numbers] == [("KOS-1303", "AFTERMARKET")]
+        sellers = {offer.supplier.name for offer in seals[0].supplier_offers}
+        assert sellers == {"BOS-KOS", "KOREA"}
+        assert "KOS-1303" not in set(session.scalars(select(Brand.name)))

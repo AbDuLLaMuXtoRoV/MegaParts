@@ -30,7 +30,11 @@ HEADER_ALIASES: dict[str, set[str]] = {
     "price": {"NARXI", "NARX", "ЦЕНА", "PRICE", "НАРХ", "НАРХИ", "СУММА"},
     "price_cny": {"YUAN", "ЮАНЬ", "CNY"},
     "stock": {"QOLDIQ", "ОСТАТОК", "КОЛ-ВО", "КОЛИЧЕСТВО", "STOCK", "SONI", "КОЛ ВО"},
-    "code": {"КОД", "KOD", "АРТИКУЛ", "ARTIKUL", "CODE", "SKU", "OEM", "КАТАЛОЖНЫЙ НОМЕР"},
+    "code": {"КОД", "KOD", "АРТИКУЛ", "ARTIKUL", "CODE", "SKU"},
+    # A column the seller titles as the carmaker's number: always saved as an OEM code.
+    "oem": {"OEM", "OE", "ОЕМ", "OEM KOD", "OEM KODI", "OEM NOMER", "OEM CODE", "OEM NUMBER",
+            "OEM НОМЕР", "ОЕМ НОМЕР", "OEM КОД", "ОРИГИНАЛЬНЫЙ НОМЕР", "ОРИГИНАЛ НОМЕР",
+            "КАТАЛОЖНЫЙ НОМЕР", "ZAVOD RAQAMI", "ORIGINAL NOMER"},
     "skip": {"№", "N", "NO", "ZAKAS", "ЗАКАЗ", "#"},
 }
 _HEADERS = {
@@ -56,6 +60,7 @@ class PriceRow:
     row_number: int
     name: str
     code: str | None = None
+    oem: str | None = None
     brand: str | None = None
     model: str | None = None
     unit: str | None = None
@@ -263,6 +268,7 @@ def parse_price_list(content: bytes, filename: str | None = None) -> PriceList:
                 row_number=row_number,
                 name=name,
                 code=value("code") or None,
+                oem=value("oem") or None,
                 brand=value("brand") or None,
                 model=value("model") or None,
                 unit=value("unit") or None,

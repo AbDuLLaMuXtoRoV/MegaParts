@@ -40,7 +40,6 @@ const STRINGS = {
     footerForSellers: "Sotuvchilar uchun",
     footerStaffLogin: "Xodimlar kabineti",
     language: "Til",
-    largerText: "Katta harf",
     title: "Zapchast kimda borligini toping",
     subtitle: "Odatdagi sotuvchingizda yo‘q detalni artikul, OEM raqam, nom yoki mashina bo‘yicha qidiring — bir nechta sotuvchining takliflari bir joyda.",
     stepCar: "Mashinangiz",
@@ -250,7 +249,6 @@ const STRINGS = {
     footerForSellers: "Для продавцов",
     footerStaffLogin: "Вход для сотрудников",
     language: "Язык",
-    largerText: "Крупный шрифт",
     title: "Найдите, у кого есть запчасть",
     subtitle: "Ищите деталь, которой нет у вашего обычного поставщика, по артикулу, OEM-номеру, названию или машине — предложения нескольких продавцов в одном месте.",
     stepCar: "Ваша машина",
@@ -460,7 +458,6 @@ const STRINGS = {
     footerForSellers: "For sellers",
     footerStaffLogin: "Staff sign-in",
     language: "Language",
-    largerText: "Larger text",
     title: "Find who has the part",
     subtitle: "Search for the part your usual supplier doesn’t have — by part number, OEM number, name or car. Offers from several sellers in one place.",
     stepCar: "Your car",
@@ -690,6 +687,31 @@ Object.assign(STRINGS.uz, {
   viewCards: "Kartochkalar",
   viewTable: "Jadval",
   colNumber: "Raqam",
+  oemLabel: "OEM kodi",
+  oemColumn: "OEM",
+  oemUnknown: "hali aniqlanmagan",
+  oemHelp: "Avtomobil zavodining shu detal uchun raqami. Shu raqam bo‘yicha aynan to‘g‘ri detalni topasiz.",
+  oemCopy: "Nusxa olish",
+  oemCopied: "Nusxa olindi",
+  oemAsk: "OEM kodini bilasizmi? Bizga yuboring",
+  oemPlaceholder: "Masalan: 96273708",
+  oemSend: "Yuborish",
+  oemThanks: "Rahmat! Mutaxassisimiz kodni tekshirib, saytga qo‘shadi.",
+  oemInvalid: "Bu OEM kodiga o‘xshamaydi: kamida 5 ta belgi va 3 ta raqam bo‘lishi kerak.",
+  oemSendError: "Yuborilmadi. Birozdan keyin qayta urinib ko‘ring.",
+  oemMore: (count) => `yana ${count} ta`,
+  faqLead: "Xaridorlar eng ko‘p so‘raydigan savollar.",
+  sellerLabel: (n) => (n > 1 ? "Sotuvchilar" : "Sotuvchi"),
+  pickerSearch: "Qidirish…",
+  pickerEmpty: "Topilmadi",
+  pickerPopular: "Ko‘p tanlanadi",
+  pickerAll: "Barchasi",
+  navLabel: "Sahifada",
+  navNumbers: "Raqamlar",
+  navCars: "Mashinalar",
+  navAlternatives: "Muqobillar",
+  navTogether: "Birga oling",
+  seeSellers: (n) => `Sotuvchilarni ko‘rish (${n})`,
   colPart: "Detal",
   colFit: "Mosligi",
   colSellers: "Sotuvchilar",
@@ -829,6 +851,31 @@ Object.assign(STRINGS.ru, {
   viewCards: "Карточки",
   viewTable: "Таблица",
   colNumber: "Номер",
+  oemLabel: "OEM-код",
+  oemColumn: "OEM",
+  oemUnknown: "пока не указан",
+  oemHelp: "Номер этой детали от завода-производителя автомобиля. По нему можно найти именно нужную деталь.",
+  oemCopy: "Копировать",
+  oemCopied: "Скопировано",
+  oemAsk: "Знаете OEM-код? Сообщите нам",
+  oemPlaceholder: "Например: 96273708",
+  oemSend: "Отправить",
+  oemThanks: "Спасибо! Наш специалист проверит код и добавит его на сайт.",
+  oemInvalid: "Не похоже на OEM-код: нужно не меньше 5 символов и 3 цифр.",
+  oemSendError: "Не удалось отправить. Попробуйте позже.",
+  oemMore: (count) => `ещё ${count}`,
+  faqLead: "О чём покупатели спрашивают чаще всего.",
+  sellerLabel: (n) => (n > 1 ? "Продавцы" : "Продавец"),
+  pickerSearch: "Поиск…",
+  pickerEmpty: "Ничего не найдено",
+  pickerPopular: "Популярные",
+  pickerAll: "Все",
+  navLabel: "На странице",
+  navNumbers: "Номера",
+  navCars: "Машины",
+  navAlternatives: "Альтернативы",
+  navTogether: "Вместе",
+  seeSellers: (n) => `Смотреть продавцов (${n})`,
   colPart: "Деталь",
   colFit: "Применимость",
   colSellers: "Продавцы",
@@ -968,6 +1015,31 @@ Object.assign(STRINGS.en, {
   viewCards: "Cards",
   viewTable: "Table",
   colNumber: "Number",
+  oemLabel: "OEM code",
+  oemColumn: "OEM",
+  oemUnknown: "not known yet",
+  oemHelp: "The carmaker’s own number for this part. Use it to be sure you get exactly the right part.",
+  oemCopy: "Copy",
+  oemCopied: "Copied",
+  oemAsk: "Know the OEM code? Tell us",
+  oemPlaceholder: "e.g. 96273708",
+  oemSend: "Send",
+  oemThanks: "Thank you! Our staff will check the code and add it to the site.",
+  oemInvalid: "That doesn’t look like an OEM code: it needs at least 5 characters and 3 digits.",
+  oemSendError: "Couldn’t send. Please try again later.",
+  oemMore: (count) => `+${count} more`,
+  faqLead: "What buyers ask us most often.",
+  sellerLabel: (n) => (n > 1 ? "Sellers" : "Seller"),
+  pickerSearch: "Search…",
+  pickerEmpty: "Nothing found",
+  pickerPopular: "Popular",
+  pickerAll: "All",
+  navLabel: "On this page",
+  navNumbers: "Numbers",
+  navCars: "Cars",
+  navAlternatives: "Alternatives",
+  navTogether: "Bought together",
+  seeSellers: (n) => `See sellers (${n})`,
   colPart: "Part",
   colFit: "Fit",
   colSellers: "Sellers",
@@ -1303,16 +1375,34 @@ function renderGroups() {
   renderJobCards();
 }
 
-// The catalog's real size, counted from what is loaded.
+// The catalog's real size, counted from what is loaded; the numbers count up the first time.
+let heroStatsKey = "";
+let heroStatsCounted = false;
+const countUp = (node, target) => {
+  const started = performance.now();
+  const step = (now) => {
+    const progress = Math.min(1, (now - started) / 1100);
+    node.textContent = formatNumber(Math.round(target * (1 - (1 - progress) ** 3)));
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  node.textContent = formatNumber(0);
+  requestAnimationFrame(step);
+};
 function renderHeroStats() {
   const parts = groupsAll.reduce((sum, group) => sum + group.part_count, 0);
   const models = new Set(vehicles.map((vehicle) => `${vehicle.make}|${vehicle.model}`)).size;
   const sections = groupsAll.filter((group) => group.part_count).length;
   const stats = [[parts, "heroParts"], [models, "heroModels"], [sections, "heroSections"]].filter(([count]) => count);
-  $("#hero-stats").replaceChildren(...stats.map(([count, key]) => el("li", {}, [
-    el("strong", { text: formatNumber(count) }),
-    ` ${t(key, count).replace(/^\S+\s/, "")}`,
-  ])));
+  const statsKey = `${lang}|${stats.join("|")}`;
+  if (statsKey === heroStatsKey) return;
+  heroStatsKey = statsKey;
+  const animate = stats.length && !heroStatsCounted && !reducedMotion;
+  if (stats.length) heroStatsCounted = true;
+  $("#hero-stats").replaceChildren(...stats.map(([count, key]) => {
+    const number = el("strong", { text: formatNumber(count) });
+    if (animate) countUp(number, count);
+    return el("li", {}, [number, ` ${t(key, count).replace(/^\S+\s/, "")}`]);
+  }));
 }
 
 const CAR_ICON = '<svg viewBox="0 0 48 24" aria-hidden="true"><path d="M3 17.5v-4.2l5-1.3 5.5-5.5h15.5l7 5.5 7.5 1.4 1.5 4.1"/><circle cx="13" cy="18" r="3.2"/><circle cx="36" cy="18" r="3.2"/><path d="M16.5 18h16M13 12h23"/></svg>';
@@ -1327,7 +1417,7 @@ function renderPopularCars() {
   });
   const top = [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
   holder.closest(".home-section").hidden = !top.length;
-  holder.replaceChildren(...top.map(([key]) => {
+  holder.replaceChildren(...top.map(([key, total]) => {
     const [make, model] = key.split("|");
     const active = car.make === make && car.model === model;
     const choose = async () => {
@@ -1335,10 +1425,11 @@ function renderPopularCars() {
       $("#sections-title").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
     };
     const tile = el("button", { type: "button", class: `car-card${active ? " is-active" : ""}`, "aria-pressed": String(active), onclick: choose });
-    tile.innerHTML = '<span class="car-card-icon"></span><span class="car-card-make"></span><span class="car-card-model"></span>';
+    tile.innerHTML = '<span class="car-card-icon"></span><span class="car-card-make"></span><span class="car-card-model"></span><span class="car-card-count"></span>';
     tile.querySelector(".car-card-icon").innerHTML = CAR_ICON;
     tile.querySelector(".car-card-make").textContent = make;
     tile.querySelector(".car-card-model").textContent = vehicleLabel(model);
+    tile.querySelector(".car-card-count").textContent = t("parts", total);
     return tile;
   }));
 }
@@ -1351,6 +1442,169 @@ function partThumb(category, large = false) {
   return node;
 }
 
+// ---------- Pickers ----------
+
+// The site's own dropdown, drawn over a hidden native <select>. The select stays the source of
+// truth: its value and "change" event drive the car and sort logic exactly as before.
+let pickerSeq = 0;
+let pickers = [];
+function enhanceSelect(select, { search = false, includeEmpty = true, badge = null, describe = () => null, popular = () => [] } = {}) {
+  const id = `picker-${++pickerSeq}`;
+  const label = select.closest(".field, .sort-group")?.querySelector(".field-label, .filter-group-label");
+  const valueText = el("span", { class: "picker-value", id: `${id}-value` });
+  const button = el("button", { type: "button", class: "picker-button", "aria-haspopup": "listbox", "aria-expanded": "false", "aria-controls": `${id}-list` }, valueText);
+  if (label) {
+    label.id ||= `${id}-label`;
+    button.setAttribute("aria-labelledby", `${label.id} ${id}-value`);
+  } else {
+    button.setAttribute("aria-label", select.getAttribute("aria-label") || "");
+  }
+  const input = search ? el("input", { class: "picker-search", type: "search", autocomplete: "off", spellcheck: "false", role: "combobox", "aria-expanded": "true", "aria-controls": `${id}-list`, "aria-autocomplete": "list" }) : null;
+  const searchRow = input ? el("div", { class: "picker-search-row" }, input) : null;
+  const list = el("div", { class: "picker-list", role: "listbox", id: `${id}-list`, tabindex: "-1" });
+  const panel = el("div", { class: "picker-panel", hidden: true }, [searchRow, list]);
+  const wrapper = el("div", { class: "picker" }, [button, panel]);
+  select.after(wrapper);
+  select.classList.add("picker-native");
+  select.tabIndex = -1;
+  select.setAttribute("aria-hidden", "true");
+
+  let items = [];
+  let active = -1;
+  const isOpen = () => !panel.hidden;
+  const keyTarget = () => input || list;
+  const options = () => [...select.options]
+    .map((option) => ({ value: option.value, text: option.textContent }))
+    .filter((option) => option.value || includeEmpty);
+
+  function showActive() {
+    list.querySelectorAll(".picker-option").forEach((node, index) => node.classList.toggle("is-active", index === active));
+    const node = list.querySelectorAll(".picker-option")[active];
+    if (node) {
+      keyTarget().setAttribute("aria-activedescendant", node.id);
+      node.scrollIntoView({ block: "nearest" });
+    } else {
+      keyTarget().removeAttribute("aria-activedescendant");
+    }
+  }
+
+  function render() {
+    const all = options();
+    if (searchRow) searchRow.hidden = all.length <= 7;
+    const words = (input?.value || "").trim().toLowerCase();
+    const matches = all.filter((option) => !words || option.text.toLowerCase().includes(words));
+    const favourites = words ? [] : popular().map((value) => all.find((option) => option.value === value)).filter(Boolean);
+    items = [...favourites, ...matches];
+    const row = (option, index) => el("div", {
+      role: "option",
+      id: `${id}-option-${index}`,
+      class: `picker-option${option.value === select.value ? " is-selected" : ""}${option.value ? "" : " is-empty"}`,
+      "aria-selected": String(option.value === select.value),
+      onclick: () => choose(option.value),
+    }, [
+      badge && option.value ? el("span", { class: "picker-badge", "aria-hidden": "true", text: badge(option) }) : null,
+      el("span", { class: "picker-text", text: option.text }),
+      describe(option.value) ? el("span", { class: "picker-meta", text: describe(option.value) }) : null,
+      el("span", { class: "picker-check", "aria-hidden": "true", text: "✓" }),
+    ]);
+    const nodes = items.map(row);
+    nodes.forEach((node, index) => node.addEventListener("mousemove", () => { if (active !== index) { active = index; showActive(); } }));
+    const heading = (text) => el("div", { class: "picker-group", role: "presentation", text });
+    list.replaceChildren(...(favourites.length
+      ? [heading(t("pickerPopular")), ...nodes.slice(0, favourites.length), heading(t("pickerAll")), ...nodes.slice(favourites.length)]
+      : nodes));
+    if (!items.length) list.append(el("div", { class: "picker-empty", text: t("pickerEmpty") }));
+    active = Math.min(Math.max(active, 0), items.length - 1);
+    showActive();
+  }
+
+  function close(focusButton = false) {
+    if (!isOpen()) return;
+    panel.hidden = true;
+    wrapper.classList.remove("is-open");
+    button.setAttribute("aria-expanded", "false");
+    if (focusButton) button.focus();
+  }
+
+  function open(typed = "") {
+    if (button.disabled || isOpen()) return;
+    pickers.forEach((picker) => picker.close());
+    panel.hidden = false;
+    wrapper.classList.add("is-open");
+    button.setAttribute("aria-expanded", "true");
+    if (input) {
+      input.placeholder = t("pickerSearch");
+      input.value = typed;
+    }
+    active = -1;
+    render();
+    active = typed ? 0 : Math.max(0, items.findIndex((option) => option.value === select.value));
+    showActive();
+    keyTarget().focus({ preventScroll: true });
+  }
+
+  function choose(value) {
+    close(true);
+    if (select.value === value) return;
+    select.value = value;
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  button.addEventListener("click", () => (isOpen() ? close() : open()));
+  button.addEventListener("keydown", (event) => {
+    if (["ArrowDown", "ArrowUp", "Enter", " "].includes(event.key)) {
+      event.preventDefault();
+      open();
+    } else if (input && event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      event.preventDefault();
+      open(event.key);
+    }
+  });
+  input?.addEventListener("input", () => { active = 0; render(); });
+  keyTarget().addEventListener("keydown", (event) => {
+    const last = items.length - 1;
+    if (event.key === "ArrowDown") active = Math.min(last, active + 1);
+    else if (event.key === "ArrowUp") active = Math.max(0, active - 1);
+    else if (event.key === "Home" && !input) active = 0;
+    else if (event.key === "End" && !input) active = last;
+    else if (event.key === "Enter") {
+      event.preventDefault();
+      if (items[active]) choose(items[active].value);
+      return;
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      close(true);
+      return;
+    } else if (event.key === "Tab") {
+      close();
+      return;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    showActive();
+  });
+
+  function refresh() {
+    const current = select.options[select.selectedIndex];
+    valueText.textContent = current?.textContent || "";
+    button.classList.toggle("is-placeholder", !select.value);
+    button.disabled = select.disabled;
+    if (button.disabled) close();
+    else if (isOpen()) render();
+  }
+
+  const picker = { select, button, wrapper, refresh, close };
+  pickers = [...pickers.filter((known) => known.wrapper.isConnected), picker];
+  refresh();
+  return picker;
+}
+const refreshPickers = () => pickers.forEach((picker) => picker.refresh());
+document.addEventListener("click", (event) => {
+  pickers.forEach((picker) => { if (!event.composedPath().includes(picker.wrapper)) picker.close(); });
+});
+
 // ---------- Car ----------
 
 const option = (value, label) => el("option", { value, text: label });
@@ -1360,7 +1614,38 @@ function fillSelect(select, placeholder, entries, selected) {
   select.value = entries.some(([value]) => value === selected) ? selected : "";
 }
 
+// How many parts each make, model and generation has, for the pickers.
+const carPickerCounts = { makes: new Map(), models: new Map(), generations: new Map() };
+const countLabel = (count) => (count ? t("parts", count) : null);
+const topValues = (counts, limit) => [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit).map(([value]) => value);
+const initials = (option) => option.text.split(/\s+/).slice(0, 2).map((word) => word[0]).join("").toUpperCase();
+const makePicker = enhanceSelect(carMake, {
+  search: true,
+  includeEmpty: false,
+  badge: initials,
+  describe: (make) => countLabel(carPickerCounts.makes.get(make)),
+  popular: () => (carPickerCounts.makes.size > 6 ? topValues(carPickerCounts.makes, 4) : []),
+});
+const modelCounts = () => new Map([...carPickerCounts.models.entries()]
+  .filter(([key]) => key.startsWith(`${carMake.value}|`))
+  .map(([key, count]) => [key.slice(carMake.value.length + 1), count]));
+enhanceSelect(carModel, {
+  search: true,
+  describe: (model) => countLabel(modelCounts().get(model)),
+  popular: () => (modelCounts().size > 7 ? topValues(modelCounts(), 3) : []),
+});
+enhanceSelect(carGeneration, { describe: (id) => countLabel(carPickerCounts.generations.get(id)) });
+
 function renderGarage() {
+  carPickerCounts.makes.clear();
+  carPickerCounts.models.clear();
+  carPickerCounts.generations.clear();
+  vehicles.forEach((vehicle) => {
+    carPickerCounts.makes.set(vehicle.make, (carPickerCounts.makes.get(vehicle.make) || 0) + vehicle.part_count);
+    const model = `${vehicle.make}|${vehicle.model}`;
+    carPickerCounts.models.set(model, (carPickerCounts.models.get(model) || 0) + vehicle.part_count);
+    carPickerCounts.generations.set(vehicle.id, vehicle.part_count);
+  });
   const makes = [...new Set(vehicles.map((vehicle) => vehicle.make))];
   fillSelect(carMake, t("chooseMake"), makes.map((make) => [make, make]), car.make);
   const ofMake = vehicles.filter((vehicle) => vehicle.make === carMake.value);
@@ -1371,6 +1656,9 @@ function renderGarage() {
   generationField.hidden = generations.length < 2;
   fillSelect(carGeneration, t("allGenerations"), generations.map((vehicle) => [vehicle.id, vehicleLabel(vehicle.generation) || "—"]), car.vehicle_id);
   carClear.hidden = !hasCar();
+  refreshPickers();
+  $("#car-toggle-label").textContent = hasCar() ? carLabel() : t("footerChooseCar");
+  $("#car-toggle").classList.toggle("has-car", hasCar());
   renderCarHint();
   renderGarageChips();
   renderQuickCars();
@@ -1497,6 +1785,37 @@ carGeneration.addEventListener("change", () => setCar(
   { refining: true },
 ));
 carClear.addEventListener("click", () => setCar({}));
+
+// Off the home page the car picker folds into a button above the results.
+function setCarPanel(open) {
+  $("#finder").classList.toggle("is-car-open", open);
+  $("#car-toggle").setAttribute("aria-expanded", String(open));
+}
+$("#car-toggle").addEventListener("click", () => setCarPanel(!$("#finder").classList.contains("is-car-open")));
+document.addEventListener("click", (event) => {
+  if (!event.composedPath().includes($(".finder-car"))) setCarPanel(false);
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || !$("#finder").classList.contains("is-car-open")) return;
+  setCarPanel(false);
+  $("#car-toggle").focus();
+});
+// "Choose your car" links open the picker wherever it is. The click stops here, or the
+// "click outside closes it" rule above would shut the panel straight away.
+function openCarPicker(event) {
+  event?.stopPropagation();
+  if (document.body.classList.contains("view-home")) {
+    $("#step-car-title").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" });
+  } else {
+    window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+    setCarPanel(true);
+  }
+  makePicker.button.focus({ preventScroll: true });
+}
+document.querySelectorAll('a[href="#step-car-title"]').forEach((link) => link.addEventListener("click", (event) => {
+  event.preventDefault();
+  openCarPicker(event);
+}));
 
 // ---------- Views ----------
 
@@ -1693,10 +2012,12 @@ function renderResults() {
   renderActiveFilters();
   renderTypeFilter();
   renderShopFilters();
+  $("#results-layout").classList.toggle("no-side", !typeFilter.childElementCount && shopFilters.hidden);
   renderSpelling();
 
   results.replaceChildren();
   renderLayoutToggle();
+  $("#layout-toggle").hidden = !data.total;
   const table = resultsLayout === "table" && data.items.length;
   results.classList.toggle("is-table", Boolean(table));
   if (table) {
@@ -1796,7 +2117,76 @@ function verdictNode(verdict, compact = false) {
 const NUMBER_ORDER = ["OE", "OES", "AFTERMARKET", "EAN", "SUPPLIER_SKU"];
 const sortedNumbers = (item) => [...(item.reference_numbers || [])]
   .sort((a, b) => NUMBER_ORDER.indexOf(a.type) - NUMBER_ORDER.indexOf(b.type));
-const mainNumber = (item) => sortedNumbers(item)[0]?.number || null;
+// A part is described by the company that sells it first, then the brand that made it.
+const sellerNames = (offers) => [...new Set((offers || []).map((offer) => supplierLabel(offer.supplier)))];
+const sellerText = (offers, max = 2) => {
+  const names = sellerNames(offers);
+  return names.length > max ? `${names.slice(0, max).join(", ")} +${names.length - max}` : names.join(", ");
+};
+
+// Every part shows its OEM (carmaker's) code, or says it is not known yet.
+const isOem = (ref) => ref.type === "OE" || ref.type === "OES";
+const oemNumbers = (item) => sortedNumbers(item).filter(isOem).map((ref) => ref.number);
+const otherNumber = (item) => sortedNumbers(item).find((ref) => !isOem(ref));
+
+function oemCell(item) {
+  const oem = oemNumbers(item);
+  if (oem.length) return el("span", { class: "mono", text: oem.slice(0, 2).join(", ") });
+  const other = otherNumber(item);
+  return el("span", { class: "muted" }, ["—", other ? el("small", { class: "table-sub", text: `${t(`refType${other.type}`)}: ${other.number}` }) : null]);
+}
+
+// Part page: the OEM code up top with a copy button; without one, buyers and mechanics who
+// know it can send it in (staff check it before it is shown).
+function oemBlock(item) {
+  const oem = oemNumbers(item);
+  const head = [el("span", { class: "oem-label", text: t("oemLabel") })];
+  const help = el("p", { class: "oem-help", text: t("oemHelp") });
+  if (oem.length) {
+    const status = el("span", { class: "oem-status", role: "status" });
+    const copy = el("button", {
+      type: "button",
+      class: "link-button oem-copy",
+      text: t("oemCopy"),
+      onclick: async () => {
+        try { await navigator.clipboard.writeText(oem.join(", ")); status.textContent = t("oemCopied"); } catch { status.textContent = oem.join(", "); }
+      },
+    });
+    return el("div", { class: "oem-block" }, [
+      el("div", { class: "oem-row" }, [...head, ...oem.map((number) => el("strong", { class: "mono oem-number", text: number })), copy, status]),
+      help,
+    ]);
+  }
+  const slot = el("div", { class: "oem-ask" });
+  const openForm = () => {
+    const input = el("input", { class: "oem-input", inputmode: "text", autocomplete: "off", maxlength: "60", placeholder: t("oemPlaceholder"), "aria-label": t("oemLabel") });
+    const message = el("p", { class: "oem-message", role: "status" });
+    const form = el("form", { class: "oem-form" }, [input, el("button", { class: "secondary-button", text: t("oemSend") }), message]);
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const code = input.value.replace(/[^0-9a-z]/gi, "");
+      if (code.length < 5 || (code.match(/\d/g) || []).length < 3) {
+        message.textContent = t("oemInvalid");
+        return;
+      }
+      try {
+        const response = await postJson(`/api/v1/products/${encodeURIComponent(item.id)}/oem-suggestions`, { number: input.value.trim(), session_id: pilotSessionId });
+        if (response.ok) slot.replaceChildren(el("p", { class: "oem-thanks", text: t("oemThanks") }));
+        else message.textContent = t(response.status === 422 ? "oemInvalid" : "oemSendError");
+      } catch {
+        message.textContent = t("oemSendError");
+      }
+    });
+    slot.replaceChildren(form);
+    input.focus();
+  };
+  slot.append(el("button", { type: "button", class: "link-button", text: t("oemAsk"), onclick: openForm }));
+  return el("div", { class: "oem-block is-unknown" }, [
+    el("div", { class: "oem-row" }, [...head, el("span", { class: "oem-unknown", text: t("oemUnknown") })]),
+    help,
+    slot,
+  ]);
+}
 
 async function openFromResults(item) {
   currentProductId = item.id;
@@ -1823,21 +2213,21 @@ function renderLayoutToggle() {
 }
 
 function resultsTable(items) {
-  const headings = [t("colNumber"), t("colPart"), t("brand"), t("colFit"), t("colSellers"), t("colStock"), t("colPrice")];
+  const headings = [t("oemColumn"), t("colPart"), t("colSellers"), t("brand"), t("colFit"), t("colStock"), t("colPrice")];
   const rows = items.map((item) => {
     const offers = item.offers || item.supplier_offers || [];
     const price = priceSummary(offers);
     const stock = stockSummary(offers);
     const verdict = fitVerdict(item);
     const row = el("tr", { class: `result-row${item.result_group === "RELATED" ? " is-related" : ""}`, tabindex: "0", onclick: () => openFromResults(item) }, [
-      el("td", { class: "mono", text: mainNumber(item) || "—" }),
+      el("td", {}, oemCell(item)),
       el("td", {}, [
         el("strong", { class: "table-name", text: productName(item) }),
         el("span", { class: "table-sub", text: localName(item.category) }),
       ]),
+      el("td", { class: "table-sellers", text: sellerText(offers, 3) || "—" }),
       el("td", {}, [el("span", { text: brandLabel(item.brand) }), " ", qualityBadge(item.quality)]),
       el("td", {}, el("span", { class: `table-fit is-${verdict.tone}`, text: `${VERDICT_ICON[verdict.tone]} ${verdict.title}` })),
-      el("td", { class: "num", text: String(offers.length) }),
       el("td", {}, el("span", { class: `stock stock-${stock.tone}`, text: stock.text })),
       el("td", { class: `num${price.known ? "" : " muted"}`, text: price.text }),
     ]);
@@ -1851,13 +2241,14 @@ function resultsTable(items) {
 }
 
 function resultCard(item) {
-  const offers = item.offers || item.supplier_offers;
+  const offers = item.offers || item.supplier_offers || [];
   const price = priceSummary(offers);
   const stock = stockSummary(offers);
   const place = placeLabel(item);
-  const number = mainNumber(item);
-  const open = () => openFromResults(item);
-  const card = el("article", { class: "result-card", onclick: open }, [
+  const oem = oemNumbers(item);
+  const other = oem.length ? null : otherNumber(item);
+  const chip = (label, value, extra = "") => el("span", { class: `meta-chip${extra}` }, [el("span", { class: "meta-label", text: label }), value]);
+  return el("article", { class: "result-card", onclick: () => openFromResults(item) }, [
     el("div", { class: "result-head" }, [
       partThumb(item.category),
       el("div", { class: "result-head-text" }, [
@@ -1866,21 +2257,27 @@ function resultCard(item) {
           item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
         ]),
         el("h3", { class: "result-name", text: productName(item) }),
-        el("p", { class: "result-brand" }, [`${t("brand")}: `, el("strong", { text: brandLabel(item.brand) }), " ", qualityBadge(item.quality)]),
-        number ? el("p", { class: "result-number" }, [`${t("partNumber")}: `, el("strong", { class: "mono", text: number })]) : null,
       ]),
     ]),
-    place ? el("p", { class: "result-place", text: place }) : null,
+    el("div", { class: "result-meta" }, [
+      offers.length ? chip(t("sellerLabel", sellerNames(offers).length), el("strong", { text: sellerText(offers) }), " is-seller") : null,
+      chip(t("brand"), el("strong", {}, [brandLabel(item.brand), " ", qualityBadge(item.quality)])),
+      oem.length
+        ? chip("OEM", el("strong", { class: "mono", text: oem.length > 1 ? `${oem[0]} +${oem.length - 1}` : oem[0] }), " is-oem")
+        : chip("OEM", el("span", { text: t("oemUnknown") }), " is-oem is-unknown"),
+      other ? chip(t(`refType${other.type}`), el("strong", { class: "mono", text: other.number })) : null,
+      place ? el("span", { class: "meta-chip is-place", text: place }) : null,
+    ]),
     verdictNode(fitVerdict(item), true),
     el("div", { class: "result-bottom" }, [
-      el("div", {}, [
+      el("div", { class: "result-price-block" }, [
         el("div", { class: `result-price${price.known ? "" : " is-unknown"}`, text: price.text }),
         el("div", { class: `stock stock-${stock.tone}`, text: stock.text }),
       ]),
+      offers.length ? el("span", { class: "result-offers", text: t("offerCount", offers.length) }) : null,
       el("button", { type: "button", class: "details-button", text: `${t("details")} →` }),
     ]),
   ]);
-  return card;
 }
 
 // ---------- Product detail ----------
@@ -2187,6 +2584,7 @@ function offerNode(offer, item) {
   ]);
 }
 
+let offersObserver = null;
 function renderDetail() {
   const item = lastDetail;
   currentProductId = item.id;
@@ -2232,38 +2630,87 @@ function renderDetail() {
   // The buyer's favourite sellers first; otherwise the server's order (in stock, reliable).
   const offerItems = [...(item.offers || item.supplier_offers)]
     .sort((a, b) => Number(favSellers.has(b.supplier.id)) - Number(favSellers.has(a.supplier.id)));
-  const main = el("article", { class: "detail-main" }, [
+  const alternatives = relatedSection(t("alternativesTitle"), item.alternatives);
+  const together = relatedSection(t("completeJobTitle"), item.complete_the_job);
+  if (alternatives) alternatives.id = "detail-alternatives";
+  if (together) together.id = "detail-together";
+  const goTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  const sectionLinks = [
+    ["detail-numbers", t("navNumbers")],
+    ["detail-cars", t("navCars")],
+    alternatives ? ["detail-alternatives", t("navAlternatives")] : null,
+    together ? ["detail-together", t("navTogether")] : null,
+    ["detail-offers", t("sellers", offerItems.length)],
+  ].filter(Boolean);
+
+  const top = el("header", { class: "detail-top" }, [
     el("div", { class: "detail-head" }, [
       partThumb(item.category, true),
-      el("div", {}, [
+      el("div", { class: "detail-head-text" }, [
         el("div", { class: "detail-topline" }, [
-          el("div", { class: "detail-brand", text: brandLabel(item.brand) }),
+          el("p", { class: "detail-type", text: localName(item.category) }),
           item.reservation_count >= POPULAR_AFTER ? el("span", { class: "popular-badge", text: t("oftenReserved") }) : null,
         ]),
         el("h2", { text: productName(item) }),
+        el("dl", { class: "detail-origin" }, [
+          offerItems.length ? el("div", {}, [
+            el("dt", { text: t("sellerLabel", sellerNames(offerItems).length) }),
+            el("dd", { text: sellerNames(offerItems).join(", ") }),
+          ]) : null,
+          el("div", {}, [el("dt", { text: t("brand") }), el("dd", { text: brandLabel(item.brand) })]),
+        ]),
       ]),
     ]),
-    verdictNode(fitVerdict(item)),
+    el("div", { class: "detail-top-facts" }, [oemBlock(item), verdictNode(fitVerdict(item))]),
+    el("nav", { class: "detail-nav", "aria-label": t("navLabel") }, sectionLinks.map(([id, label]) => el("a", {
+      href: `#${id}`,
+      class: "detail-nav-link",
+      text: label,
+      onclick: (event) => { event.preventDefault(); goTo(id); },
+    }))),
+  ]);
+
+  const main = el("article", { class: "detail-main" }, [
     qualityChoices(item),
     askSellerBox(item, offerItems),
     facts.length ? el("div", { class: "facts" }, facts) : null,
-    el("section", { class: "detail-section" }, [el("h3", { text: t("referenceNumbers") }), el("div", { class: "reference-list" }, references)]),
-    el("section", { class: "detail-section" }, [el("h3", { text: t("fitments") }), el("div", { class: "fitment-list" }, cars)]),
+    el("section", { class: "detail-section", id: "detail-numbers" }, [el("h3", { text: t("referenceNumbers") }), el("div", { class: "reference-list" }, references)]),
+    el("section", { class: "detail-section", id: "detail-cars" }, [el("h3", { text: t("fitments") }), el("div", { class: "fitment-list" }, cars)]),
     fitFeedback(item),
-    relatedSection(t("alternativesTitle"), item.alternatives),
-    relatedSection(t("completeJobTitle"), item.complete_the_job),
+    alternatives,
+    together,
     currentEventId && pilotMode ? feedbackPanel() : null,
   ]);
 
-  const offers = el("aside", { class: "offers-panel" }, [
+  const offers = el("aside", { class: "offers-panel", id: "detail-offers" }, [
     el("h3", { text: t("sellers", offerItems.length) }),
     ...offerItems.map((offer) => offerNode(offer, item)),
     offerItems.length ? null : el("p", { class: "muted", text: t("noOffers") }),
   ]);
 
-  detailView.replaceChildren(back, el("div", { class: "detail-shell" }, [main, offers]));
+  // On phones the sellers come after the whole description: a button jumps there until they show.
+  const jump = offerItems.length ? el("button", { type: "button", class: "offers-jump", onclick: () => goTo("detail-offers") }, [t("seeSellers", offerItems.length), el("span", { "aria-hidden": "true", text: " ↓" })]) : null;
+  offersObserver?.disconnect();
+  if (jump && "IntersectionObserver" in window) {
+    offersObserver = new IntersectionObserver(([entry]) => jump.classList.toggle("is-hidden", entry.isIntersecting), { threshold: 0.02 });
+    offersObserver.observe(offers);
+  }
+
+  fill(detailView, back, top, el("div", { class: "detail-shell" }, [main, offers]), jump);
   document.title = `${productName(item)} — MegaParts`;
   showOnly(detailView);
+}
+
+// An empty page says what is missing and offers the next step.
+const EMPTY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9"/></svg>';
+function emptyState(text) {
+  const icon = el("span", { class: "empty-icon" });
+  icon.innerHTML = EMPTY_ICON;
+  return el("div", { class: "empty-state" }, [
+    icon,
+    el("p", { text }),
+    el("button", { type: "button", class: "primary-button", text: t("browseSections"), onclick: () => showHome() }),
+  ]);
 }
 
 // ---------- My reservations ----------
@@ -2408,7 +2855,7 @@ function renderReservations() {
           ...group.map(reservationCard),
         ]);
       }))
-      : el("p", { class: "muted", text: t("noReservations") }),
+      : emptyState(t("noReservations")),
   );
   showOnly(reservationsView);
 }
@@ -2499,7 +2946,8 @@ function renderShopFilters() {
     ]);
     select.value = state.sort;
     select.addEventListener("change", () => navigate({ brand: state.brand, quality: state.quality, sort: select.value }));
-    rows.push(el("label", { class: "filter-group sort-group" }, [el("span", { class: "filter-group-label", text: t("sortLabel") }), select]));
+    rows.push(el("div", { class: "filter-group sort-group" }, [el("span", { class: "filter-group-label", text: t("sortLabel") }), select]));
+    enhanceSelect(select);
   }
   shopFilters.append(...rows);
   shopFilters.hidden = !rows.length;
@@ -2631,7 +3079,7 @@ function basketLine(entry, editable) {
     partThumb(data.category),
     el("div", { class: "basket-line-text" }, [
       el("button", { type: "button", class: "link-button basket-line-name", text: productName(data), onclick: () => openProduct(data.product_id) }),
-      el("span", { class: "muted", text: [brandLabel(data.brand), data.reference_numbers.slice(0, 2).join(", ")].filter(Boolean).join(" · ") }),
+      el("span", { class: "muted", text: [`${t("brand")}: ${brandLabel(data.brand)}`, data.reference_numbers.slice(0, 2).join(", ")].filter(Boolean).join(" · ") }),
       promoLabel(offer) ? el("span", { class: `offer-promo is-${offer.promo.toLowerCase()}`, text: promoLabel(offer) }) : null,
     ]),
     el("div", { class: "basket-qty" }, [
@@ -2783,7 +3231,7 @@ function renderBasket() {
       el("span", { text: lastRemoved.message }),
       el("button", { type: "button", class: "secondary-button", text: t("undo"), onclick: undoRemoval }),
     ]) : null,
-    entries.length ? el("p", { class: "muted basket-lead", text: t("basketLead") }) : el("p", { class: "muted", text: t("basketEmpty") }),
+    entries.length ? el("p", { class: "muted basket-lead", text: t("basketLead") }) : emptyState(t("basketEmpty")),
     ...[...groups.values()].map(({ supplier, entries: lines }) => el("section", { class: "basket-seller" }, [
       supplier ? el("h3", { text: t("basketSeller", supplierLabel(supplier)) }) : null,
       supplier ? sellerTrust(supplier) : null,
@@ -2908,7 +3356,10 @@ function renderJob(job) {
       el("div", { class: "job-row-text" }, [
         el("span", { class: "job-row-type", text: label }),
         el("button", { type: "button", class: "link-button job-row-name", text: productName(product), onclick: () => openProduct(product.id) }),
-        el("span", { class: "result-brand" }, [brandLabel(product.brand), " ", qualityBadge(product.quality)]),
+        el("span", { class: "result-brand" }, [
+          `${t("sellerLabel", sellerNames(product.offers).length)}: `, el("strong", { text: sellerText(product.offers) }),
+          ` · ${t("brand")}: `, el("strong", { text: brandLabel(product.brand) }), " ", qualityBadge(product.quality),
+        ]),
       ]),
       el("div", { class: "job-row-price" }, [
         el("strong", { text: price.text }),
@@ -2930,7 +3381,7 @@ function renderJob(job) {
         el("span", { class: "fit-icon", "aria-hidden": "true", text: "!" }),
         el("div", { class: "fit-text" }, [
           el("strong", { text: t("jobChooseCar") }),
-          el("button", { type: "button", class: "link-button", text: t("footerChooseCar"), onclick: () => $("#step-car-title").scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" }) }),
+          el("button", { type: "button", class: "link-button", text: t("footerChooseCar"), onclick: openCarPicker }),
         ]),
       ]),
     picks.length ? el("div", { class: "job-actions" }, [addAll, el("button", { type: "button", class: "secondary-button", text: t("basketButton", basket.length), onclick: () => showBasket() }), status]) : null,
@@ -2971,8 +3422,8 @@ function renderSellers(cards = lastSellers) {
           el("strong", { text: t("sellerParts", card.active_offers_count) }),
           card.priced_offers_count ? ` · ${t("sellerPriced", card.priced_offers_count)}` : "",
         ]),
-        card.brands.length ? el("p", { class: "muted", text: card.brands.join(", ") }) : null,
-        card.last_data_update ? el("p", { class: "muted", text: t("sellerLastList", formatDate(card.last_data_update)) }) : null,
+        card.brands.length ? el("p", { class: "seller-brands" }, [el("span", { class: "meta-label", text: t("brand") }), ` ${card.brands.join(", ")}`]) : null,
+        card.last_data_update ? el("p", { class: "muted seller-date", text: t("sellerLastList", formatDate(card.last_data_update)) }) : null,
         el("div", { class: "ask-actions" }, [
           el("a", { class: "primary-button", href: `/suppliers/${supplier.id}`, text: t("sellerOpen") }),
           supplier.telegram ? el("a", { class: "secondary-button", href: telegramLink(supplier.telegram), target: "_blank", rel: "noopener", text: "Telegram" }) : null,
@@ -3187,7 +3638,7 @@ document.addEventListener("click", (event) => {
   if (!form.contains(event.target)) closeSuggestions();
 });
 
-// ---------- Language, text size, and page wiring ----------
+// ---------- Language and page wiring ----------
 
 function renderExamples() {
   $("#example-list").replaceChildren(...t("exampleQueries").map((query) => el("button", {
@@ -3199,6 +3650,34 @@ function renderExamples() {
   })));
 }
 
+// The empty search box types out real examples, so it is clear what can be searched for.
+let placeholderTimer = 0;
+function typeExamples() {
+  clearTimeout(placeholderTimer);
+  const plain = t("searchPlaceholder");
+  input.placeholder = plain;
+  if (reducedMotion) return;
+  const words = t("exampleQueries");
+  let word = 0;
+  let shown = 0;
+  let erasing = false;
+  const tick = () => {
+    if (document.activeElement === input || input.value) {
+      input.placeholder = plain;
+      placeholderTimer = setTimeout(tick, 1500);
+      return;
+    }
+    const text = words[word % words.length];
+    shown += erasing ? -1 : 1;
+    input.placeholder = `${t("examples")} ${text.slice(0, shown)}`;
+    let delay = erasing ? 30 : 75;
+    if (!erasing && shown >= text.length) { erasing = true; delay = 1800; }
+    else if (erasing && shown <= 0) { erasing = false; word += 1; delay = 450; }
+    placeholderTimer = setTimeout(tick, delay);
+  };
+  placeholderTimer = setTimeout(tick, 900);
+}
+
 function applyLanguage() {
   document.documentElement.lang = lang;
   document.title = t("pageTitle");
@@ -3207,6 +3686,7 @@ function applyLanguage() {
   document.querySelectorAll("[data-i18n-aria]").forEach((node) => { node.setAttribute("aria-label", t(node.dataset.i18nAria)); });
   document.querySelectorAll("[data-lang]").forEach((button) => { button.setAttribute("aria-pressed", String(button.dataset.lang === lang)); });
   renderExamples();
+  typeExamples();
   renderGarage();
   renderGroups();
   if (!resultsView.hidden && lastResponse) renderResults();
@@ -3226,18 +3706,6 @@ document.querySelectorAll("[data-lang]").forEach((button) => button.addEventList
   closeSuggestions();
   applyLanguage();
 }));
-
-const textSize = $("#text-size");
-const setTextSize = (large) => {
-  document.documentElement.classList.toggle("text-large", large);
-  textSize.setAttribute("aria-pressed", String(large));
-};
-setTextSize(storage.get("megaparts_text_large") === "1");
-textSize.addEventListener("click", () => {
-  const large = !document.documentElement.classList.contains("text-large");
-  setTextSize(large);
-  storage.set("megaparts_text_large", large ? "1" : "0");
-});
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();

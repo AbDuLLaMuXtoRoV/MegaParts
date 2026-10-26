@@ -125,3 +125,15 @@ def test_admin_stays_locked_when_no_password_is_configured(client: TestClient) -
     response = client.post("/api/admin/login", json={"username": "irizon", "password": "x"})
     assert response.status_code == 503
     assert client.get("/api/admin/search-aliases").status_code == 401
+
+
+def test_browsers_check_for_new_pages_and_scripts(client) -> None:
+    """A browser must not pair a new page with an old cached script after an update."""
+    page = client.get("/")
+    script = client.get("/static/app.js")
+    assert page.headers["cache-control"] == "no-cache"
+    assert script.headers["cache-control"] == "no-cache"
+    # The page asks for a versioned script, so an old cached copy is never reused.
+    assert re.search(r'src="/static/app\.js\?v=\w+"', page.text)
+    unchanged = client.get("/static/app.js", headers={"If-None-Match": script.headers["etag"]})
+    assert unchanged.status_code == 304

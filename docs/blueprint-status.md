@@ -10,7 +10,7 @@ How the site follows *AutoParts Platform — Yagona product blueprint va qabul q
 | 1 | Search/sourcing first, not a marketplace | Done. Home page: "find who has the part" for shops, services and mechanics; no payment or checkout | `app/static/index.html`, `app.js` strings |
 | 2 | Supplier ≠ Brand | Done | `suppliers`, `brands` tables |
 | 3 | Product ≠ Offer | Done | `products`, `supplier_offers` |
-| 4 | Supplier code ≠ OEM | Done. Reference types `OE`, `AFTERMARKET` (maker's article), `SUPPLIER_SKU` (seller's code, never joins parts) | `app/price_list_import.py` `reference_type()` |
+| 4 | Supplier code ≠ OEM | Done. Reference types `OE`, `AFTERMARKET` (maker's article), `SUPPLIER_SKU` (seller's code, never joins parts). Every part shows its OEM code or "not known yet"; staff fill the gaps at `/admin/oem`, buyers can send codes for staff to check | `app/price_list_import.py` `reference_type()`, `app/oem.py` |
 | 5 | One product → many vehicles | Done | `fitments` |
 | 6 | One product → many references | Done | `reference_numbers` |
 | 7 | Article is not a unique key | Done. Position, side, repair size and outer/inner are part of identity; a missing one is not a conflict; collisions go to review | `app/catalog.py` `VARIANT_ATTRIBUTES` |
@@ -49,3 +49,5 @@ How the site follows *AutoParts Platform — Yagona product blueprint va qabul q
 - Brands `IM`, `OEM` and `UZ-DAEWOO`: what each means for quality (original, factory supplier, aftermarket).
 - Unrecognised words: KULACHOK, ELEMENT, STAKAN, NAY, ABOYMA; and which car "LACETTI GB" is.
 - Megaparts real stock and price export (blueprint P0).
+- A source for the OEM codes still missing (about a third of parts): sellers adding an OEM
+  column to their lists, a parts-catalog program staff use, or a licensed catalog (TecDoc).
